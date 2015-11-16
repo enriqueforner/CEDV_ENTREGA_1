@@ -120,6 +120,7 @@ bool MyFrameListener::quit(const CEGUI::EventArgs &e)
 
 bool MyFrameListener::play(const CEGUI::EventArgs &e)
 {
+  //CEGUI::System::getSingleton().getDefaultGUIContext().
   _play = true;
   _quit = true;
   return true;
