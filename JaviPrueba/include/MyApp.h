@@ -2,6 +2,10 @@
 #include "MyFrameListener.h"
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
+#include <iostream>
+#include <sstream>
+#include <string> 
+using namespace std;
 
 class MyApp {
   

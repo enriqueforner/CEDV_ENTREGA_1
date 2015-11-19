@@ -13,7 +13,8 @@
  * General Public License for more details.  
  *********************************************************************/
 
-#include "MyApp.h" 
+#include "MyApp.h"
+
 
 MyApp::MyApp() {
   _sceneManager = NULL;
@@ -31,7 +32,7 @@ int MyApp::start() {
     _root->saveConfig();
   }
   
-  Ogre::RenderWindow* window = _root->initialise(true,"MyApp Example");
+  Ogre::RenderWindow* window = _root->initialise(true,"Hundir La Flota");
   _sceneManager = _root->createSceneManager(Ogre::ST_GENERIC);
   
   Ogre::Camera* cam = _sceneManager->createCamera("MainCamera");
@@ -50,7 +51,7 @@ int MyApp::start() {
   loadResources();
   createScene();
   
-  Ogre::SceneNode *node = _sceneManager->getSceneNode("SinbadNode");
+  Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
   
   _framelistener = new MyFrameListener(window, cam, node);
   _root->addFrameListener(_framelistener);
@@ -83,23 +84,73 @@ void MyApp::loadResources() {
 
 void MyApp::createScene() {
   Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
-  Ogre::SceneNode* node1 = _sceneManager->createSceneNode("SinbadNode");
-  node1->attachObject(ent1);
-  _sceneManager->getRootSceneNode()->addChild(node1);
-  node1 -> scale(8,8,8);
+  Ogre::Entity* ent2 = _sceneManager->createEntity("Cube.mesh");
+  Ogre::SceneNode* node1Bajo = _sceneManager->createSceneNode("NodoReyBajo");
+  Ogre::SceneNode* node1Alto = _sceneManager->createSceneNode("NodoReyAlto");
+  
+  node1Bajo->attachObject(ent1);
+  node1Alto -> attachObject(ent2);
+  _sceneManager->getRootSceneNode()->addChild(node1Bajo);
+  _sceneManager->getRootSceneNode()->addChild(node1Alto);
 
+  node1Bajo-> scale(2.8,2.8,2.8);
+  node1Bajo -> setPosition(-40,0,55);
+  node1Bajo -> yaw(Ogre::Degree(2));
+  node1Alto->  scale(2.8,2.8,2.8);
+  node1Alto -> setPosition(-42,6,-2);
+  node1Alto -> yaw(Ogre::Degree(2));
+  
+  //node1Alto -> roll(Ogre::Degree(45));
   // add two lights
   Ogre::Light* light1 = _sceneManager->createLight();
   light1->setType(Ogre::Light::LT_POINT);
   light1->setPosition(-10, 100, 100);
   light1->setSpecularColour(Ogre::ColourValue::White);
-  node1->attachObject(light1);
+  node1Bajo->attachObject(light1);
 
   Ogre::Light* light2 = _sceneManager->createLight();
   light2->setType(Ogre::Light::LT_POINT);
   light2->setPosition(10, -100, -100);
   light2->setSpecularColour(Ogre::ColourValue::White);
-  node1->attachObject(light2);
+  node1Bajo->attachObject(light2);
+  // Comprobar despues estas luces
+
+  //CREACION DE LOS TABLEROS (BAJO)
+  int crearTableroBajo = 0;
+  int crearTableroAlto = 0;
+  char nombres[10] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i','j'};
+  int despL[10] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
+  int despV[10] = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18}; 
+  while (crearTableroBajo != 10){
+    for (int i = 0; i < 10; ++i){
+      ostringstream os;
+      os << "Node" << (i+1) << nombres[crearTableroBajo];
+      cout << os.str() << "...Creado" <<endl;
+      Ogre::Entity* ent = _sceneManager->createEntity(os.str(), "Cube.mesh");
+      Ogre::SceneNode* node = _sceneManager->createSceneNode(os.str());
+      node-> attachObject(ent);
+      node1Bajo -> addChild(node);
+      node -> setPosition(despL[i],0,-(despV[crearTableroBajo]));
+    }
+    crearTableroBajo++;    
+  }
+  char nombresA[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+  //TABLERO ALTO
+  while (crearTableroAlto != 10){
+    for (int b = 0; b < 10; ++b){
+      ostringstream osA;
+      osA << "Node" << (b+1) << nombresA[crearTableroAlto];
+      cout << osA.str() << "...Creado" <<endl;
+      Ogre::Entity* enta = _sceneManager->createEntity(osA.str(), "Cube.mesh");
+      Ogre::SceneNode* nodea = _sceneManager->createSceneNode(osA.str());
+      nodea-> attachObject(enta);
+      node1Alto -> addChild(nodea);
+      nodea -> setPosition(despL[b],0,-(despV[crearTableroAlto]));
+    }
+    crearTableroAlto++;    
+  }
+
+
 }
 
 void MyApp::createGUI()
@@ -124,17 +175,17 @@ void MyApp::createGUI()
   //Sheet
   CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Ex1/Sheet");
 
-  /*CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
+  //CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
   //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
-  sheet->addChild(vent);
+  // sheet->addChild(vent);
 
-  CEGUI::Window* exitButton = vent->getChild("ExitButton");
-  exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(&MyFrameListener::quit, 
-                _framelistener));
-*/
+  // CEGUI::Window* exitButton = vent->getChild("ExitButton");
+  // exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+  //         CEGUI::Event::Subscriber(&MyFrameListener::quit, 
+  //               _framelistener));
+
   CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 
 }
