@@ -82,10 +82,11 @@ void MyApp::loadResources() {
 }
 
 void MyApp::createScene() {
-  Ogre::Entity* ent1 = _sceneManager->createEntity("Sinbad.mesh");
+  Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
   Ogre::SceneNode* node1 = _sceneManager->createSceneNode("SinbadNode");
   node1->attachObject(ent1);
   _sceneManager->getRootSceneNode()->addChild(node1);
+  node1 -> scale(8,8,8);
 
   // add two lights
   Ogre::Light* light1 = _sceneManager->createLight();
@@ -110,60 +111,20 @@ void MyApp::createGUI()
   CEGUI::Font::setDefaultResourceGroup("Fonts");
   CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
   CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-
+  //Para los botones
   CEGUI::SchemeManager::getSingleton().createFromFile("VanillaSkin.scheme");
+  //Para el Raton
   CEGUI::SchemeManager::getSingleton().createFromFile("OgreTray.scheme");
+  //Para nada de momento
   CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+  
   CEGUI::System::getSingleton().getDefaultGUIContext().setDefaultFont("DejaVuSans-12");
-  CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+  CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("OgreTrayImages/MouseArrow");
   
   //Sheet
   CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Ex1/Sheet");
 
-  // //Play Button
-  // CEGUI::Window* playButton = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/Button","Ex1/PlayButton");
-  // playButton->setText("Play");
-  // playButton->setSize(CEGUI::USize(CEGUI::UDim(0.15,0),CEGUI::UDim(0.05,0)));
-  // playButton->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2,0)));
-  // playButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-		// 	     CEGUI::Event::Subscriber(&MyFrameListener::play, 
-		// 				      _framelistener));
-  
-  // //Ranking Button
-  // CEGUI::Window* rankingButton = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/Button","Ex1/RankingButton");
-  // rankingButton->setText("Ranking");
-  // rankingButton->setSize(CEGUI::USize(CEGUI::UDim(0.15,0),CEGUI::UDim(0.05,0)));
-  // rankingButton->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2,50)));
-  // rankingButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-		// 	     CEGUI::Event::Subscriber(&MyFrameListener::ranking, 
-		// 				      _framelistener));
-	
-  
-  // //Settings button
-  // CEGUI::Window* settingsButton = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/Button","Ex1/SettingsButton");
-  // settingsButton->setText("Settings");
-  // settingsButton->setSize(CEGUI::USize(CEGUI::UDim(0.15,0),CEGUI::UDim(0.05,0)));
-  // settingsButton->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2,100)));
-  // settingsButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-		// 	     CEGUI::Event::Subscriber(&MyFrameListener::settings, 
-		// 				      _framelistener));
-  			
-  // //Quit button
-  // CEGUI::Window* quitButton = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/Button","Ex1/QuitButton");
-  // quitButton->setText("Quit");
-  // quitButton->setSize(CEGUI::USize(CEGUI::UDim(0.15,0),CEGUI::UDim(0.05,0)));
-  // quitButton->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5-0.15/2,0),CEGUI::UDim(0.2,150)));
-  // quitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-		// 	     CEGUI::Event::Subscriber(&MyFrameListener::quit, 
-		// 				      _framelistener));
-						      						      						      
-  // //Attaching buttons
-  // sheet->addChild(playButton);
-  // sheet->addChild(rankingButton);
-  // sheet->addChild(settingsButton);
-  // sheet->addChild(quitButton);
-
-  CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
+  /*CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
   //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
@@ -173,7 +134,7 @@ void MyApp::createGUI()
   exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&MyFrameListener::quit, 
                 _framelistener));
-
+*/
   CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 
 }
