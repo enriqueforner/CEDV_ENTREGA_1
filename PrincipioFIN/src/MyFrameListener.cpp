@@ -21,7 +21,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   size_t windowHandle;  std::ostringstream wHandleStr;
 
   _camera = cam;  _node = node;
-  
+  _selectedNode = NULL;
   _quit = false;
   _play = false;
   _ranking = false;
@@ -62,8 +62,29 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   int posx = _mouse->getMouseState().X.abs;   // Posicion del puntero
   int posy = _mouse->getMouseState().Y.abs;   //  en pixeles.
   
+  printf("%d\n", posx);
+  printf("%d\n", posy);
+
   botomizq = _mouse->getMouseState().buttonDown(OIS::MB_Left);
   //uint32 mask;
+
+  //if (botomizq) { // Variables y codigo especifico si es izquierdo
+      
+      //mask = STAGE;  // Podemos elegir todo
+
+      //Ray r = setRayQuery(posx, posy,1);
+      //RaySceneQueryResult &result = _raySceneQuery->execute();
+      //RaySceneQueryResult::iterator it;
+      //it = result.begin();
+
+      //if (it != result.end()) {  
+            //ostringstream osa;       
+            //_selectedNode = it->movable->getParentSceneNode();
+            //_selectedNode->showBoundingBox(true);
+      //}
+           
+  //}
+  
 
   return true;
 }
@@ -146,4 +167,14 @@ bool MyFrameListener::ranking(const CEGUI::EventArgs &e)
   printf("He pulsado el puto ranking\n");
   
   return true;
+}
+
+Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
+  Ray rayMouse = _camera->getCameraToViewportRay
+    (posx/float(_win->getWidth()), posy/float(_win->getHeight()));
+  _raySceneQuery->setRay(rayMouse);
+  _raySceneQuery->setQueryMask(mask);
+  _raySceneQuery->setSortByDistance(true);
+
+  return (rayMouse);
 }

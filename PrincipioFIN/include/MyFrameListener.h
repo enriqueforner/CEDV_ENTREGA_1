@@ -1,6 +1,12 @@
 #include <Ogre.h>
 #include <OIS.h>
 #include <CEGUI.h>
+#include <iostream>
+#include <sstream>
+#include <string> 
+using namespace std;
+using namespace Ogre;
+//#define STAGE 1 << 0  // Mascara para el escenario
 
 class MyFrameListener : public Ogre::FrameListener, OIS::KeyListener, OIS::MouseListener {
 private:
@@ -9,7 +15,9 @@ private:
   OIS::Mouse* _mouse;
   Ogre::Camera* _camera;
   Ogre::SceneNode *_node;
-
+  Ogre::RaySceneQuery *_raySceneQuery;
+  RenderWindow* _win;
+  Ogre::SceneNode* _selectedNode;
   bool keyPressed(const OIS::KeyEvent& evt);
   bool keyReleased(const OIS::KeyEvent& evt);
   bool mouseMoved(const OIS::MouseEvent& evt);
@@ -23,6 +31,7 @@ private:
   float _timeSinceLastFrame;
 
   CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
+  Ogre::Ray setRayQuery(int posx, int posy, uint32 mask);
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, 
