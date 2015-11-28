@@ -53,7 +53,7 @@ int MyApp::start() {
   
   Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
   
-  _framelistener = new MyFrameListener(window, cam, node);
+  _framelistener = new MyFrameListener(window, cam, node,_sceneManager);
   _root->addFrameListener(_framelistener);
   
   createGUI();

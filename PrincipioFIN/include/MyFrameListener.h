@@ -7,6 +7,7 @@
 using namespace std;
 using namespace Ogre;
 //#define STAGE 1 << 0  // Mascara para el escenario
+#define MASK1 1 << 0  //Mascara de prueba
 
 class MyFrameListener : public Ogre::FrameListener, OIS::KeyListener, OIS::MouseListener {
 private:
@@ -29,17 +30,23 @@ private:
   bool _settings;
   bool _ranking;
   float _timeSinceLastFrame;
+  Ogre::SceneManager *_sceneManager;
+
+  Ogre::RaySceneQuery* mRayScnQuery;
 
   CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
+  //Ogre::Ray setRayQuery(int posx, int posy, uint32 mask);
   Ogre::Ray setRayQuery(int posx, int posy, uint32 mask);
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, 
-		  Ogre::SceneNode* node);
+		  Ogre::SceneNode* node, Ogre::SceneManager* sceneManager);
   ~MyFrameListener();
   bool frameStarted(const Ogre::FrameEvent& evt);  
   bool quit(const CEGUI::EventArgs &e);
   bool play(const CEGUI::EventArgs &e);
   bool settings(const CEGUI::EventArgs &e);
   bool ranking(const CEGUI::EventArgs &e);
+
+  //Ogre::RaySceneQuery *_createRayQuery(Ogre::Ray ray);
 };
