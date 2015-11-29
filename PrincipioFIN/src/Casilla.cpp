@@ -4,6 +4,7 @@ Casilla::Casilla(){}
 
 Casilla::Casilla(Ogre::SceneNode *casilla){
 	_casilla = casilla;
+	_id = casilla->getName();
 }
 
 Casilla::~Casilla(){}
@@ -22,4 +23,11 @@ void Casilla::setEstado(string nestado){
 
 string Casilla::getId() const{
 	return _id;
+}
+
+void Casilla::setBarco(Barco barco){
+	_barco = barco;
+}
+Barco Casilla::getBarco() const{
+	return _barco;
 }

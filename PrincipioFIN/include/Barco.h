@@ -1,5 +1,4 @@
 //Barco.h
-#include "Casilla.h"
 #include <Ogre.h>
 #include <CEGUI.h>
 #include <string> 
@@ -10,14 +9,15 @@ using namespace std;
  {
  public:
  	Barco(int tipo);
+ 	Barco();
  	~Barco();
  	int getTipo() const;
- 	void agregarcasillas(Casilla nodo);
- 	std::vector<Casilla> getPosiciones();
  	int getDamage() const;
     void setDamage(int damage);
+    string getId() const;
+    void setId(string id);
  private:
  	int _tipo;
  	int _damage;
- 	std::vector<Casilla> _posiciones;
+ 	string _id;
  };

@@ -5,19 +5,25 @@
 Barco::Barco(int tipo){
 	_tipo = tipo;
 }
+Barco::Barco(){}
 Barco::~Barco(){}
 
-void Barco::agregarcasillas(Casilla nodo){
-	_posiciones.push_back(nodo);
-}
-
-std::vector<Casilla> Barco::getPosiciones(){
-	return _posiciones;
-}
 int Barco::getDamage()const{
 	return _damage;
 }
 
 void Barco::setDamage(int damage){ 
 	_damage = damage;
+}
+
+string Barco::getId()const{
+	return _id;
+}
+
+void Barco::setId(string id){ 
+	_id = id;
+}
+
+int Barco::getTipo() const{
+	return _tipo;
 }

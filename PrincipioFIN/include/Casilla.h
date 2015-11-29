@@ -5,6 +5,7 @@
 #include <string> 
 #include <iostream>
 #include <sstream>
+#include "Barco.h"
 using namespace std;
 class Casilla
 {
@@ -16,8 +17,11 @@ public:
 	string getEstado();
 	void setEstado(string nestado);
 	string getId() const;
+	void setBarco(Barco barco);
+	Barco getBarco() const;
 private:
 	Ogre::SceneNode* _casilla;
 	string _estado;
 	string _id;
+	Barco _barco;
 };

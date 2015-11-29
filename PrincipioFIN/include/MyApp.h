@@ -1,7 +1,7 @@
 #include <Ogre.h>
 #include "MyFrameListener.h"
 #include "MyScena.h"
-#include "Barco.h"
+#include "Casilla.h"
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
 #include <iostream>

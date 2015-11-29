@@ -52,37 +52,28 @@ int MyApp::start() {
   createScene();
   
   Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
-
+  Ogre::SceneNode *node2 = _sceneManager->getSceneNode("NodoReyAlto");
+  
   Casilla cas(node);
-
-  Barco barco(2);
-  barco.agregarcasillas(cas);
+  Casilla cas2(node2);
   
+  int sizeBarco = 2;
+  Barco barco(sizeBarco);
+  cas.setBarco(barco);
+  cas2.setBarco(barco);
+  
+  printf("Tipo de Barco: \n");
+  cout << barco.getTipo() << endl;
+  printf("Tipo de Barco de: ");
+  cout << cas.getId() << endl;
+  cout << cas.getBarco().getTipo() << endl;
+  printf("Tipo de Barco de: ");
+  cout << cas2.getId() << endl;
+  cout << cas2.getBarco().getTipo() << endl;
+
   ostringstream os;
-  std::vector<Casilla> v = barco.getPosiciones();
+
   
-  std::vector<Casilla>::iterator it;
-
-  for (it = v.begin(); //
-      it != v.end(); //
-        ++it)
-      cout << it->getSN().getName() << endl;
-  // Ogre::SceneNode pru = cas-> getSN();
-  // ostringstream os;
-  // os << pru.getName();
-  // cout << os.str() << endl;
-  // Ogre::SceneNode::ChildNodeIterator it = _sceneManager->getSceneNode("NodoReyBajo")->getChildIterator();
-  // int i = 0;
-
-  // while (it.hasMoreElements()){
-    
-  //   string _name = it.getNext()->getName();
-  //   ostringstream es;
-
-  //   es << _name << " " <<(i+1);
-  //   cout << es.str()  <<endl;
-  //   i++;
-  // }
   
   _framelistener = new MyFrameListener(window, cam, node,_sceneManager);
   _root->addFrameListener(_framelistener);
