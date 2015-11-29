@@ -52,6 +52,25 @@ int MyApp::start() {
   createScene();
   
   Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
+
+  Casilla *cas = new Casilla(node);
+  
+  // Ogre::SceneNode pru = cas-> getSN();
+  // ostringstream os;
+  // os << pru.getName();
+  // cout << os.str() << endl;
+  // Ogre::SceneNode::ChildNodeIterator it = _sceneManager->getSceneNode("NodoReyBajo")->getChildIterator();
+  // int i = 0;
+
+  // while (it.hasMoreElements()){
+    
+  //   string _name = it.getNext()->getName();
+  //   ostringstream es;
+
+  //   es << _name << " " <<(i+1);
+  //   cout << es.str()  <<endl;
+  //   i++;
+  // }
   
   _framelistener = new MyFrameListener(window, cam, node,_sceneManager);
   _root->addFrameListener(_framelistener);

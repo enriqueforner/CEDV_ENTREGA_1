@@ -1,5 +1,6 @@
 //MyScena.cpp
 #include "MyScena.h"
+#include "Casilla.h"
 MyScena::MyScena(Ogre::SceneNode* nA,Ogre::SceneNode* nB,Ogre::SceneManager* sm){
 	_nodoalto = nA;
 	_nodobajo = nB;
@@ -50,6 +51,7 @@ void MyScena::creartablero(){
       cout << os.str() << "...Creado" <<endl;
       Ogre::Entity* ent = _sceneManager->createEntity(os.str(), "Cube.mesh");
       Ogre::SceneNode* node = _sceneManager->createSceneNode(os.str());
+      Casilla *cas = new Casilla(node);
       node-> attachObject(ent);
       //_nodebajo -> addChild(node);
       node -> setPosition(despL[i],0,-(despV[crearTableroBajo]));
@@ -66,6 +68,7 @@ void MyScena::creartablero(){
       cout << osA.str() << "...Creado" <<endl;
       Ogre::Entity* enta = _sceneManager->createEntity(osA.str(), "Cube.mesh");
       Ogre::SceneNode* nodea = _sceneManager->createSceneNode(osA.str());
+      Casilla *casb = new Casilla(nodea);
       nodea-> attachObject(enta);
       //_nodealto -> addChild(nodea);
       nodea -> setPosition(despL[b],0,-(despV[crearTableroAlto]));
