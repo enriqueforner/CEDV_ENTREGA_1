@@ -1,5 +1,7 @@
 #include "Casilla.h"
 
+Casilla::Casilla(){}
+
 Casilla::Casilla(Ogre::SceneNode *casilla){
 	_casilla = casilla;
 }
@@ -16,4 +18,8 @@ string Casilla::getEstado(){
 
 void Casilla::setEstado(string nestado){
 	_estado = nestado;
+}
+
+string Casilla::getId() const{
+	return _id;
 }

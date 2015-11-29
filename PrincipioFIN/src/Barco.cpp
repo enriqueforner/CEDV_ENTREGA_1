@@ -3,18 +3,21 @@
 #include "Barco.h"
 
 Barco::Barco(int tipo){
-	// _tipo = tipo;
-	// for (int i = 0; i < tipo; ++i){
-	// 	_posiciones[i] = new string();
-	// 	_posiciones[i] = " ";
-	// }
+	_tipo = tipo;
 }
-
 Barco::~Barco(){}
 
-void Barco::agregarcasillas(string nodo){
-	// for (int i = 0; i < _tipo; ++i){
-	// 	_posiciones[i] = nodo;
-	// }
+void Barco::agregarcasillas(Casilla nodo){
+	_posiciones.push_back(nodo);
+}
 
+std::vector<Casilla> Barco::getPosiciones(){
+	return _posiciones;
+}
+int Barco::getDamage()const{
+	return _damage;
+}
+
+void Barco::setDamage(int damage){ 
+	_damage = damage;
 }

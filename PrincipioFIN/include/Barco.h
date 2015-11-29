@@ -12,8 +12,12 @@ using namespace std;
  	Barco(int tipo);
  	~Barco();
  	int getTipo() const;
- 	void agregarcasillas(string nodo);
+ 	void agregarcasillas(Casilla nodo);
+ 	std::vector<Casilla> getPosiciones();
+ 	int getDamage() const;
+    void setDamage(int damage);
  private:
  	int _tipo;
- 	string _posiciones[];
+ 	int _damage;
+ 	std::vector<Casilla> _posiciones;
  };

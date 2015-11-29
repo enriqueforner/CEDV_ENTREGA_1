@@ -53,8 +53,20 @@ int MyApp::start() {
   
   Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
 
-  Casilla *cas = new Casilla(node);
+  Casilla cas(node);
+
+  Barco barco(2);
+  barco.agregarcasillas(cas);
   
+  ostringstream os;
+  std::vector<Casilla> v = barco.getPosiciones();
+  
+  std::vector<Casilla>::iterator it;
+
+  for (it = v.begin(); //
+      it != v.end(); //
+        ++it)
+      cout << it->getSN().getName() << endl;
   // Ogre::SceneNode pru = cas-> getSN();
   // ostringstream os;
   // os << pru.getName();
