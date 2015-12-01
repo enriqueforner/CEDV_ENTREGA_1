@@ -17,6 +17,13 @@ Tablero::~Tablero(){
 	delete [] _casillas;
 }
 
+Casilla** Tablero::getCasillas(){
+	return _casillas;
+}
+
+void Tablero::setCasillas(Casilla** newcasillas){
+	_casillas = newcasillas;
+}
 // void setCasillas(Casilla &casis[DIM][DIM]){
 
 // }

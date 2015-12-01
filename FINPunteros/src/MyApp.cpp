@@ -132,6 +132,17 @@ void MyApp::createScene() {
   MyScena *escena = new MyScena(node1Bajo,node1Alto,_sceneManager, tabj, tabm);
   escena -> creartablero();
   
+  Casilla** casp = tabj-> getCasillas();
+
+  cout << casp[6][2].getId() << endl;
+
+  Tablero *tabpr = new Tablero('P');
+  tabpr -> setCasillas(casp);
+  cout << tabpr -> getCasillas()[6][2].getId() << endl;
+  casp[1][2].setId(8999);  
+
+  cout << tabpr -> getCasillas()[1][2].getId() << endl;
+
 }
 
 void MyApp::createGUI()

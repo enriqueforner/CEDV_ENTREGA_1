@@ -31,3 +31,7 @@ void Casilla::setBarco(Barco *barco){
 Barco* Casilla::getBarco() const{
 	return _barco;
 }
+
+void Casilla::setId(int newid){
+	_id = newid;
+}

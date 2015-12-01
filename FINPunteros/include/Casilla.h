@@ -21,6 +21,7 @@ public:
 	int getId() const;
 	void setBarco(Barco *barco);
 	Barco* getBarco() const;
+	void setId(int newid);
 private:
 	Ogre::SceneNode *_casilla;
 	string _estado;

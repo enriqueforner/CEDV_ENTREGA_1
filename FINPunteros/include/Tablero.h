@@ -24,10 +24,10 @@ public:
 	// std::vector<Casilla> getCasillas();
 	// void setCasillas(Casilla &casis[DIM][DIM]);
 	//Casilla **getCasillas();
-	
-	Casilla **_casillas;
-
+	Casilla** getCasillas();
+	void setCasillas(Casilla** newcasillas);
 private:
+	Casilla **_casillas;
 	char _tipo;
 	// std::vector<Casilla> _casillastablero;
 	// std::vector<Barco> _barcostablero;

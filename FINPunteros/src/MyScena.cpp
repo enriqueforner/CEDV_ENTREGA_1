@@ -46,7 +46,8 @@ void MyScena::creartablero(){
   char nombres[10] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i','j'};
   int despL[10] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
   int despV[10] = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18}; 
-  int nomcas = 1;
+  int nomcas = 0;
+  Casilla** casMB = _tabj -> getCasillas();
   while (crearTableroBajo != 10){
     for (int i = 0; i < 10; ++i){
       ostringstream os;
@@ -54,7 +55,9 @@ void MyScena::creartablero(){
       cout << os.str() << "...Creado" <<endl;
       Ogre::Entity* ent = _sceneManager->createEntity(os.str(), "Cube.mesh");
       Ogre::SceneNode* node = _sceneManager->createSceneNode(os.str());
-      //_tabj -> _casillas[crearTableroBajo][i] = new Casilla(node,nomcas);
+      Casilla cas(node,nomcas);
+      casMB[crearTableroBajo][i] = cas;
+      cout << casMB[crearTableroBajo][i].getId() << endl;
       node-> attachObject(ent);
       //_nodebajo -> addChild(node);
       node -> setPosition(despL[i],0,-(despV[crearTableroBajo]));
