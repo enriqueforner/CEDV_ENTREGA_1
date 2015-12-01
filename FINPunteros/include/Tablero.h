@@ -11,6 +11,7 @@
 #include "Casilla.h"
 #include <vector>
 #define DIM 10
+#define BAR 5
 using namespace std;
 
 class Tablero
@@ -26,8 +27,10 @@ public:
 	//Casilla **getCasillas();
 	Casilla** getCasillas();
 	void setCasillas(Casilla** newcasillas);
+	Barco** getBarcos();
 private:
 	Casilla **_casillas;
+	Barco **_barcos;
 	char _tipo;
 	// std::vector<Casilla> _casillastablero;
 	// std::vector<Barco> _barcostablero;

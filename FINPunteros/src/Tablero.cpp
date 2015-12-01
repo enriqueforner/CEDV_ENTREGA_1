@@ -5,8 +5,12 @@
 Tablero::Tablero(char tipo){
 	_tipo = tipo;
 	_casillas = new Casilla*[DIM];
+	_barcos = new Barco*[BAR];
 	for(int i = 0; i < DIM; ++i) {
     	_casillas[i] = new Casilla[DIM];
+	}
+	for (int i = 0; i < BAR; ++i){
+		_barcos[i] = new Barco;
 	}
 }
 
@@ -23,6 +27,10 @@ Casilla** Tablero::getCasillas(){
 
 void Tablero::setCasillas(Casilla** newcasillas){
 	_casillas = newcasillas;
+}
+
+Barco** Tablero::getBarcos(){
+	return _barcos;
 }
 // void setCasillas(Casilla &casis[DIM][DIM]){
 
