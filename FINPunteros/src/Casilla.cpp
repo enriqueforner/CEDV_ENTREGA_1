@@ -21,9 +21,9 @@ void Casilla::setEstado(string nestado){
 	_estado = nestado;
 }
 
- int Casilla::getId() const{
+int Casilla::getId() const{
  	return _id;
- }
+}
 
 void Casilla::setBarco(Barco *barco){
 	_barco = barco;

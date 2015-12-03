@@ -43,43 +43,45 @@ void MyScena::creartablero(){
   //CREACION DE LOS TABLEROS (BAJO)
   int crearTableroBajo = 0;
   int crearTableroAlto = 0;
-  char nombres[10] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i','j'};
+  char nombres[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8','9'};
   int despL[10] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
   int despV[10] = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18}; 
   int nomcas = 0;
-  Casilla** casMB = _tabj -> getCasillas();
+  Casilla** casMJ = _tabj -> getCasillas();
   while (crearTableroBajo != 10){
     for (int i = 0; i < 10; ++i){
       ostringstream os;
-      os << "Node" << (i+1) << nombres[crearTableroBajo];
+      os << "J" << nombres[crearTableroBajo] << i;
       cout << os.str() << "...Creado" <<endl;
       Ogre::Entity* ent = _sceneManager->createEntity(os.str(), "Cube.mesh");
       Ogre::SceneNode* node = _sceneManager->createSceneNode(os.str());
       Casilla cas(node,nomcas);
-      casMB[crearTableroBajo][i] = cas;
-      cout << casMB[crearTableroBajo][i].getId() << endl;
+      casMJ[crearTableroBajo][i] = cas;
+      cout << casMJ[crearTableroBajo][i].getId() << endl;
       node-> attachObject(ent);
-      //_nodebajo -> addChild(node);
       node -> setPosition(despL[i],0,-(despV[crearTableroBajo]));
       _nodobajo -> addChild(node);
       nomcas++;
     }
     crearTableroBajo++;    
   }
-  char nombresA[10] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+  char nombresA[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8','9'};
   //TABLERO ALTO
+  int nomcasA = 0;
+  Casilla** casMM = _tabm -> getCasillas();
   while (crearTableroAlto != 10){
     for (int b = 0; b < 10; ++b){
       ostringstream osA;
-      osA << "Node" << (b+1) << nombresA[crearTableroAlto];
+      osA << "M" <<nombresA[crearTableroAlto] << b ;
       cout << osA.str() << "...Creado" <<endl;
       Ogre::Entity* enta = _sceneManager->createEntity(osA.str(), "Cube.mesh");
       Ogre::SceneNode* nodea = _sceneManager->createSceneNode(osA.str());
-      //Casilla *casb = new Casilla(nodea);
+      Casilla casb(nodea,nomcasA);
+      casMM[crearTableroAlto][b]=casb;
       nodea-> attachObject(enta);
-      //_nodealto -> addChild(nodea);
       nodea -> setPosition(despL[b],0,-(despV[crearTableroAlto]));
-      _nodoalto -> addChild(nodea);	
+      _nodoalto -> addChild(nodea);
+      nomcasA++;	
     }
     crearTableroAlto++;    
   }

@@ -53,39 +53,7 @@ int MyApp::start() {
   
   Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
   Ogre::SceneNode *node2 = _sceneManager->getSceneNode("NodoReyAlto");
-  //Casilla *cas = new Casilla(node);
-  //Tablero *tabm = new Tablero('M');
-  
-  // Casilla cas(node);
-  // Casilla cas1(node);
-  
-  // tabm -> _casillas[0][0] = cas;
-  // tabm -> _casillas[0][1] = cas1;
-
-  // ostringstream os;
-  // os << tabm -> _casillas[0][0].getSN()->getName();
-  // cout << os.str() <<endl;
-
-  //tabm[0][0]=cas;
-  
-  
-  // Casilla cas(node);
-  // Casilla cas2(node2);
-  
-  // int sizeBarco = 2;
-  // Barco barco(sizeBarco);
-  // cas.setBarco(barco);
-  // cas2.setBarco(barco);
-  
-  // printf("Tipo de Barco: \n");
-  // cout << barco.getTipo() << endl;
-  // printf("Tipo de Barco de: ");
-  // cout << cas.getId() << endl;
-  // cout << cas.getBarco().getTipo() << endl;
-  // printf("Tipo de Barco de: ");
-  // cout << cas2.getId() << endl;
-  // cout << cas2.getBarco().getTipo() << endl;
-  
+ 
   _framelistener = new MyFrameListener(window, cam, node,_sceneManager);
   _root->addFrameListener(_framelistener);
   
@@ -142,7 +110,36 @@ void MyApp::createScene() {
   casp[1][2].setId(8999);  
 
   cout << tabpr -> getCasillas()[1][2].getId() << endl;
-
+  bool repetir = true;
+  std::vector<int> *v = new std::vector<int>;
+  for (int i = 5; i > 1; --i){
+    tabm->colocarbarcos(i,v);
+    if (i == 3 && repetir){
+        i++;
+        repetir = false;
+    }
+  }
+  std::vector<Barco> *vc = new std::vector<Barco>;
+  vc = tabm -> getBarcos();
+  std::vector<Barco>::iterator it;
+  for (it = vc->begin(); it != vc->end();++it){
+       //cout << it->getId() << endl;
+  }
+  for (int i = 0; i < 100; ++i){
+    tabm->atacarcasilla(i);
+    int d = (i/10)%10;
+    int u = i%10;
+    if(u==0){
+      cout << endl;
+    }
+    if(tabm->getCasillas()[d][u].getEstado() == "hundida"){
+        cout << "H ";
+    }
+    else if(tabm->getCasillas()[d][u].getEstado() == "agua"){
+        cout << "A ";
+    }   
+  }
+  
 }
 
 void MyApp::createGUI()

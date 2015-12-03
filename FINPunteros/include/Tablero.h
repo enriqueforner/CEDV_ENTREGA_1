@@ -10,8 +10,8 @@
 #include "Barco.h"
 #include "Casilla.h"
 #include <vector>
+#include <time.h>
 #define DIM 10
-#define BAR 5
 using namespace std;
 
 class Tablero
@@ -19,22 +19,18 @@ class Tablero
 public:
 	Tablero(char tipo);
 	~Tablero();
-	// void agregarcasilla(Casilla casagregar);
-	// void agregarbarco(Barco barcoagregar);
-	// std::vector<Barco> getBarcos();
-	// std::vector<Casilla> getCasillas();
-	// void setCasillas(Casilla &casis[DIM][DIM]);
-	//Casilla **getCasillas();
+	
 	Casilla** getCasillas();
 	void setCasillas(Casilla** newcasillas);
-	Barco** getBarcos();
+	std::vector<Barco>*  getBarcos();
+	void colocarbarcos(int tipo, std::vector<int> *v);
+	void atacarcasilla(int id);
+	
 private:
 	Casilla **_casillas;
-	Barco **_barcos;
+	std::vector<Barco> *_barcos;
 	char _tipo;
-	// std::vector<Casilla> _casillastablero;
-	// std::vector<Barco> _barcostablero;
-	//Casilla **_casillas;
+	
 };
 
 #endif

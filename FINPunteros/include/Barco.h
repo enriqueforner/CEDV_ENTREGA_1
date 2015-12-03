@@ -13,22 +13,24 @@ using namespace std;
  {
  public:
  	Barco();
+ 	Barco(int tipo);
  	Barco(int tipo, Ogre::SceneNode *barco);
  	~Barco();
  	Ogre::SceneNode* getSN();
+ 	void setSN(Ogre::SceneNode *barco);
  	int getTipo() const;
  	int getDamage() const;
     void setDamage(int damage);
     string getId() const;
     void setId(string id);
-    std::vector<int> getIdCasillas();
+    std::vector<int>* getIdCasillas();
     void addCasilla(int id);
  private:
  	Ogre::SceneNode *_barco;
  	int _tipo;
  	int _damage;
  	string _id;
- 	std::vector<int> _idcasillas;
+ 	std::vector<int> *_idcasillas;
  };
 
  #endif
