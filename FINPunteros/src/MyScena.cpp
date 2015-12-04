@@ -43,7 +43,8 @@ void MyScena::creartablero(){
   //CREACION DE LOS TABLEROS (BAJO)
   int crearTableroBajo = 0;
   int crearTableroAlto = 0;
-  char nombres[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8','9'};
+  int coloca = 9;
+  char nombres[10] = {'9', '8', '7', '6', '5', '4', '3', '2', '1','0'};
   int despL[10] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
   int despV[10] = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18}; 
   int nomcas = 0;
@@ -56,18 +57,20 @@ void MyScena::creartablero(){
       Ogre::Entity* ent = _sceneManager->createEntity(os.str(), "Cube.mesh");
       Ogre::SceneNode* node = _sceneManager->createSceneNode(os.str());
       Casilla cas(node,nomcas);
-      casMJ[crearTableroBajo][i] = cas;
-      cout << casMJ[crearTableroBajo][i].getId() << endl;
+      casMJ[coloca][i] = cas;
+      cout << casMJ[coloca][i].getId() << endl;
       node-> attachObject(ent);
       node -> setPosition(despL[i],0,-(despV[crearTableroBajo]));
       _nodobajo -> addChild(node);
       nomcas++;
     }
-    crearTableroBajo++;    
+    crearTableroBajo++;  
+    coloca--;  
   }
-  char nombresA[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8','9'};
+  char nombresA[10] = {'9', '8', '7', '6', '5', '4', '3', '2', '1','0'};
   //TABLERO ALTO
   int nomcasA = 0;
+  coloca = 9;
   Casilla** casMM = _tabm -> getCasillas();
   while (crearTableroAlto != 10){
     for (int b = 0; b < 10; ++b){
@@ -77,13 +80,14 @@ void MyScena::creartablero(){
       Ogre::Entity* enta = _sceneManager->createEntity(osA.str(), "Cube.mesh");
       Ogre::SceneNode* nodea = _sceneManager->createSceneNode(osA.str());
       Casilla casb(nodea,nomcasA);
-      casMM[crearTableroAlto][b]=casb;
+      casMM[coloca][b]=casb;
       nodea-> attachObject(enta);
       nodea -> setPosition(despL[b],0,-(despV[crearTableroAlto]));
       _nodoalto -> addChild(nodea);
       nomcasA++;	
     }
-    crearTableroAlto++;    
+    crearTableroAlto++; 
+    coloca --;   
   }
   
   Ogre::Plane plane1(Ogre::Vector3::UNIT_Y, 0);

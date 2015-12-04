@@ -87,6 +87,7 @@ void MyApp::createScene() {
   Tablero *tabj = new Tablero('J');
   Tablero *tabm = new Tablero('M');
   
+
   Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
   Ogre::Entity* ent2 = _sceneManager->createEntity("Cube.mesh");
   Ogre::SceneNode* node1Bajo = _sceneManager->createSceneNode("NodoReyBajo");
@@ -105,6 +106,7 @@ void MyApp::createScene() {
   cout << casp[6][2].getId() << endl;
 
   Tablero *tabpr = new Tablero('P');
+  
   tabpr -> setCasillas(casp);
   cout << tabpr -> getCasillas()[6][2].getId() << endl;
   casp[1][2].setId(8999);  
@@ -119,25 +121,41 @@ void MyApp::createScene() {
         repetir = false;
     }
   }
+  
   std::vector<Barco> *vc = new std::vector<Barco>;
   vc = tabm -> getBarcos();
   std::vector<Barco>::iterator it;
   for (it = vc->begin(); it != vc->end();++it){
        //cout << it->getId() << endl;
   }
-  for (int i = 0; i < 100; ++i){
+  bool primer = true;
+  for (int i = 0; i <= 100; ++i){
     tabm->atacarcasilla(i);
+    if (i>99 && primer){
+        i=i-1;
+        primer = false;
+    }
+    else if(i>99 && !primer){
+      break;
+    }
     int d = (i/10)%10;
     int u = i%10;
-    if(u==0){
+    if(primer){
+        if(u==0){
+          cout <<endl;
+        }
+        if(tabm->getCasillas()[d][u].getEstado() == "hundida"){
+          cout << d<<u<<"H ";
+        }
+        else if(tabm->getCasillas()[d][u].getEstado() == "agua"){
+          cout << d<<u<<"A ";
+        }  
+    }
+    else{
       cout << endl;
     }
-    if(tabm->getCasillas()[d][u].getEstado() == "hundida"){
-        cout << "H ";
-    }
-    else if(tabm->getCasillas()[d][u].getEstado() == "agua"){
-        cout << "A ";
-    }   
+    //sleep(1);
+    
   }
   
 }

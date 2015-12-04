@@ -87,37 +87,25 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   Ogre::Ray mouseRay = _camera->getCameraToViewportRay(mousePos.d_x/_win->getWidth(), mousePos.d_y/_win->getHeight());
   
 
-   /*mRayScnQuery->setRay(mouseRay);  //add rayo
-   mRayScnQuery->setSortByDistance(true); //ordenar por distancia
- 
-   Ogre::RaySceneQueryResult& result = mRayScnQuery->execute();  //obtener resultado
-   Ogre::RaySceneQueryResult::iterator itr = result.begin();    //creo el iterador
-    
-   printf("Iterador creado\n");
-   
-   if (itr != result.end()){ //Iterar resultado de la rayscenequery
-    	//ostringstream osa;       
-        printf("Iterando objetos\n");
-        _selectedNode = itr->movable->getParentSceneNode();
-        _selectedNode->showBoundingBox(true);
-
-   }*/
-
   if (botomizq) { // Variables y codigo especifico si es izquierdo
     printf("Boton izquierdo\n");  
     mRayScnQuery->setRay(mouseRay);  //add rayo
-    mRayScnQuery->setSortByDistance(true); //ordenar por distancia
+    //mRayScnQuery->setSortByDistance(true); //ordenar por distancia
  
     Ogre::RaySceneQueryResult& result = mRayScnQuery->execute();  //obtener resultado
     Ogre::RaySceneQueryResult::iterator itr = result.begin();    //creo el iterador
-    
+    Ogre::Entity* mEntity;
     printf("Iterador creado\n");
     int i = 1;
     if (itr != result.end()){ //Iterar resultado de la rayscenequery
     	//ostringstream osa;       
         printf("Iterando objetos. Objeto %d\n", i); 
         _selectedNode = itr->movable->getParentSceneNode();
-        _selectedNode->showBoundingBox(true);
+        //_selectedNode->showBoundingBox(true);
+        mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
+        if(_selectedNode->getName() != "ground"){
+          mEntity->setMaterialName("MaterialVerde");
+        }
         cout << _selectedNode->getName()+ "\n";
         i++;
     }

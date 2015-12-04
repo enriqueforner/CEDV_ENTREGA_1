@@ -111,7 +111,11 @@ void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 void Tablero::atacarcasilla(int id){
 	int d = (id/10)%10;
 	int u = id%10;
+	Ogre::Entity * mEntity; 
 	_casillas[d][u].setEstado("agua");
+	// Cambiar material de la casilla (agua)
+	mEntity= static_cast<Ogre::Entity *>(_casillas[d][u].getSN()->getAttachedObject(0));
+	mEntity->setMaterialName("MaterialAgua");
 	vector<int> *_casillasBarco = new std::vector<int> ;
 	vector<Barco>::iterator it;
 	vector<int>::iterator it2;
@@ -120,6 +124,9 @@ void Tablero::atacarcasilla(int id){
 		for (it2 = _casillasBarco->begin(); it2 != _casillasBarco->end();++it2){
 			if(*it2 == id){
 				_casillas[d][u].setEstado("hundida");
+				// Cambiar material de la casilla (rojo)
+				mEntity= static_cast<Ogre::Entity *>(_casillas[d][u].getSN()->getAttachedObject(0));
+				mEntity->setMaterialName("MaterialRojo");
 				it->setDamage(it->getDamage()+1);
 			}
 		}	
