@@ -23,9 +23,10 @@ public:
 	Casilla** getCasillas();
 	void setCasillas(Casilla** newcasillas);
 	std::vector<Barco>*  getBarcos();
-	void colocarbarcos(int tipo, std::vector<int> *v);
+	//void colocarbarcos(int tipo, std::vector<int> *v);
 	void atacarcasilla(int id);
-	
+	void colocarbarco(int ship_type, std::vector<int> *v);
+	void colocarbarcoSeguridad(int ship_type, std::vector<int> *v);
 private:
 	Casilla **_casillas;
 	std::vector<Barco> *_barcos;

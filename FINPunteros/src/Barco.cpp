@@ -5,7 +5,7 @@
 Barco::Barco(){}
 Barco::Barco(int tipo){
 	_tipo = tipo;
-	_idcasillas = new std::vector<int> ;
+	_idcasillas = new std::vector<int>;
 
 }
 Barco::Barco(int tipo, Ogre::SceneNode *barco){

@@ -52,7 +52,7 @@ int MyApp::start() {
   createScene();
   
   Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
-  Ogre::SceneNode *node2 = _sceneManager->getSceneNode("NodoReyAlto");
+  //Ogre::SceneNode *node2 = _sceneManager->getSceneNode("NodoReyAlto");
  
   _framelistener = new MyFrameListener(window, cam, node,_sceneManager);
   _root->addFrameListener(_framelistener);
@@ -115,7 +115,7 @@ void MyApp::createScene() {
   bool repetir = true;
   std::vector<int> *v = new std::vector<int>;
   for (int i = 5; i > 1; --i){
-    tabm->colocarbarcos(i,v);
+    tabm->colocarbarcoSeguridad(i,v);
     if (i == 3 && repetir){
         i++;
         repetir = false;
@@ -155,9 +155,20 @@ void MyApp::createScene() {
       cout << endl;
     }
     //sleep(1);
-    
   }
-  
+  //Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
+  Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
+  Ogre::SceneNode* nodeb = _sceneManager->createSceneNode("barquitoPRUEBA");
+  entab->setMaterialName("Materialbarco");
+  nodeb->attachObject(entab);
+  tabj-> getCasillas()[0][9].getSN()->addChild(nodeb);
+
+  nodeb-> setPosition(0,2.5,0);
+  //nodeb-> scale(1,1,1);
+  //nodeb-> scale(0.4,0.4,0.4);  BARCO DE 2 CON BarcoP2B.mesh
+  //nodeb-> scale(0.55,0.55,0.55);   BARCO DE 3 CON Barco.mesh
+  //nodeb-> scale(0.75,0.75,0.75);  BARCO DE 4 CON Barco.mesh
+  //nodeb-> scale(0.95,0.95,0.95);  BARCO DE 5 CON Barco.mesh
 }
 
 void MyApp::createGUI()
