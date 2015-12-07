@@ -33,6 +33,9 @@ private:
   bool _settings;
   bool _ranking;
   float _timeSinceLastFrame;
+
+  bool _empezarjuego;
+
   Ogre::SceneManager *_sceneManager;
   string _estado;
   Ogre::RaySceneQuery* mRayScnQuery;

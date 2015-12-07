@@ -104,14 +104,14 @@ void MyScena::creartablero(){
   node3 -> pitch(Ogre::Degree(45));
   _sceneManager->getRootSceneNode()->addChild(node3);
 
-  Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
-  Ogre::SceneNode* nodeb = _sceneManager->createSceneNode("barquito");
-  entab->setMaterialName("Materialbarco");
-  nodeb->attachObject(entab);
-  nodeb-> scale(0.4,0.4,0.4);
-  nodeb -> setPosition(-34,50,55);
-  nodeb -> yaw(Ogre::Degree(2.4));
-  nodeb -> pitch(Ogre::Degree(45));
-  _sceneManager->getRootSceneNode()->addChild(nodeb);
+  // Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
+  // Ogre::SceneNode* nodeb = _sceneManager->createSceneNode("barquito");
+  // entab->setMaterialName("Materialbarco");
+  // nodeb->attachObject(entab);
+  // nodeb-> scale(0.4,0.4,0.4);
+  // nodeb -> setPosition(-34,50,55);
+  // nodeb -> yaw(Ogre::Degree(2.4));
+  // nodeb -> pitch(Ogre::Degree(45));
+  // _sceneManager->getRootSceneNode()->addChild(nodeb);
 
 }

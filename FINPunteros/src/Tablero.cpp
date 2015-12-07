@@ -53,12 +53,48 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   if(tipobar==3)nodeb-> scale(0.55,0.55,0.45);
   if(tipobar==4)nodeb-> scale(0.75,0.75,0.50);
   if(tipobar==5)nodeb-> scale(0.95,0.95,0.55);
-
+  nodeb-> setPosition(0.5,2.5,0);
   if(rotacion=='W')nodeb -> yaw(Ogre::Degree(-90));
   if(rotacion=='S')nodeb -> yaw(Ogre::Degree(90));
   if(rotacion=='D')nodeb -> yaw(Ogre::Degree(180));
+  int nuevonum=0;
+  if (rotacion=='W'){
+  	nuevonum = id + 10;
+	for (int i = 0; i < tipobar; ++i){
+		int d = (nuevonum/10)%10;
+  		int u = nuevonum%10;
+		_casillas[d][u].setBarco(bar);
+		nuevonum = nuevonum +10;
+	}
+  }	
+  if (rotacion=='D'){
+  	nuevonum = id + 1;
+	for (int i = 0; i < tipobar; ++i){
+		int d = (nuevonum/10)%10;
+  		int u = nuevonum%10;
+		_casillas[d][u].setBarco(bar);
+		nuevonum = nuevonum +1;
+	}
+  }
+  if (rotacion=='S'){
+  	nuevonum = id - 10;
+	for (int i = 0; i < tipobar; ++i){
+		int d = (nuevonum/10)%10;
+  		int u = nuevonum%10;
+		_casillas[d][u].setBarco(bar);
+		nuevonum = nuevonum -10;
+	}
+  }	
+  if (rotacion=='A'){
+  	nuevonum = id - 1;
+	for (int i = 0; i < tipobar; ++i){
+		int d = (nuevonum/10)%10;
+  		int u = nuevonum%10;
+		_casillas[d][u].setBarco(bar);
+		nuevonum = nuevonum -1;
+	}
+  }	
   
-  nodeb-> setPosition(0.5,2.5,0);
   //nodeb-> scale(1,1,1);
   //nodeb-> scale(0.4,0.4,0.4);  BARCO DE 2 CON BarcoP2B.mesh
   //nodeb-> scale(0.55,0.55,0.55);   BARCO DE 3 CON Barco.mesh

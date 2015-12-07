@@ -27,6 +27,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   _play = false;
   _ranking = false;
   _settings = false;
+  _empezarjuego = false;
   _sceneManager = sceneManager;
   _win = win;
   _estado = estado;
@@ -62,7 +63,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   _keyboard->capture();
   
   if(_quit) return false;
-
+  if(_empezarjuego) _estado = "PONIENDOBARCOS";
   //coger posicion del raton en cegui
   //CEGUI::Point mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
 
@@ -130,8 +131,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       //}
            
   }
-  if (botomR){
-    cout << "Botom Izq Pulsado"<< endl;
+  if (botomR && _estado == "PONIENDOBARCOS"){
+    cout << "R pulsado"<< endl;
   }
 
   
@@ -202,7 +203,7 @@ bool MyFrameListener::quit(const CEGUI::EventArgs &e)
 
 bool MyFrameListener::play(const CEGUI::EventArgs &e)
 {
- 
+  _empezarjuego = true;
   return true;
 }
 

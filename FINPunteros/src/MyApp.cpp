@@ -198,16 +198,22 @@ void MyApp::createGUI()
   //Sheet
   CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Ex1/Sheet");
 
-  // CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
+  CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
-  // //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
+  //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
-  // sheet->addChild(vent);
+  sheet->addChild(vent);
 
-  // CEGUI::Window* exitButton = vent->getChild("ExitButton");
-  // exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-  //         CEGUI::Event::Subscriber(&MyFrameListener::quit, 
-  //               _framelistener));
+  CEGUI::Window* exitButton = vent->getChild("ExitButton");
+  exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&MyFrameListener::quit, 
+                _framelistener));
+
+  CEGUI::Window* playButton = vent->getChild("PlayButton");
+  playButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&MyFrameListener::play, 
+                _framelistener));
+  
 
   //CEGUI::ImageManager::getSingleton().addFromImageFile("SpaceBackgroundImage", "ojos-de-gato.jpg");
   CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
