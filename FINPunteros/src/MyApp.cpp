@@ -54,7 +54,7 @@ int MyApp::start() {
   Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
   //Ogre::SceneNode *node2 = _sceneManager->getSceneNode("NodoReyAlto");
  
-  _framelistener = new MyFrameListener(window, cam, node,_sceneManager);
+  _framelistener = new MyFrameListener(window, cam, node,_sceneManager,"INTRO");
   _root->addFrameListener(_framelistener);
   
   createGUI();
@@ -101,61 +101,61 @@ void MyApp::createScene() {
   MyScena *escena = new MyScena(node1Bajo,node1Alto,_sceneManager, tabj, tabm);
   escena -> creartablero();
   
-  Casilla** casp = tabj-> getCasillas();
+  // Casilla** casp = tabj-> getCasillas();
 
-  cout << casp[6][2].getId() << endl;
+  // cout << casp[6][2].getId() << endl;
 
-  Tablero *tabpr = new Tablero('P',_sceneManager);
+  // Tablero *tabpr = new Tablero('P',_sceneManager);
   
-  tabpr -> setCasillas(casp);
-  cout << tabpr -> getCasillas()[6][2].getId() << endl;
-  casp[1][2].setId(8999);  
+  // tabpr -> setCasillas(casp);
+  // cout << tabpr -> getCasillas()[6][2].getId() << endl;
+  // casp[1][2].setId(8999);  
 
-  cout << tabpr -> getCasillas()[1][2].getId() << endl;
-  bool repetir = true;
-  std::vector<int> *v = new std::vector<int>;
-  for (int i = 5; i > 1; --i){
-    tabm->colocarbarcos(i,v);
-    if (i == 3 && repetir){
-        i++;
-        repetir = false;
-    }
-  }
+  // cout << tabpr -> getCasillas()[1][2].getId() << endl;
+  // bool repetir = true;
+  // std::vector<int> *v = new std::vector<int>;
+  // for (int i = 5; i > 1; --i){
+  //   tabm->colocarbarcos(i,v);
+  //   if (i == 3 && repetir){
+  //       i++;
+  //       repetir = false;
+  //   }
+  // }
   
-  std::vector<Barco> *vc = new std::vector<Barco>;
-  vc = tabm -> getBarcos();
-  std::vector<Barco>::iterator it;
-  for (it = vc->begin(); it != vc->end();++it){
-       //cout << it->getId() << endl;
-  }
-  bool primer = true;
-  for (int i = 0; i <= 100; ++i){
-    tabm->atacarcasilla(i);
-    if (i>99 && primer){
-        i=i-1;
-        primer = false;
-    }
-    else if(i>99 && !primer){
-      break;
-    }
-    int d = (i/10)%10;
-    int u = i%10;
-    if(primer){
-        if(u==0){
-          cout <<endl;
-        }
-        if(tabm->getCasillas()[d][u].getEstado() == "hundida"){
-          cout << d<<u<<"H ";
-        }
-        else if(tabm->getCasillas()[d][u].getEstado() == "agua"){
-          cout << d<<u<<"A ";
-        }  
-    }
-    else{
-      cout << endl;
-    }
-    //sleep(1);
-  }
+  // std::vector<Barco> *vc = new std::vector<Barco>;
+  // vc = tabm -> getBarcos();
+  // std::vector<Barco>::iterator it;
+  // for (it = vc->begin(); it != vc->end();++it){
+  //      //cout << it->getId() << endl;
+  // }
+  // bool primer = true;
+  // for (int i = 0; i <= 100; ++i){
+  //   tabm->atacarcasilla(i);
+  //   if (i>99 && primer){
+  //       i=i-1;
+  //       primer = false;
+  //   }
+  //   else if(i>99 && !primer){
+  //     break;
+  //   }
+  //   int d = (i/10)%10;
+  //   int u = i%10;
+  //   if(primer){
+  //       if(u==0){
+  //         cout <<endl;
+  //       }
+  //       if(tabm->getCasillas()[d][u].getEstado() == "hundida"){
+  //         cout << d<<u<<"H ";
+  //       }
+  //       else if(tabm->getCasillas()[d][u].getEstado() == "agua"){
+  //         cout << d<<u<<"A ";
+  //       }  
+  //   }
+  //   else{
+  //     cout << endl;
+  //   }
+  //   //sleep(1);
+  // }
   //Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
   Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
   Ogre::SceneNode* nodeb = _sceneManager->createSceneNode("barquitoPRUEBA");
@@ -171,6 +171,9 @@ void MyApp::createScene() {
   //nodeb-> scale(0.95,0.95,0.77);  //BARCO DE 5 CON Barco.mesh
 
   tabj -> colocarbarcosJUGADOR(44,2,'D');
+  tabj -> colocarbarcosJUGADOR(55,3,'S');
+  tabj -> colocarbarcosJUGADOR(56,4,'D');
+  tabj -> colocarbarcosJUGADOR(33,5,'D');
 }
 
 void MyApp::createGUI()

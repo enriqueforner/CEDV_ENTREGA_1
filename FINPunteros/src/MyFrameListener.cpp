@@ -17,7 +17,7 @@
 
 MyFrameListener::MyFrameListener(Ogre::RenderWindow* win, 
 				 Ogre::Camera* cam, 
-				 Ogre::SceneNode *node,Ogre::SceneManager *sceneManager) {
+				 Ogre::SceneNode *node,Ogre::SceneManager *sceneManager,string estado) {
   OIS::ParamList param;
   size_t windowHandle;  std::ostringstream wHandleStr;
 
@@ -29,7 +29,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   _settings = false;
   _sceneManager = sceneManager;
   _win = win;
-
+  _estado = estado;
   win->getCustomAttribute("WINDOW", &windowHandle);
   wHandleStr << windowHandle;
   param.insert(std::make_pair("WINDOW", wHandleStr.str()));
@@ -54,6 +54,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   _timeSinceLastFrame = evt.timeSinceLastFrame;
   
   bool botomizq;
+  bool botomR;
 
   CEGUI::System::getSingleton().getDefaultGUIContext().injectTimePulse(_timeSinceLastFrame);
 
@@ -72,6 +73,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   //printf("%d\n", posy);
 
   botomizq = _mouse->getMouseState().buttonDown(OIS::MB_Left);
+  botomR = _keyboard->isKeyDown(OIS::KC_R);
+
   //uint32 mask;
 
 
@@ -127,7 +130,9 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       //}
            
   }
-
+  if (botomR){
+    cout << "Botom Izq Pulsado"<< endl;
+  }
 
   
 
@@ -137,7 +142,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 bool MyFrameListener::keyPressed(const OIS::KeyEvent& evt)
 {
   if(evt.key==OIS::KC_ESCAPE) return _quit=true;
- 
+  
   CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(static_cast<CEGUI::Key::Scan>(evt.key));
   CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(evt.text);
 

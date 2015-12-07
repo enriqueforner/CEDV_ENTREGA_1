@@ -34,7 +34,7 @@ private:
   bool _ranking;
   float _timeSinceLastFrame;
   Ogre::SceneManager *_sceneManager;
-
+  string _estado;
   Ogre::RaySceneQuery* mRayScnQuery;
 
   CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
@@ -43,7 +43,7 @@ private:
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, 
-		  Ogre::SceneNode* node, Ogre::SceneManager* sceneManager);
+		  Ogre::SceneNode* node, Ogre::SceneManager* sceneManager,string estado);
   ~MyFrameListener();
   bool frameStarted(const Ogre::FrameEvent& evt);  
   bool quit(const CEGUI::EventArgs &e);
