@@ -107,6 +107,10 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
           mEntity->setMaterialName("MaterialVerde");
         }
         cout << _selectedNode->getName()+ "\n";
+        string name = _selectedNode->getName();
+        string numero = name.substr(1,2);
+        int x = atoi(numero.c_str());
+        cout << x << endl;
         i++;
     }
 

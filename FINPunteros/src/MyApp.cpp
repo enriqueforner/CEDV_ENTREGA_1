@@ -84,8 +84,8 @@ void MyApp::loadResources() {
 }
 
 void MyApp::createScene() {
-  Tablero *tabj = new Tablero('J');
-  Tablero *tabm = new Tablero('M');
+  Tablero *tabj = new Tablero('J',_sceneManager);
+  Tablero *tabm = new Tablero('M',_sceneManager);
   
 
   Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
@@ -105,7 +105,7 @@ void MyApp::createScene() {
 
   cout << casp[6][2].getId() << endl;
 
-  Tablero *tabpr = new Tablero('P');
+  Tablero *tabpr = new Tablero('P',_sceneManager);
   
   tabpr -> setCasillas(casp);
   cout << tabpr -> getCasillas()[6][2].getId() << endl;
@@ -115,7 +115,7 @@ void MyApp::createScene() {
   bool repetir = true;
   std::vector<int> *v = new std::vector<int>;
   for (int i = 5; i > 1; --i){
-    tabm->colocarbarcoSeguridad(i,v);
+    tabm->colocarbarcos(i,v);
     if (i == 3 && repetir){
         i++;
         repetir = false;
@@ -168,7 +168,9 @@ void MyApp::createScene() {
   //nodeb-> scale(0.4,0.4,0.4);  BARCO DE 2 CON BarcoP2B.mesh
   //nodeb-> scale(0.55,0.55,0.55);   BARCO DE 3 CON Barco.mesh
   //nodeb-> scale(0.75,0.75,0.75);  BARCO DE 4 CON Barco.mesh
-  //nodeb-> scale(0.95,0.95,0.95);  BARCO DE 5 CON Barco.mesh
+  //nodeb-> scale(0.95,0.95,0.77);  //BARCO DE 5 CON Barco.mesh
+
+  tabj -> colocarbarcosJUGADOR(44,2,'D');
 }
 
 void MyApp::createGUI()

@@ -17,7 +17,7 @@ using namespace std;
 class Tablero
 {
 public:
-	Tablero(char tipo);
+	Tablero(char tipo,Ogre::SceneManager* sm);
 	~Tablero();
 	
 	Casilla** getCasillas();
@@ -25,13 +25,15 @@ public:
 	std::vector<Barco>*  getBarcos();
 	//void colocarbarcos(int tipo, std::vector<int> *v);
 	void atacarcasilla(int id);
+	void colocarbarcos(int ship_type, std::vector<int> *v);
 	void colocarbarco(int ship_type, std::vector<int> *v);
 	void colocarbarcoSeguridad(int ship_type, std::vector<int> *v);
+	void colocarbarcosJUGADOR(int id, int tipobar,char rotacion);
 private:
 	Casilla **_casillas;
 	std::vector<Barco> *_barcos;
 	char _tipo;
-	
+	Ogre::SceneManager* _sceneManager;
 };
 
 #endif

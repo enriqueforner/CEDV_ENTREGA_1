@@ -2,13 +2,14 @@
 //Tablero.cpp
 #include "Tablero.h"
 
-Tablero::Tablero(char tipo){
+Tablero::Tablero(char tipo, Ogre::SceneManager* sm){
 	_tipo = tipo;
 	_casillas = new Casilla*[DIM];
 	for(int i = 0; i < DIM; ++i) {
     	_casillas[i] = new Casilla[DIM];
 	}
 	_barcos = new std::vector<Barco>;
+	_sceneManager = sm;
 }
 
 Tablero::~Tablero(){
@@ -29,7 +30,42 @@ void Tablero::setCasillas(Casilla** newcasillas){
 std::vector<Barco>* Tablero::getBarcos(){
 	return _barcos;
 }
-/*
+
+void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
+  int d = (id/10)%10;
+  int u = id%10;
+  Ogre::Entity* entab= _sceneManager->createEntity("Barco.mesh");
+  if (tipobar==2 || tipobar ==3){
+  	Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
+  }else{
+  	Ogre::Entity* entab = _sceneManager->createEntity("BarcoP2B.mesh");
+  }
+  ostringstream osA;
+  osA << tipobar << _casillas[d][u].getSN()->getName();
+  cout << osA.str() << "...Creado" <<endl;
+  Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
+  entab->setMaterialName("Materialbarco");
+  Barco *bar = new Barco(tipobar,nodeb);
+  nodeb->attachObject(entab);
+  _casillas[d][u].getSN()->addChild(nodeb);
+  _casillas[d][u].setBarco(bar);
+
+  if(tipobar==2)nodeb-> scale(0.4,0.4,0.4);
+  if(tipobar==3)nodeb-> scale(0.55,0.55,0.55);
+  if(tipobar==4)nodeb-> scale(0.75,0.75,0.75);
+  if(tipobar==5)nodeb-> scale(0.95,0.95,0.77);
+  if(rotacion=='W')nodeb -> yaw(Ogre::Degree(-90));
+  if(rotacion=='S')nodeb -> yaw(Ogre::Degree(90));
+  if(rotacion=='D')nodeb -> yaw(Ogre::Degree(180));
+  
+  nodeb-> setPosition(0,2.5,0);
+  //nodeb-> scale(1,1,1);
+  //nodeb-> scale(0.4,0.4,0.4);  BARCO DE 2 CON BarcoP2B.mesh
+  //nodeb-> scale(0.55,0.55,0.55);   BARCO DE 3 CON Barco.mesh
+  //nodeb-> scale(0.75,0.75,0.75);  BARCO DE 4 CON Barco.mesh
+  //nodeb-> scale(0.95,0.95,0.77);  //BARCO DE 5 CON Barco.mesh
+}
+
 void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 
 	srand(time(NULL));
@@ -81,14 +117,20 @@ void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 				}
 			}
 		}
-		if(vdir[dir]==-10*(tipo-1)||vdir[dir]==10*(tipo-1)){
-			if((d+(tipo-1)) > 9)meterbarco=false;			
-			if((d-(tipo-1)) < 0)meterbarco=false;
-		}
-		if(vdir[dir]==-1*(tipo-1)||vdir[dir]==1*(tipo-1)){
-			if((u+(tipo-1)) > 9)meterbarco=false; 
-			if((u-(tipo-1)) < 0)meterbarco=false;		
-		}
+		if(meterbarco){
+			if(vdir[dir]==-10*(tipo-1)){		
+				if((d-(tipo-1)) < 0)meterbarco=false;
+			}
+			if(vdir[dir]==10*(tipo-1)){
+				if((d+(tipo-1)) > 9)meterbarco=false;			
+			}
+			if(vdir[dir]==-1*(tipo-1)){
+				if((u-(tipo-1)) < 0)meterbarco=false;		
+			}
+			if(vdir[dir]==1*(tipo-1)){
+				if((u+(tipo-1)) > 9)meterbarco=false; 
+			}
+		}	
 		if (meterbarco){
 			Barco *bm = new Barco(tipo);
 			_barcos->push_back(*bm);
@@ -105,8 +147,12 @@ void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 			salir = false;
 		}
 		srand(time(NULL));	
+	
 	}
-}*/
+}
+
+
+
 
 void Tablero::atacarcasilla(int id){
 	int d = (id/10)%10;
@@ -718,3 +764,87 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 		
 }
 
+// void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
+
+// 	srand(time(NULL));
+// 	int vdir[4] = {-1*(tipo-1),1*(tipo-1),10*(tipo-1),-10*(tipo-1)};
+// 	vector<int>::iterator it;
+// 	bool meterbarco=true;
+// 	bool salir = true;
+// 	while(salir){
+// 		int vposlugares[tipo];
+// 		int num;
+// 		num =rand()%(100);
+// 		int dir;
+// 		dir =rand()%(4);
+// 		int d = (num/10)%10;
+// 		int u = num%10;
+// 		meterbarco=true;
+// 		if (vdir[dir]==-1*(tipo-1)){
+// 			int nuevonum = num;
+// 			for (int i = 0; i < tipo; ++i){
+// 				vposlugares[i] = nuevonum;
+// 				nuevonum = nuevonum -1;
+// 			}
+// 		}	
+// 		if (vdir[dir]==1*(tipo-1)){
+// 			int nuevonum = num;
+// 			for (int i = 0; i < tipo; ++i){
+// 				vposlugares[i] = nuevonum;
+// 				nuevonum = nuevonum +1;
+// 			}
+// 		}
+// 		if (vdir[dir]==-10*(tipo-1)){
+// 			int nuevonum = num;
+// 			for (int i = 0; i < tipo; ++i){
+// 				vposlugares[i] = nuevonum;
+// 				nuevonum = nuevonum -10;
+// 			}
+// 		}
+// 		if (vdir[dir]==10*(tipo-1)){
+// 			int nuevonum = num;
+// 			for (int i = 0; i < tipo; ++i){
+// 				vposlugares[i] = nuevonum;
+// 				nuevonum = nuevonum +10;
+// 			}
+// 		}
+// 		for (int i = 0; i < tipo; ++i){
+// 			for (it = v->begin(); it != v->end();++it){
+// 				if (*it==vposlugares[i]){
+// 					meterbarco=false;
+// 				}
+// 			}
+// 		}
+// 		if(meterbarco){
+// 			if(vdir[dir]==-10*(tipo-1)){		
+// 				if((d-(tipo-1)) < 0)meterbarco=false;
+// 			}
+// 			if(vdir[dir]==10*(tipo-1)){
+// 				if((d+(tipo-1)) > 9)meterbarco=false;			
+// 			}
+// 			if(vdir[dir]==-1*(tipo-1)){
+// 				if((u-(tipo-1)) < 0)meterbarco=false;		
+// 			}
+// 			if(vdir[dir]==1*(tipo-1)){
+// 				if((u+(tipo-1)) > 9)meterbarco=false; 
+// 			}
+// 		}	
+// 		if (meterbarco){
+// 			Barco *bm = new Barco(tipo);
+// 			_barcos->push_back(*bm);
+// 			for (int i = 0; i < tipo; ++i){
+// 				int nummeter = vposlugares[i];
+// 				int d = (nummeter/10)%10;
+// 				int u = nummeter%10;
+// 				_casillas[d][u].setBarco(bm);
+// 				cout << _casillas[d][u].getId()<< "J  " << tipo <<endl;
+// 				bm->addCasilla(nummeter);
+// 				v->push_back(nummeter);
+// 			}
+			
+// 			salir = false;
+// 		}
+// 		srand(time(NULL));	
+	
+// 	}
+// }
