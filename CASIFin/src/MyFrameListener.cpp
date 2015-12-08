@@ -30,12 +30,13 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   _play = false;
   _ranking = false;
   _settings = false;
-  _empezarjuego = false;
+  _empezarjuego = true;
   _ponerbarco = false;
   _sceneManager = sceneManager;
   _win = win;
   _estado = estado;
   _currentShip = 5;
+  _primer3 = true;
 
   win->getCustomAttribute("WINDOW", &windowHandle);
   wHandleStr << windowHandle;
@@ -102,19 +103,19 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   
 
   if (botomizq && _estado == "PONIENDOBARCOS") { // Variables y codigo especifico si es izquierdo
-    printf("Boton izquierdo\n");  
+    //printf("Boton izquierdo\n");  
     mRayScnQuery->setRay(mouseRay);  //add rayo
     //mRayScnQuery->setSortByDistance(true); //ordenar por distancia
  
     Ogre::RaySceneQueryResult& result = mRayScnQuery->execute();  //obtener resultado
     Ogre::RaySceneQueryResult::iterator itr = result.begin();    //creo el iterador
     Ogre::Entity* mEntity;
-    printf("Iterador creado\n");
+    //printf("Iterador creado\n");
     int i = 1;
 
     if (itr != result.end()){ //Iterar resultado de la rayscenequery
     	//ostringstream osa;       
-        printf("Iterando objetos. Objeto %d\n", i); 
+        //printf("Iterando objetos. Objeto %d\n", i); 
         _selectedNode = itr->movable->getParentSceneNode();
         //_selectedNode->showBoundingBox(true);
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
@@ -135,31 +136,58 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
            
   }
   if(_quit) return false;
-  if(_empezarjuego) _estado = "PONIENDOBARCOS";
-  if(_ponerbarco && _selectedNode != NULL && _estado == "PONIENDOBARCOS"){ 
-    string name = _selectedNode->getName();
-    string numero = name.substr(1,2);
-    int x = atoi(numero.c_str());
-    int d = (x/10)%10;
-    int u = x%10;
-    if (botomS&&x<(110 -_currentShip*10)){
-      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'S');  
+  if(_empezarjuego){
+    _estado = "PONIENDOBARCOS";
+    _empezarjuego = false;
+  } 
+  if(_estado.compare("PONIENDOBARCOS") == 0){
+    if(_ponerbarco && _selectedNode != NULL){ 
+      string name = _selectedNode->getName();
+      string numero = name.substr(1,2);
+      int x = atoi(numero.c_str());
+      int d = (x/10)%10;
+      int u = x%10;
+      if (botomS&&x<(110 -_currentShip*10)){
+        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'S');  
+        if(_currentShip == 3 && _primer3)
+          _primer3 = false;
+        else
+          _currentShip --;
+        
+      }
+      else if (botomW&&x>(9 + (_currentShip - 2)*10)){
+        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'W');  
+        if(_currentShip == 3 && _primer3)
+          _primer3 = false;
+        else
+          _currentShip --;
+        
+      }
+      else if (botomD&&(u < (11-_currentShip))){
+        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'D');  
+        if(_currentShip == 3 && _primer3)
+          _primer3 = false;
+        else
+          _currentShip --;
+      }
+      else if (botomA&&(u > (_currentShip -2))){
+        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'A'); 
+        if(_currentShip == 3 && _primer3)
+          _primer3 = false;
+        else
+          _currentShip --;
+      }
+
+      if(_currentShip < 2){
+        _estado = "ATACANDO";
+      }
+      cout << _estado << " " << _currentShip << endl;
+      _ponerbarco = false;
+      _selectedNode = NULL;
     }
-    if (botomW&&x>(9 + (_currentShip - 2)*10)){
-      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'W');  
-    }
-    if (botomD&&(u < (11-_currentShip))){
-      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'D');  
-    }
-    if (botomA&&(u > (_currentShip -2))){
-      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'A');  
-    }
-    _ponerbarco = false;
-    _selectedNode = NULL;
   }
-  
-  if (botomW && _estado == "PONIENDOBARCOS"){
-    cout << "R pulsado"<< endl;
+  else if(_estado.compare("ATACANDO")==0){
+    cout << _estado <<endl;
   }
 
   
