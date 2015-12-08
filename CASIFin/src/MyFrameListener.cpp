@@ -68,13 +68,13 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
   _mouse->capture();
   _keyboard->capture();
+
+  botomizq = _mouse->getMouseState().buttonDown(OIS::MB_Left);
+  botomS = _keyboard->isKeyDown(OIS::KC_S);
+  botomW = _keyboard->isKeyDown(OIS::KC_W);
+  botomD = _keyboard->isKeyDown(OIS::KC_D);
+  botomA = _keyboard->isKeyDown(OIS::KC_A);
   
-  if(_quit) return false;
-  if(_empezarjuego) _estado = "PONIENDOBARCOS";
-  if(_ponerbarco){ 
-    _tabj -> colocarbarcosJUGADOR(55,2,'S'); ;
-    _ponerbarco = false;
-  }
   //coger posicion del raton en cegui
   //CEGUI::Point mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
 
@@ -83,12 +83,6 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   
   //printf("%d\n", posx);
   //printf("%d\n", posy);
-
-  botomizq = _mouse->getMouseState().buttonDown(OIS::MB_Left);
-  botomS = _keyboard->isKeyDown(OIS::KC_S);
-  botomW = _keyboard->isKeyDown(OIS::KC_W);
-  botomD = _keyboard->isKeyDown(OIS::KC_D);
-  botomA = _keyboard->isKeyDown(OIS::KC_A);
 
   //uint32 mask;
 
@@ -125,19 +119,12 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         if(_selectedNode->getName() != "ground"){
           mEntity->setMaterialName("MaterialVerde");
         }
-        cout << _selectedNode->getName()+ "\n";
-        string name = _selectedNode->getName();
-        string numero = name.substr(1,2);
-        int x = atoi(numero.c_str());
-        cout << x << endl;
         i++;
     }
       //r = setRayQuery(posx, posy, MASK1);
-      
       //RaySceneQueryResult &result = _raySceneQuery->execute();
       //RaySceneQueryResult::iterator it;
       //it = result.begin();
-
       //if (it != result.end()) {  
             //ostringstream osa;       
             //_selectedNode = it->movable->getParentSceneNode();
@@ -145,7 +132,27 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       //}
            
   }
-  
+  if(_quit) return false;
+  if(_empezarjuego) _estado = "PONIENDOBARCOS";
+  if(_ponerbarco && _selectedNode != NULL && _estado == "PONIENDOBARCOS"){ 
+    string name = _selectedNode->getName();
+    string numero = name.substr(1,2);
+    int x = atoi(numero.c_str());
+    if (botomS){
+      _tabj -> colocarbarcosJUGADOR(x,2,'S');  
+    }
+    if (botomW){
+      _tabj -> colocarbarcosJUGADOR(x,2,'W');  
+    }
+    if (botomD){
+      _tabj -> colocarbarcosJUGADOR(x,2,'D');  
+    }
+    if (botomA){
+      _tabj -> colocarbarcosJUGADOR(x,2,'A');  
+    }
+    _ponerbarco = false;
+    _selectedNode = NULL;
+  }
   
   if (botomW && _estado == "PONIENDOBARCOS"){
     cout << "R pulsado"<< endl;
@@ -160,7 +167,9 @@ bool MyFrameListener::keyPressed(const OIS::KeyEvent& evt)
 {
   if(evt.key==OIS::KC_ESCAPE) return _quit=true;
   if(evt.key==OIS::KC_S) return _ponerbarco=true;
-  
+  if(evt.key==OIS::KC_D) return _ponerbarco=true;
+  if(evt.key==OIS::KC_W) return _ponerbarco=true;
+  if(evt.key==OIS::KC_A) return _ponerbarco=true;
   CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(static_cast<CEGUI::Key::Scan>(evt.key));
   CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(evt.text);
 

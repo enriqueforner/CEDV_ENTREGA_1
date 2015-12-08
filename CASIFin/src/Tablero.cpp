@@ -40,7 +40,54 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   }else{
   	Ogre::Entity* entab = _sceneManager->createEntity("BarcoP2B.mesh");
   }
-  if (_casillas[d][u].getTienebarco() == "NB"){
+  int nuevonum=0;
+  bool meterbarco = true;
+  		if (rotacion=='W'){
+  			nuevonum = id;
+  			for (int i = 0; i < tipobar; ++i){
+				int d = (nuevonum/10)%10;
+  				int u = nuevonum%10;
+				if (_casillas[d][u].getTienebarco()=="SB"){
+				  	meterbarco = false;				
+				} 	
+				nuevonum = nuevonum -10;
+			}
+  		}	
+  		if (rotacion=='D'){
+  			nuevonum = id;
+	  		for (int i = 0; i < tipobar; ++i){
+				int d = (nuevonum/10)%10;
+  				int u = nuevonum%10;
+				if (_casillas[d][u].getTienebarco()=="SB"){
+			  		meterbarco = false;				
+				}  			
+				nuevonum = nuevonum +1;
+			}
+  		}
+  		if (rotacion=='S'){
+  			nuevonum = id;
+  			for (int i = 0; i < tipobar; ++i){
+				int d = (nuevonum/10)%10;
+  				int u = nuevonum%10;
+				if (_casillas[d][u].getTienebarco()=="SB"){
+				  		meterbarco = false;				
+				} 		
+				nuevonum = nuevonum +10;
+			}
+  		}
+  		if (rotacion=='A'){
+  			nuevonum = id;
+  			for (int i = 0; i < tipobar; ++i){
+				int d = (nuevonum/10)%10;
+  				int u = nuevonum%10;
+				if (_casillas[d][u].getTienebarco()=="SB"){
+				  		meterbarco = false;				
+				}  			
+				nuevonum = nuevonum -1;
+			}
+  		}
+
+  if (meterbarco){
   		ostringstream osA;
   		osA << tipobar << _casillas[d][u].getSN()->getName();
   		cout << osA.str() << "...Creado" <<endl;
@@ -48,8 +95,6 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   		entab->setMaterialName("Materialbarco");
   		Barco *bar = new Barco(tipobar,nodeb);
   		nodeb->attachObject(entab);
-  		_casillas[d][u].getSN()->addChild(nodeb);
-  		_casillas[d][u].setBarco(bar);
   		if(tipobar==2)nodeb-> scale(0.4,0.4,0.35);
   		if(tipobar==3)nodeb-> scale(0.55,0.55,0.45);
   		if(tipobar==4)nodeb-> scale(0.75,0.75,0.50);
@@ -58,39 +103,60 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   		if(rotacion=='W')nodeb -> yaw(Ogre::Degree(-90));
   		if(rotacion=='S')nodeb -> yaw(Ogre::Degree(90));
   		if(rotacion=='D')nodeb -> yaw(Ogre::Degree(180));
-  		int nuevonum=0;
+  		nuevonum=0;
   		if (rotacion=='W'){
-  			nuevonum = id + 10;
+  			_casillas[d][u].getSN()->addChild(nodeb);
+  			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
+
+  				cout << d << endl;
+  				cout << u << endl;
+
 				_casillas[d][u].setBarco(bar);
-				nuevonum = nuevonum +10;
+
+				nuevonum = nuevonum -10;
 			}
   		}	
   		if (rotacion=='D'){
-  			nuevonum = id + 1;
+  			_casillas[d][u].getSN()->addChild(nodeb);
+  			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
+					
+  				cout << d << endl;
+  				cout << u << endl;
+
 				_casillas[d][u].setBarco(bar);
 				nuevonum = nuevonum +1;
 			}
   		}
   		if (rotacion=='S'){
-  			nuevonum = id - 10;
+  			_casillas[d][u].getSN()->addChild(nodeb);
+  			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
+
+  				cout << d << endl;
+  				cout << u << endl;
+
 				_casillas[d][u].setBarco(bar);
-				nuevonum = nuevonum -10;
+				nuevonum = nuevonum +10;
 			}
   		}	
   		if (rotacion=='A'){
-  			nuevonum = id - 1;
+  			_casillas[d][u].getSN()->addChild(nodeb);
+  			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
+				
+				cout << d << endl;
+  				cout << u << endl;
+
 				_casillas[d][u].setBarco(bar);
 				nuevonum = nuevonum -1;
 			}
