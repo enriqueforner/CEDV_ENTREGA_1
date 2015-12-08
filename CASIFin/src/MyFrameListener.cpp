@@ -115,6 +115,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     Ogre::Entity* mEntity;
     printf("Iterador creado\n");
     int i = 1;
+
     if (itr != result.end()){ //Iterar resultado de la rayscenequery
     	//ostringstream osa;       
         printf("Iterando objetos. Objeto %d\n", i); 

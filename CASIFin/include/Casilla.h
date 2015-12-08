@@ -22,11 +22,13 @@ public:
 	void setBarco(Barco *barco);
 	Barco* getBarco() const;
 	void setId(int newid);
+	string getTienebarco();
 private:
 	Ogre::SceneNode *_casilla;
 	string _estado;
 	int _id;
 	Barco *_barco;
+	string _tienebarco;
 };
 
 #endif

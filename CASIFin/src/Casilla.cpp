@@ -5,6 +5,7 @@ Casilla::Casilla(){}
 Casilla::Casilla(Ogre::SceneNode *casilla,int id){
 	_casilla = casilla;
 	_id = id;
+	_tienebarco = "NB";
 }
 
 Casilla::~Casilla(){}
@@ -27,6 +28,7 @@ int Casilla::getId() const{
 
 void Casilla::setBarco(Barco *barco){
 	_barco = barco;
+	_tienebarco = "SB";
 }
 Barco* Casilla::getBarco() const{
 	return _barco;
@@ -34,4 +36,8 @@ Barco* Casilla::getBarco() const{
 
 void Casilla::setId(int newid){
 	_id = newid;
+}
+
+string Casilla::getTienebarco(){
+	return _tienebarco;
 }
