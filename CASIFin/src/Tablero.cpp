@@ -189,7 +189,6 @@ void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 
 
 
-
 void Tablero::atacarcasilla(int id){
 	int d = (id/10)%10;
 	int u = id%10;

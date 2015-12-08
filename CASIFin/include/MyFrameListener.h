@@ -42,6 +42,7 @@ private:
   float _timeSinceLastFrame;
 
   bool _empezarjuego;
+  bool _ponerbarco;
 
   Ogre::SceneManager *_sceneManager;
   string _estado;
@@ -50,6 +51,7 @@ private:
   CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
   //Ogre::Ray setRayQuery(int posx, int posy, uint32 mask);
   Ogre::Ray setRayQuery(int posx, int posy, uint32 mask);
+
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, 

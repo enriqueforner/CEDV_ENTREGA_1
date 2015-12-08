@@ -29,6 +29,8 @@ public:
 	void colocarbarco(int ship_type, std::vector<int> *v);
 	void colocarbarcoSeguridad(int ship_type, std::vector<int> *v);
 	void colocarbarcosJUGADOR(int id, int tipobar,char rotacion);
+	
+	
 private:
 	Casilla **_casillas;
 	std::vector<Barco> *_barcos;

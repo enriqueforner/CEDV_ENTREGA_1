@@ -20,7 +20,6 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
 				 Ogre::SceneManager *sceneManager,string estado) {
   OIS::ParamList param;
   size_t windowHandle;  std::ostringstream wHandleStr;
-
   _tabj = tabj;
   _tabm = tabm;
   _scena = scena;
@@ -32,6 +31,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   _ranking = false;
   _settings = false;
   _empezarjuego = false;
+  _ponerbarco = false;
   _sceneManager = sceneManager;
   _win = win;
   _estado = estado;
@@ -59,7 +59,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   _timeSinceLastFrame = evt.timeSinceLastFrame;
   
   bool botomizq;
-  bool botomR;
+  bool botomS;
   bool botomW;
   bool botomD;
   bool botomA;
@@ -71,6 +71,10 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   
   if(_quit) return false;
   if(_empezarjuego) _estado = "PONIENDOBARCOS";
+  if(_ponerbarco){ 
+    _tabj -> colocarbarcosJUGADOR(55,2,'S'); ;
+    _ponerbarco = false;
+  }
   //coger posicion del raton en cegui
   //CEGUI::Point mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
 
@@ -81,7 +85,10 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   //printf("%d\n", posy);
 
   botomizq = _mouse->getMouseState().buttonDown(OIS::MB_Left);
-  botomR = _keyboard->isKeyDown(OIS::KC_R);
+  botomS = _keyboard->isKeyDown(OIS::KC_S);
+  botomW = _keyboard->isKeyDown(OIS::KC_W);
+  botomD = _keyboard->isKeyDown(OIS::KC_D);
+  botomA = _keyboard->isKeyDown(OIS::KC_A);
 
   //uint32 mask;
 
@@ -124,7 +131,6 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         cout << x << endl;
         i++;
     }
-
       //r = setRayQuery(posx, posy, MASK1);
       
       //RaySceneQueryResult &result = _raySceneQuery->execute();
@@ -138,7 +144,9 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       //}
            
   }
-  if (botomR && _estado == "PONIENDOBARCOS"){
+  
+  
+  if (botomW && _estado == "PONIENDOBARCOS"){
     cout << "R pulsado"<< endl;
   }
 
@@ -150,6 +158,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 bool MyFrameListener::keyPressed(const OIS::KeyEvent& evt)
 {
   if(evt.key==OIS::KC_ESCAPE) return _quit=true;
+  if(evt.key==OIS::KC_S) return _ponerbarco=true;
   
   CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(static_cast<CEGUI::Key::Scan>(evt.key));
   CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(evt.text);
@@ -211,6 +220,15 @@ bool MyFrameListener::quit(const CEGUI::EventArgs &e)
 bool MyFrameListener::play(const CEGUI::EventArgs &e)
 {
   _scena -> creartablero();
+  // bool repetir = true;
+  // std::vector<int> *v = new std::vector<int>;
+  // for (int i = 5; i > 1; --i){
+  //   _tabm->colocarbarcos(i,v);
+  //   if (i == 3 && repetir){
+  //       i++;
+  //       repetir = false;
+  //   }
+  // }
   _empezarjuego = true;
   return true;
 }
