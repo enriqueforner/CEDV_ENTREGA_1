@@ -35,6 +35,8 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   _sceneManager = sceneManager;
   _win = win;
   _estado = estado;
+  _currentShip = 5;
+
   win->getCustomAttribute("WINDOW", &windowHandle);
   wHandleStr << windowHandle;
   param.insert(std::make_pair("WINDOW", wHandleStr.str()));
@@ -138,17 +140,19 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     string name = _selectedNode->getName();
     string numero = name.substr(1,2);
     int x = atoi(numero.c_str());
-    if (botomS&&x<90){
-      _tabj -> colocarbarcosJUGADOR(x,2,'S');  
+    int d = (x/10)%10;
+    int u = x%10;
+    if (botomS&&x<(110 -_currentShip*10)){
+      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'S');  
     }
-    if (botomW&&x>9){
-      _tabj -> colocarbarcosJUGADOR(x,2,'W');  
+    if (botomW&&x>(9 + (_currentShip - 2)*10)){
+      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'W');  
     }
-    if (botomD&&((x+1)%10!=0)){
-      _tabj -> colocarbarcosJUGADOR(x,2,'D');  
+    if (botomD&&(u < (11-_currentShip))){
+      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'D');  
     }
-    if (botomA&&(x%10!=0)){
-      _tabj -> colocarbarcosJUGADOR(x,2,'A');  
+    if (botomA&&(u > (_currentShip -2))){
+      _tabj -> colocarbarcosJUGADOR(x,_currentShip,'A');  
     }
     _ponerbarco = false;
     _selectedNode = NULL;

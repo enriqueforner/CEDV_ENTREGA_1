@@ -43,6 +43,7 @@ private:
 
   bool _empezarjuego;
   bool _ponerbarco;
+  int _currentShip;
 
   Ogre::SceneManager *_sceneManager;
   string _estado;
