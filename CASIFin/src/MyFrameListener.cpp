@@ -138,16 +138,16 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     string name = _selectedNode->getName();
     string numero = name.substr(1,2);
     int x = atoi(numero.c_str());
-    if (botomS){
+    if (botomS&&x<90){
       _tabj -> colocarbarcosJUGADOR(x,2,'S');  
     }
-    if (botomW){
+    if (botomW&&x>9){
       _tabj -> colocarbarcosJUGADOR(x,2,'W');  
     }
-    if (botomD){
+    if (botomD&&((x+1)%10!=0)){
       _tabj -> colocarbarcosJUGADOR(x,2,'D');  
     }
-    if (botomA){
+    if (botomA&&(x%10!=0)){
       _tabj -> colocarbarcosJUGADOR(x,2,'A');  
     }
     _ponerbarco = false;
