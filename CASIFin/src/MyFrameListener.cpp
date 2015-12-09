@@ -50,6 +50,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
 
   _keyboard->setEventCallback(this);
   _mouse->setEventCallback(this);
+  
 }
 
 MyFrameListener::~MyFrameListener() {
@@ -66,7 +67,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   bool botomW;
   bool botomD;
   bool botomA;
-
+  bool _atacar= true;
   CEGUI::System::getSingleton().getDefaultGUIContext().injectTimePulse(_timeSinceLastFrame);
 
   _mouse->capture();
@@ -119,6 +120,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         _selectedNode = itr->movable->getParentSceneNode();
         //_selectedNode->showBoundingBox(true);
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
+        cout << _selectedNode->getName()<< endl;
         if(_selectedNode->getName() != "ground"){
           mEntity->setMaterialName("MaterialVerde");
         }
@@ -178,7 +180,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
           _currentShip --;
       }
 
-      if(_currentShip < 2){
+      if(_estado.compare("PONIENDOBARCOS") == 0 && _currentShip < 2){
         _estado = "ATACANDO";
       }
       cout << _estado << " " << _currentShip << endl;
@@ -186,9 +188,33 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       _selectedNode = NULL;
     }
   }
-  else if(_estado.compare("ATACANDO")==0){
-    cout << _estado <<endl;
+  if (_estado.compare("ATACANDO") ==0 ){
+      for (int i = 0; i <= 100; ++i){
+        if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
+          break;
+        }else{
+          _tabm->atacarcasilla(i);  
+          if(_tabm->barcoshundidos()==5){
+            _estado="WIN";
+            cout << "I win" <<endl;
+          }
+
+        }
+        if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
+          break;
+        }else{
+          _tabj-> atacarcasilla(i);
+          if(_tabj->barcoshundidos()==5){
+            _estado="LOSE";
+            cout << "I LOSe" <<endl;
+          }
+        }
+      }
+      
   }
+  // else if(_estado.compare("ATACANDO")==0){
+  //   cout << _estado <<endl;
+  // }
 
   
 

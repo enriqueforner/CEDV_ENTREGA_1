@@ -48,6 +48,8 @@ void MyScena::creartablero(){
   int despL[10] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20}; 
   int despV[10] = {0, 2, 4, 6, 8, 10, 12, 14, 16, 18}; 
   int nomcas = 0;
+  int nombrescasillas[10] = {90, 80, 70, 60, 50, 40, 30, 20, 10, 0}; 
+  
   Casilla** casMJ = _tabj -> getCasillas();
   while (crearTableroBajo != 10){
     for (int i = 0; i < 10; ++i){
@@ -56,7 +58,7 @@ void MyScena::creartablero(){
       cout << os.str() << "...Creado" <<endl;
       Ogre::Entity* ent = _sceneManager->createEntity(os.str(), "Cube.mesh");
       Ogre::SceneNode* node = _sceneManager->createSceneNode(os.str());
-      Casilla cas(node,nomcas);
+      Casilla cas(node,nombrescasillas[crearTableroBajo]+i);
       casMJ[coloca][i] = cas;
       cout << casMJ[coloca][i].getId() << endl;
       node-> attachObject(ent);
@@ -79,7 +81,7 @@ void MyScena::creartablero(){
       cout << osA.str() << "...Creado" <<endl;
       Ogre::Entity* enta = _sceneManager->createEntity(osA.str(), "Cube.mesh");
       Ogre::SceneNode* nodea = _sceneManager->createSceneNode(osA.str());
-      Casilla casb(nodea,nomcasA);
+      Casilla casb(nodea,nombrescasillas[crearTableroAlto]+b);
       casMM[coloca][b]=casb;
       nodea-> attachObject(enta);
       nodea -> setPosition(despL[b],0,-(despV[crearTableroAlto]));

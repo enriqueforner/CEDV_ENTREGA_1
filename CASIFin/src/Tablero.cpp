@@ -105,6 +105,7 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   		if(rotacion=='D')nodeb -> yaw(Ogre::Degree(180));
   		nuevonum=0;
   		if (rotacion=='W'){
+  			_barcos-> push_back(*bar);
   			_casillas[d][u].getSN()->addChild(nodeb);
   			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
@@ -114,12 +115,14 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   				cout << d << endl;
   				cout << u << endl;
 
+  				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
 
 				nuevonum = nuevonum -10;
 			}
   		}	
   		if (rotacion=='D'){
+  			_barcos-> push_back(*bar);
   			_casillas[d][u].getSN()->addChild(nodeb);
   			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
@@ -129,11 +132,13 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   				cout << d << endl;
   				cout << u << endl;
 
+  				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
 				nuevonum = nuevonum +1;
 			}
   		}
   		if (rotacion=='S'){
+  			_barcos-> push_back(*bar);
   			_casillas[d][u].getSN()->addChild(nodeb);
   			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
@@ -143,11 +148,13 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   				cout << d << endl;
   				cout << u << endl;
 
+  				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
 				nuevonum = nuevonum +10;
 			}
   		}	
   		if (rotacion=='A'){
+  			_barcos-> push_back(*bar);
   			_casillas[d][u].getSN()->addChild(nodeb);
   			nuevonum = id;
 			for (int i = 0; i < tipobar; ++i){
@@ -156,7 +163,7 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
 				
 				cout << d << endl;
   				cout << u << endl;
-
+  				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
 				nuevonum = nuevonum -1;
 			}
@@ -231,7 +238,32 @@ void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 			}
 		}	
 		if (meterbarco){
-			Barco *bm = new Barco(tipo);
+			Ogre::Entity* entab= _sceneManager->createEntity("Barco.mesh");
+  			if (tipo==2 || tipo ==3){
+  				Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
+  			}else{
+  				Ogre::Entity* entab = _sceneManager->createEntity("BarcoP2B.mesh");
+  			}
+  			ostringstream osA;
+  			int d = (vposlugares[0]/10)%10;
+			int u = vposlugares[0]%10;
+  			osA << tipo << _casillas[d][u].getSN()->getName();
+  			cout << osA.str() << "...Creado" <<endl;
+  			Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
+  			nodeb->attachObject(entab);
+  			entab-> setMaterialName("Materialbarco");
+  			_casillas[d][u].getSN()-> addChild(nodeb);
+
+  			if(tipo==2)nodeb-> scale(0.4,0.4,0.35);
+  			else if(tipo==3)nodeb-> scale(0.55,0.55,0.45);
+  			else if(tipo==4)nodeb-> scale(0.75,0.75,0.50);
+  			else if(tipo==5)nodeb-> scale(0.95,0.95,0.55);
+  			nodeb-> setPosition(0,2.7,0);
+  			if(vdir[dir]==10*(tipo-1))nodeb -> yaw(Ogre::Degree(90));
+  			else if(vdir[dir]==-10*(tipo-1))nodeb -> yaw(Ogre::Degree(-90));
+  			else if(vdir[dir]==1*(tipo-1))nodeb -> yaw(Ogre::Degree(180));
+  			
+  			Barco *bm = new Barco(tipo,nodeb);
 			_barcos->push_back(*bm);
 			for (int i = 0; i < tipo; ++i){
 				int nummeter = vposlugares[i];
@@ -860,6 +892,17 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 	}		
 		
 		
+}
+
+int Tablero::barcoshundidos(){
+	vector<Barco>::iterator it;
+	int res=0;
+	for (it = _barcos->begin(); it != _barcos->end();++it){
+ 		if (it->getDamage()==it->getTipo()){
+			res ++;
+		}
+	}
+	return res;
 }
 
 // void Tablero::colocarbarcos(int tipo, std::vector<int> *v){

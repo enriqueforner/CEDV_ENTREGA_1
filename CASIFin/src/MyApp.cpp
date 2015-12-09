@@ -69,10 +69,19 @@ int MyApp::start() {
   _sceneManager->getRootSceneNode()->addChild(node1Alto);
 
   MyScena *scena = new MyScena(node1Bajo,node1Alto,_sceneManager, tabj, tabm);
+  scena -> creartablero();
+  bool repetir = true;
+  std::vector<int> *v = new std::vector<int>;
+  for (int i = 5; i > 1; --i){
+    tabm->colocarbarcos(i,v);
+    if (i == 3 && repetir){
+        i++;
+        repetir = false;
+    }
+  }
   
-  _framelistener = new MyFrameListener(window, cam, tabj, tabm, scena, _sceneManager,"INTRO");
+  _framelistener = new MyFrameListener(window, cam, tabj, tabm, scena, _sceneManager,"PONIENDOBARCOS");
   _root->addFrameListener(_framelistener);
-  
   createGUI();
 
   _root->startRendering();
@@ -213,21 +222,21 @@ void MyApp::createGUI()
   //Sheet
   CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Ex1/Sheet");
 
-  CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
+  // CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
-  //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
+  // //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
-  sheet->addChild(vent);
+  // sheet->addChild(vent);
 
-  CEGUI::Window* exitButton = vent->getChild("ExitButton");
-  exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(&MyFrameListener::quit, 
-                _framelistener));
+  // CEGUI::Window* exitButton = vent->getChild("ExitButton");
+  // exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+  //         CEGUI::Event::Subscriber(&MyFrameListener::quit, 
+  //               _framelistener));
 
-  CEGUI::Window* playButton = vent->getChild("PlayButton");
-  playButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(&MyFrameListener::play, 
-                _framelistener));
+  // CEGUI::Window* playButton = vent->getChild("PlayButton");
+  // playButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+  //         CEGUI::Event::Subscriber(&MyFrameListener::play, 
+  //               _framelistener));
   
 
   //CEGUI::ImageManager::getSingleton().addFromImageFile("SpaceBackgroundImage", "ojos-de-gato.jpg");
