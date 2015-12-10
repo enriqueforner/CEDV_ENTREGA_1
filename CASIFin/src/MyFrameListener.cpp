@@ -103,7 +103,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   Ogre::Ray mouseRay = _camera->getCameraToViewportRay(mousePos.d_x/_win->getWidth(), mousePos.d_y/_win->getHeight());
   
 
-  if (botomizq && _estado == "PONIENDOBARCOS") { // Variables y codigo especifico si es izquierdo
+  if (botomizq && (_estado == "PONIENDOBARCOS" || _estado == "ATACANDO")) { // Variables y codigo especifico si es izquierdo
     //printf("Boton izquierdo\n");  
     mRayScnQuery->setRay(mouseRay);  //add rayo
     //mRayScnQuery->setSortByDistance(true); //ordenar por distancia
@@ -189,35 +189,43 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     }
   }
   if (_estado.compare("ATACANDO") ==0 ){
-      for (int i = 0; i <= 100; ++i){
+      //for (int i = 0; i <= 100; ++i){
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
-          break;
+          //break;
         }else{
-          _tabm->atacarcasilla(i);  
-          if(_tabm->barcoshundidos()==5){
+
+          //_tabm->atacarcasilla(i);
+            if (_selectedNode!= NULL){
+               if(_selectedNode->getName() != "ground"){
+                  string name = _selectedNode->getName();
+                  string numero = name.substr(1,2);
+                  int x = atoi(numero.c_str());
+                  _tabm-> atacarcasilla(x);
+               
+               }   
+            }
+            _selectedNode = NULL;
+            if(_tabm->barcoshundidos()==5){
             _estado="WIN";
             cout << "I win" <<endl;
           }
-
-        }
+          
+        }  
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
-          break;
+          //break;
         }else{
-          _tabj-> atacarcasilla(i);
+          _tabj-> atacarcasilla(55);
           if(_tabj->barcoshundidos()==5){
             _estado="LOSE";
             cout << "I LOSe" <<endl;
           }
         }
-      }
+      //}
       
   }
   // else if(_estado.compare("ATACANDO")==0){
   //   cout << _estado <<endl;
   // }
-
-  
-
   return true;
 }
 

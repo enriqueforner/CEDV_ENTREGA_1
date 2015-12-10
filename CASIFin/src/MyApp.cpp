@@ -239,6 +239,7 @@ void MyApp::createGUI()
   //               _framelistener));
   
 
+
   //CEGUI::ImageManager::getSingleton().addFromImageFile("SpaceBackgroundImage", "ojos-de-gato.jpg");
   CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 
