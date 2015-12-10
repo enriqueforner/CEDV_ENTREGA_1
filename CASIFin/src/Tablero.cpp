@@ -301,11 +301,17 @@ void Tablero::atacarcasilla(int id){
 		_casillasBarco = it->getIdCasillas();
 		for (it2 = _casillasBarco->begin(); it2 != _casillasBarco->end();++it2){
 			if(*it2 == id){
-				_casillas[d][u].setEstado("hundida");
-				// Cambiar material de la casilla (rojo)
-				mEntity= static_cast<Ogre::Entity *>(_casillas[d][u].getSN()->getAttachedObject(0));
-				mEntity->setMaterialName("MaterialRojo");
-				it->setDamage(it->getDamage()+1);
+				//if(_casillas[d][u].getEstado().compare("hundida")!=0){
+					_casillas[d][u].setEstado("hundida");
+					// Cambiar material de la casilla (rojo)
+					mEntity= static_cast<Ogre::Entity *>(_casillas[d][u].getSN()->getAttachedObject(0));
+					//if(mEntity->getSubEntity(0)->getMaterialName().compare("MaterialRojo")!=0){
+						mEntity->setMaterialName("MaterialRojo");
+						it->setDamage(it->getDamage()+1);	
+					//}
+					
+				//}
+				
 			}
 		}	
 	}	
@@ -918,7 +924,7 @@ int Tablero::barcoshundidos(){
 // 		int vposlugares[tipo];
 // 		int num;
 // 		num =rand()%(100);
-// 		int dir;
+// 		int dir;	
 // 		dir =rand()%(4);
 // 		int d = (num/10)%10;
 // 		int u = num%10;

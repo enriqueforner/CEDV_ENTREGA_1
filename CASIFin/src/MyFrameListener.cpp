@@ -37,6 +37,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   _estado = estado;
   _currentShip = 5;
   _primer3 = true;
+  
 
   win->getCustomAttribute("WINDOW", &windowHandle);
   wHandleStr << windowHandle;
@@ -120,7 +121,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         _selectedNode = itr->movable->getParentSceneNode();
         //_selectedNode->showBoundingBox(true);
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
-        cout << _selectedNode->getName()<< endl;
+        //cout << _selectedNode->getName()<< endl;
         if(_selectedNode->getName() != "ground"){
           if (_estado.compare("PONIENDOBARCOS")==0){
              mEntity->setMaterialName("MaterialVerde");
@@ -207,19 +208,32 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         }else{
           //_tabm->atacarcasilla(i);
             if (_selectedNode!= NULL && _selectedNode->getName().substr(0,1) != "J"){
-              cout <<  _selectedNode->getName().substr(0,1) << endl;
+               //cout <<  _selectedNode->getName().substr(0,1) << endl;
+              mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
+              if(mEntity->getSubEntity(0)->getMaterialName().compare("MaterialRojo")!=0){
                if(_selectedNode->getName() != "ground"){
                   string name = _selectedNode->getName();
                   string numero = name.substr(1,2);
                   int x = atoi(numero.c_str());
+                 
                   _tabm-> atacarcasilla(x);  
-               }   
+                 
+               } 
+              }  
             }
+
             _selectedNode = NULL;
+            cout << "barcos hundidos de M: "<<_tabm->barcoshundidos() <<endl;
+            std::vector<Barco>* barcos_M = _tabm->getBarcos();
+            std::vector<Barco>::iterator it;
+            for (it = barcos_M->begin(); it != barcos_M->end();++it){
+              cout << "damage barco"<< it->getTipo() << " : "<<it->getDamage() <<endl;  
+            }
+
             if(_tabm->barcoshundidos()==5){
-            _estado="WIN";
-            cout << "I win" <<endl;
-          }
+              _estado="WIN";
+              cout << "I win" <<endl;
+            }
 
         }  
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
@@ -267,6 +281,7 @@ bool MyFrameListener::mouseMoved(const OIS::MouseEvent& evt)
 
 bool MyFrameListener::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
+ 
   CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertMouseButton(id));
   return true;
 }

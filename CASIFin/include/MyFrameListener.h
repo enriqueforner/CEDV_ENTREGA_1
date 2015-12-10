@@ -46,6 +46,7 @@ private:
   int _currentShip;
 
   bool _primer3;
+ 
 
   Ogre::SceneManager *_sceneManager;
   string _estado;
