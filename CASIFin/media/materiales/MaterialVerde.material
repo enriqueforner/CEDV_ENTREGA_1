@@ -6,7 +6,7 @@ material MaterialVerde
 
     technique
     {
-        pass Material
+        pass MaterialVerde
         {
             ambient 0.13767722249031067 0.8000000715255737 0.12421129643917084 1.0
             diffuse 0.11014177963348892 0.640000066757203 0.09936903863205071 1.0

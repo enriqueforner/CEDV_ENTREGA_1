@@ -6,7 +6,7 @@ material MaterialNaranja
 
     technique
     {
-        pass Material
+        pass MaterialNaranja
         {
             ambient 0.8000000715255737 0.07790014147758484 0.0 1.0
             diffuse 0.8000000715255737 0.07790014147758484 0.0 1.0

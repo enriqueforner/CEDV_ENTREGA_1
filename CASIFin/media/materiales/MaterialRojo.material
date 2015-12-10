@@ -6,7 +6,7 @@ material MaterialRojo
 
     technique
     {
-        pass Material
+        pass MaterialRojo
         {
             ambient 0.8000000715255737 0.06148442625999451 0.0905599296092987 1.0
             diffuse 0.640000066757203 0.04918754174094708 0.07244794476699745 1.0

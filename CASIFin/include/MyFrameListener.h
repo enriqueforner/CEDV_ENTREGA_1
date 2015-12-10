@@ -46,8 +46,8 @@ private:
   int _currentShip;
 
   bool _primer3;
- 
 
+  bool _atacar;
   Ogre::SceneManager *_sceneManager;
   string _estado;
   Ogre::RaySceneQuery* mRayScnQuery;

@@ -51,7 +51,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
 
   _keyboard->setEventCallback(this);
   _mouse->setEventCallback(this);
-  
+  _atacar= false;
 }
 
 MyFrameListener::~MyFrameListener() {
@@ -68,7 +68,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   bool botomW;
   bool botomD;
   bool botomA;
-  bool _atacar= true;
+  
   CEGUI::System::getSingleton().getDefaultGUIContext().injectTimePulse(_timeSinceLastFrame);
 
   _mouse->capture();
@@ -201,7 +201,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       _selectedNode = NULL;
     }
   }
-  if (_estado.compare("ATACANDO") ==0 ){
+  if (_atacar && _estado.compare("ATACANDO") ==0 ){
+        bool noAtacada = false;
       //for (int i = 0; i <= 100; ++i){
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
           //break;
@@ -210,14 +211,16 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
             if (_selectedNode!= NULL && _selectedNode->getName().substr(0,1) != "J"){
                //cout <<  _selectedNode->getName().substr(0,1) << endl;
               mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
-              if(mEntity->getSubEntity(0)->getMaterialName().compare("MaterialRojo")!=0){
+              noAtacada =  mEntity->getSubEntity(0)->getMaterialName().compare("MaterialRojo")!=0 && mEntity->getSubEntity(0)->getMaterialName().compare("MaterialAgua")!=0;
+              cout << "Material: "<< mEntity->getSubEntity(0)->getMaterialName()<<endl;
+              if(noAtacada){
                if(_selectedNode->getName() != "ground"){
                   string name = _selectedNode->getName();
                   string numero = name.substr(1,2);
                   int x = atoi(numero.c_str());
                  
                   _tabm-> atacarcasilla(x);  
-                 
+                 cout << "Atacando YO" << endl;
                } 
               }  
             }
@@ -239,14 +242,17 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
           //break;
         }else{
-          _tabj-> atacarcasilla(55);
-          if(_tabj->barcoshundidos()==5){
-            _estado="LOSE";
-            cout << "I LOSe" <<endl;
+          if(noAtacada){
+            _tabj-> atacarcasilla(55);
+            cout << "Atacando maquina" << endl;
+            if(_tabj->barcoshundidos()==5){
+              _estado="LOSE";
+              cout << "I LOSe" <<endl;
+            }
           }
         }
       //}
-      
+      _atacar = false;
   }
   // else if(_estado.compare("ATACANDO")==0){
   //   cout << _estado <<endl;
@@ -276,13 +282,14 @@ bool MyFrameListener::keyReleased(const OIS::KeyEvent& evt)
 bool MyFrameListener::mouseMoved(const OIS::MouseEvent& evt)
 {
   CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(evt.state.X.rel, evt.state.Y.rel);  
+  
   return true;
 }
 
 bool MyFrameListener::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
 {
- 
   CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertMouseButton(id));
+  _atacar = true;
   return true;
 }
 

@@ -6,7 +6,7 @@ material MaterialAgua
 
     technique
     {
-        pass Material
+        pass MaterialAgua
         {
             ambient 0.06231627240777016 0.8000000715255737 0.7325555086135864 1.0
             diffuse 0.06231627240777016 0.8000000715255737 0.7325555086135864 1.0
