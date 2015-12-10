@@ -61,7 +61,7 @@ MyFrameListener::~MyFrameListener() {
 
 bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   _timeSinceLastFrame = evt.timeSinceLastFrame;
-  
+
   bool botomizq;
   bool botomS;
   bool botomW;
@@ -102,15 +102,15 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   //Ogre::Ray mouseRay = mCamera->getCameraToViewportRay(mousePos.d_x / float(me.state.width), mousePos.d_y / float(me.state.height));
   Ogre::Ray mouseRay = _camera->getCameraToViewportRay(mousePos.d_x/_win->getWidth(), mousePos.d_y/_win->getHeight());
   
-
-  if (botomizq && (_estado == "PONIENDOBARCOS" || _estado == "ATACANDO")) { // Variables y codigo especifico si es izquierdo
+  Ogre::Entity* mEntity;
+  if (botomizq && (_estado.compare("PONIENDOBARCOS")==0 || _estado.compare("ATACANDO")==0)) { // Variables y codigo especifico si es izquierdo
     //printf("Boton izquierdo\n");  
     mRayScnQuery->setRay(mouseRay);  //add rayo
     //mRayScnQuery->setSortByDistance(true); //ordenar por distancia
  
     Ogre::RaySceneQueryResult& result = mRayScnQuery->execute();  //obtener resultado
     Ogre::RaySceneQueryResult::iterator itr = result.begin();    //creo el iterador
-    Ogre::Entity* mEntity;
+    //Ogre::Entity* mEntity;
     //printf("Iterador creado\n");
     int i = 1;
 
@@ -122,7 +122,9 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
         cout << _selectedNode->getName()<< endl;
         if(_selectedNode->getName() != "ground"){
-          mEntity->setMaterialName("MaterialVerde");
+          if (_estado.compare("PONIENDOBARCOS")==0){
+             mEntity->setMaterialName("MaterialVerde");
+          }
         }
         i++;
     }
@@ -154,16 +156,14 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         if(_currentShip == 3 && _primer3)
           _primer3 = false;
         else
-          _currentShip --;
-        
+          _currentShip --;     
       }
       else if (botomW&&x>(9 + (_currentShip - 2)*10)){
         _tabj -> colocarbarcosJUGADOR(x,_currentShip,'W');  
         if(_currentShip == 3 && _primer3)
           _primer3 = false;
         else
-          _currentShip --;
-        
+          _currentShip --;  
       }
       else if (botomD&&(u < (11-_currentShip))){
         _tabj -> colocarbarcosJUGADOR(x,_currentShip,'D');  
@@ -179,7 +179,10 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         else
           _currentShip --;
       }
-
+      if(_selectedNode->getName() != "ground"){
+          mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
+          mEntity->setMaterialName("Material.001");
+      }
       if(_estado.compare("PONIENDOBARCOS") == 0 && _currentShip < 2){
         _estado = "ATACANDO";
       }
@@ -193,15 +196,14 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
           //break;
         }else{
-
           //_tabm->atacarcasilla(i);
-            if (_selectedNode!= NULL){
+            if (_selectedNode!= NULL && _selectedNode->getName().substr(0,1) != "J"){
+              cout <<  _selectedNode->getName().substr(0,1) << endl;
                if(_selectedNode->getName() != "ground"){
                   string name = _selectedNode->getName();
                   string numero = name.substr(1,2);
                   int x = atoi(numero.c_str());
-                  _tabm-> atacarcasilla(x);
-               
+                  _tabm-> atacarcasilla(x);  
                }   
             }
             _selectedNode = NULL;
@@ -209,7 +211,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
             _estado="WIN";
             cout << "I win" <<endl;
           }
-          
+
         }  
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
           //break;
