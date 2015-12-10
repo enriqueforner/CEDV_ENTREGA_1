@@ -145,6 +145,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     _empezarjuego = false;
   } 
   if(_estado.compare("PONIENDOBARCOS") == 0){
+    bool metido = false;
     if(_ponerbarco && _selectedNode != NULL){ 
       string name = _selectedNode->getName();
       string numero = name.substr(1,2);
@@ -152,32 +153,40 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       int d = (x/10)%10;
       int u = x%10;
       if (botomS&&x<(110 -_currentShip*10)){
-        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'S');  
-        if(_currentShip == 3 && _primer3)
-          _primer3 = false;
-        else
-          _currentShip --;     
+        metido = _tabj -> colocarbarcosJUGADOR(x,_currentShip,'S');  
+        if (metido){
+          if(_currentShip == 3 && _primer3)
+            _primer3 = false;
+          else
+            _currentShip --;
+        }         
       }
       else if (botomW&&x>(9 + (_currentShip - 2)*10)){
-        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'W');  
-        if(_currentShip == 3 && _primer3)
-          _primer3 = false;
-        else
-          _currentShip --;  
+        metido = _tabj -> colocarbarcosJUGADOR(x,_currentShip,'W');  
+        if(metido){
+          if(_currentShip == 3 && _primer3)
+            _primer3 = false;
+          else
+            _currentShip --;  
+        }
       }
       else if (botomD&&(u < (11-_currentShip))){
-        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'D');  
-        if(_currentShip == 3 && _primer3)
-          _primer3 = false;
-        else
-          _currentShip --;
+        metido = _tabj -> colocarbarcosJUGADOR(x,_currentShip,'D');  
+        if(metido){
+          if(_currentShip == 3 && _primer3)
+            _primer3 = false;
+          else
+            _currentShip --;
+        }  
       }
       else if (botomA&&(u > (_currentShip -2))){
-        _tabj -> colocarbarcosJUGADOR(x,_currentShip,'A'); 
-        if(_currentShip == 3 && _primer3)
-          _primer3 = false;
-        else
-          _currentShip --;
+        metido = _tabj -> colocarbarcosJUGADOR(x,_currentShip,'A'); 
+        if(metido){
+          if(_currentShip == 3 && _primer3)
+            _primer3 = false;
+          else
+            _currentShip --;
+        }  
       }
       if(_selectedNode->getName() != "ground"){
           mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));

@@ -31,7 +31,8 @@ std::vector<Barco>* Tablero::getBarcos(){
 	return _barcos;
 }
 
-void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
+bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
+  bool metido = false;
   int d = (id/10)%10;
   int u = id%10;
   Ogre::Entity* entab= _sceneManager->createEntity("Barco.mesh");
@@ -88,6 +89,7 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   		}
 
   if (meterbarco){
+  		metido = true;
   		ostringstream osA;
   		osA << tipobar << _casillas[d][u].getSN()->getName();
   		cout << osA.str() << "...Creado" <<endl;
@@ -169,7 +171,7 @@ void Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
 			}
   		}	
   	}
-  
+  return metido;
 }
 
 void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
