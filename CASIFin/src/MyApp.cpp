@@ -74,7 +74,8 @@ int MyApp::start() {
   bool repetir = true;
   std::vector<int> *v = new std::vector<int>;
   for (int i = 5; i > 1; --i){
-    tabm->colocarbarcos(i,v);
+    //tabm->colocarbarcos(i,v);
+    tabm->colocarbarcoQ(i,v);
     if (i == 3 && repetir){
         i++;
         repetir = false;

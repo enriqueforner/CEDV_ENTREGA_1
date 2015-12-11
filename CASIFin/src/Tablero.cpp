@@ -114,8 +114,7 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
 
-  				cout << d << endl;
-  				cout << u << endl;
+  				cout << d<<u << endl;
 
   				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
@@ -131,8 +130,7 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
 					
-  				cout << d << endl;
-  				cout << u << endl;
+  				cout << d<<u << endl;
 
   				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
@@ -147,8 +145,7 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
 
-  				cout << d << endl;
-  				cout << u << endl;
+  				cout << d<<u << endl;;
 
   				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
@@ -163,8 +160,8 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
 				int d = (nuevonum/10)%10;
   				int u = nuevonum%10;
 				
-				cout << d << endl;
-  				cout << u << endl;
+				cout << d<<u << endl;
+  				
   				bar->addCasilla(nuevonum);
 				_casillas[d][u].setBarco(bar);
 				nuevonum = nuevonum -1;
@@ -173,7 +170,7 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   	}
   return metido;
 }
-
+/*Este coloca los barcos de la maquina*/
 void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 
 	srand(time(NULL));
@@ -327,7 +324,7 @@ void Tablero::atacarcasilla(int id){
 }
 
 
-void Tablero::colocarbarco(int ship_type, std::vector<int> *v){ 
+void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){ 
 	//int ship_type = 5; //5,4,3,3,2
 	//std::vector<int> *v = new std::vector<int>; //casillas que ya tienen barco
 	vector<int>::iterator it;
@@ -354,7 +351,7 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 	int comp_left = 0;
 	int comp_right = 0;
 
-
+	int choice = 0;
 	//for(int i=ship_type; i>1; i--){
 
 		//up = false;
@@ -379,8 +376,8 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 		if(!(std::find(v->begin(), v->end(), num) != v->end())){
 			//Si la casilla no tiene barco, podemos empezar 
 
-			comp_up = num_tens + (ship_type - 1);
-			comp_down = num_tens - (ship_type - 1);
+			comp_down = num_tens + (ship_type - 1);
+			comp_up = num_tens - (ship_type - 1);
 			comp_left = num_units - (ship_type - 1);
 			comp_right = num_units + (ship_type - 1);
 
@@ -389,6 +386,18 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 			cout << "comp_left: " << comp_left << endl;
 			cout << "comp_right: " << comp_right << endl;
 
+			if((comp_up >= 0 || comp_down <= 9)&&(comp_left >= 0 || comp_right <= 9)){ //si se puede en vertical y en horizontal
+				choice = rand()%(2);	
+				cout << "se puede en los 2. Choice es: "<<choice<<endl;
+			}
+			else if(comp_up >= 0 || comp_down <= 9){ //si se puede solo en vertical
+				choice = 0;
+			}
+			else if(comp_left >= 0 || comp_right <= 9){ //si se puede solo en horizontal
+				choice = 1;
+			}
+			
+			cout << "CHOICE: "<<choice<<endl;
 
 			/*Metemos la casilla elegida en los vectores de casillas de las 4 direcciones
 			cas_down.push_back(_casillas[num_tens][num_units].getId());
@@ -398,13 +407,13 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 
 			int iden = 0;
 			int n = 0;
-			if(comp_up < 9){
+			if(comp_up >= 0 && choice==0){
 				//De momento, para arriba se puede
 				//Comprobamos que no haya barco en las casillas de arriba
 				n = num;
 				cout << "primer if: Arriba " << endl;
 
-				for(int i=num_tens; i<=comp_up; i++){
+				for(int i=num_tens; i<=comp_up; i--){
 
 					//iden = _casillas[i][num_units].getId();
 					iden = n;
@@ -412,7 +421,7 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 					if(!(std::find(v->begin(), v->end(), n) != v->end())){
 						cas_up.push_back(iden);
 						cout << " ID CASILLA: " << iden << endl;
-						n = n + 10;
+						n = n - 10;
 					}
 					else{
 						up = false;
@@ -424,21 +433,21 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 				
 			}
 			 
-			else if(comp_down > 0){
+			if(comp_down <= 9 && choice==0){
 				n = num;
 				//De momento, para abajo se puede
 				//Comprobamos que no haya barco en las casillas de abajo
 
 				cout << "segundo if: Abajo " << endl;
 
-				for(int i=num_tens; i>=comp_down; i--){
+				for(int i=num_tens; i<=comp_down; i++){
 					//iden = _casillas[i][num_units].getId();
 					iden = n;
 					//if(_casillas[i][num_units].getBarco() == NULL)
 					if(!(std::find(v->begin(), v->end(), n) != v->end())){
 						cas_down.push_back(iden);
 						cout << " ID CASILLA: " << iden << endl;
-						n = n - 10;
+						n = n + 10;
 					}
 					else{
 						down = false;
@@ -450,14 +459,14 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 
 			}
 			
-			else if(comp_left > 0){
+			if(comp_left >= 0 &&choice==1){
 				n = num;
 				//De momento, a la izquierda se puede
 				//Comprobamos que no haya barco en las casillas de la izquierda
 
 				cout << "tercer if: Izquierda " << endl;
 
-				for(int i=num_units; i<=comp_left; i--){
+				for(int i=num_units; i>=comp_left; i--){
 					//iden = _casillas[num_tens][i].getId();
 					iden = n;
 					//if(_casillas[num_tens][i].getBarco() == NULL)
@@ -475,14 +484,14 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 				}
 			}
 			
-			else if(comp_right < 9){
+			if(comp_right <= 9 && choice==1){
 				n = num;
 				//De momento, a la derecha se puede
 				//Comprobamos que no haya barco en las casillas de la derecha
 				
 				cout << "cuarto if: Derecha " << endl;
 
-				for(int i=num_units; i>=comp_right; i++){
+				for(int i=num_units; i<=comp_right; i++){
 					//iden = _casillas[num_tens][i].getId();
 					iden = n;
 					//if(_casillas[num_tens][i].getBarco() == NULL)
@@ -499,19 +508,50 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 					right = true;	
 				}
 			}
+			cout<<"u: "<<up<<" r: "<<right<<" d: "<<down<<" l: "<<left<<endl;
 
 			if(up || right || down || left){
-				Barco *bm = new Barco(ship_type);
-				_barcos->push_back(*bm);
+				cout<<"En algun lado se puede poner-> u: "<<up<<" r: "<<right<<" d: "<<down<<" l: "<<left<<endl;
 
 				int t = num_tens;
 				int u = num_units;
 			
 				n = num;
+				
+				Ogre::Entity* entab= _sceneManager->createEntity("Barco.mesh");
+ 				
+ 				if (ship_type==2 || ship_type ==3){
+  					 entab = _sceneManager->createEntity("Barco.mesh");
+  				}
+  				else{
+  					 entab = _sceneManager->createEntity("BarcoP2B.mesh");
+  				}
+
+
+  				ostringstream osA;
+  				osA <<"BAR"<< ship_type << _casillas[t][u].getSN()->getName();
+  				cout << osA.str() << "...Creado" <<endl;
+  				Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
+  				entab->setMaterialName("Materialbarco");
+  				entab->setVisible(true);
+  				nodeb->attachObject(entab);
+  				Barco *bm = new Barco(ship_type, nodeb);
+  				
+  		
+  				if(ship_type==2)nodeb-> scale(0.4,0.4,0.35);
+		  		if(ship_type==3)nodeb-> scale(0.55,0.55,0.45);
+		  		if(ship_type==4)nodeb-> scale(0.75,0.75,0.50);
+		  		if(ship_type==5)nodeb-> scale(0.95,0.95,0.55);
+		  		nodeb-> setPosition(0.5,2.5,0);
+				
+				_barcos->push_back(*bm);
+
+				
 				cout << "up: " << up << endl;
 				cout << "down: " << down << endl;
 				cout << "left: " << left << endl;
 				cout << "right: " << right << endl;	
+
 
 				for (int i = 0; i < ship_type; ++i){
 					_casillas[t][u].setBarco(bm);
@@ -529,268 +569,10 @@ void Tablero::colocarbarco(int ship_type, std::vector<int> *v){
 
 					//cout << "Meter "<< n << "J  " << ship_type <<endl;
 
-					if(up){
+					if(up && choice ==0){
 						bm->addCasilla(cas_up[i]);
 						cout << "Metido "<< cas_up[i] << "J  " << ship_type <<endl;
-						t = t +1;
-						n = n +10;
-					}
-					
-					else if(right){
-						bm->addCasilla(cas_right[i]);
-						cout << "Metido "<< cas_right[i] << "J  " << ship_type <<endl;
-						u = u + 1;
-						n = n +1;
-					}
-					
-					else if(down){
-						bm->addCasilla(cas_down[i]);
-						cout << "Metido "<< cas_down[i] << "J  " << ship_type <<endl;
-						t = t - 1;
-						n = n -10;
-					}
-					
-					else if(left){
-						bm->addCasilla(cas_left[i]);	
-						cout << "Metido "<< cas_left[i] << "J  " << ship_type <<endl;
-						u = u - 1;
-						n = n -1;
-					}		
-
-				}
-
-				std::vector<int> *cas_bar;
-
-				cas_bar = bm->getIdCasillas();
-			
-
-				cout << "lista de casillas del barco "<< ship_type << endl;
-				for(int j=0;j<ship_type;j++){
-					cout << cas_bar->at(j) << endl;
-				}
-				put = true;
-			}
-			
-		}
-
-		else{
-			put = false;
-		}
-		
-	}		
-		
-		
-}
-
-
-
-
-void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){ 
-	//int ship_type = 5; //5,4,3,3,2
-	//std::vector<int> *v = new std::vector<int>; //casillas que ya tienen barco
-	vector<int>::iterator it;
-	//bool primer3 = true; //es el primer barco de tipo 3 que se introduce
-	srand(time(NULL));
-
-	int num = 0;
-	int num_tens = (num/10)%10;
-	int num_units = num%10;
-
-	std::vector<int> cas_up; //casillas del barco posicion arriba
-	std::vector<int> cas_right; //casillas del barco posicion derecha
-	std::vector<int> cas_down; //casillas del barco posicion abajo 
-	std::vector<int> cas_left; //casillas del barco posicion izquierda
-
-	bool up = false;
-	bool right = false;
-	bool down = false;
-	bool left = false;
-	bool put = false;
-
-	int comp_up = 0;
-	int comp_down = 0;
-	int comp_left = 0;
-	int comp_right = 0;
-
-
-	//for(int i=ship_type; i>1; i--){
-
-		//up = false;
-	    //right = false;
-		//down = false;
-		//left = false;
-
-		/*if(i ==3 && primer){
-			primer = false;
-		}*/
-	while(!put){
-		num =rand()%(100);
-		num_tens = (num/10)%10;
-		num_units = num%10;
-
-		cout << "size: " << ship_type << endl;
-		cout << "NUM: " << num << endl;
-		cout << "tens: " << num_tens << endl;
-		cout << "units: " << num_units << endl;
-
-		//if(_casillas[num_tens][num_units].getBarco() == NULL){
-		if(!(std::find(v->begin(), v->end(), num) != v->end())){
-			//Si la casilla no tiene barco, podemos empezar 
-
-			comp_up = num_tens + (ship_type - 1);
-			comp_down = num_tens - (ship_type - 1);
-			comp_left = num_units - (ship_type - 1);
-			comp_right = num_units + (ship_type - 1);
-
-			cout << "comp_up: " << comp_up << endl;
-			cout << "comp_down: " << comp_down << endl;
-			cout << "comp_left: " << comp_left << endl;
-			cout << "comp_right: " << comp_right << endl;
-
-
-			/*Metemos la casilla elegida en los vectores de casillas de las 4 direcciones
-			cas_down.push_back(_casillas[num_tens][num_units].getId());
-			cas_up.push_back(_casillas[num_tens][num_units].getId());
-			cas_left.push_back(_casillas[num_tens][num_units].getId());
-			cas_right.push_back(_casillas[num_tens][num_units].getId());*/
-
-			int iden = 0;
-			int n = 0;
-			if(comp_up < 9){
-				//De momento, para arriba se puede
-				//Comprobamos que no haya barco en las casillas de arriba
-				n = num;
-				cout << "primer if: Arriba " << endl;
-
-				for(int i=num_tens; i<=comp_up; i++){
-
-					//iden = _casillas[i][num_units].getId();
-					iden = n;
-					//if(_casillas[i][num_units].getBarco() == NULL)
-					if(!(std::find(v->begin(), v->end(), n) != v->end())){
-						cas_up.push_back(iden);
-						cout << " ID CASILLA: " << iden << endl;
-						n = n + 10;
-					}
-					else{
-						up = false;
-						cas_up.clear();
-						break;
-					}	
-					up = true;
-				}
-				
-			}
-			 
-			else if(comp_down > 0){
-				n = num;
-				//De momento, para abajo se puede
-				//Comprobamos que no haya barco en las casillas de abajo
-
-				cout << "segundo if: Abajo " << endl;
-
-				for(int i=num_tens; i>=comp_down; i--){
-					//iden = _casillas[i][num_units].getId();
-					iden = n;
-					//if(_casillas[i][num_units].getBarco() == NULL)
-					if(!(std::find(v->begin(), v->end(), n) != v->end())){
-						cas_down.push_back(iden);
-						cout << " ID CASILLA: " << iden << endl;
-						n = n - 10;
-					}
-					else{
-						down = false;
-						cas_down.clear();
-						break;
-					}
-					down = true;	
-				}
-
-			}
-			
-			else if(comp_left > 0){
-				n = num;
-				//De momento, a la izquierda se puede
-				//Comprobamos que no haya barco en las casillas de la izquierda
-
-				cout << "tercer if: Izquierda " << endl;
-
-				for(int i=num_units; i<=comp_left; i--){
-					//iden = _casillas[num_tens][i].getId();
-					iden = n;
-					//if(_casillas[num_tens][i].getBarco() == NULL)
-					if(!(std::find(v->begin(), v->end(), n) != v->end())){
-						cas_left.push_back(iden);
-						cout << " ID CASILLA: " << iden << endl;
-						n = n - 1;
-					}
-					else{
-						left = false;
-						cas_left.clear();
-						break;
-					}
-					left = true;	
-				}
-			}
-			
-			else if(comp_right < 9){
-				n = num;
-				//De momento, a la derecha se puede
-				//Comprobamos que no haya barco en las casillas de la derecha
-				
-				cout << "cuarto if: Derecha " << endl;
-
-				for(int i=num_units; i>=comp_right; i++){
-					//iden = _casillas[num_tens][i].getId();
-					iden = n;
-					//if(_casillas[num_tens][i].getBarco() == NULL)
-					if(!(std::find(v->begin(), v->end(), n) != v->end())){
-						cas_right.push_back(iden);
-						cout << " ID CASILLA: " << iden << endl;
-						n = n + 1;
-					}
-					else{
-						right = false;
-						cas_right.clear();
-						break;
-					}
-					right = true;	
-				}
-			}
-
-			if(up || right || down || left){
-				Barco *bm = new Barco(ship_type);
-				_barcos->push_back(*bm);
-
-				int t = num_tens;
-				int u = num_units;
-			
-				n = num;
-				cout << "up: " << up << endl;
-				cout << "down: " << down << endl;
-				cout << "left: " << left << endl;
-				cout << "right: " << right << endl;	
-
-				for (int i = 0; i < ship_type; ++i){
-					_casillas[t][u].setBarco(bm);
-					//cout << _casillas[t][u].getId()<< "J  " << ship_type <<endl;
-					cout << t << u << "J  " << ship_type <<endl;
-					/*cout << _casillas[t-1][u].getId()<< "J  " << ship_type <<endl;
-					cout << _casillas[t-2][u].getId()<< "J  " << ship_type <<endl;
-					cout << _casillas[t-3][u].getId()<< "J  " << ship_type <<endl;
-					cout << _casillas[t-4][u].getId()<< "J  " << ship_type <<endl;
-					*/
-					
-					v->push_back(n);
-
-					cout << " t: "<< t << " u: " << u << endl;
-
-					//cout << "Meter "<< n << "J  " << ship_type <<endl;
-
-					if(up){
-						bm->addCasilla(cas_up[i]);
-						cout << "Metido "<< cas_up[i] << "J  " << ship_type <<endl;
-						
+						/*
 						//Meto tambien como "con barco" la zona de seguridad
 						if(u >0)
 							v->push_back(n-1);
@@ -814,16 +596,16 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 							v->push_back(n-11);
 							if(u <9)
 								v->push_back(n-9);
-
-						t = t +1;
-						n = n +10;
+						*/
+						t = t -1;
+						n = n -10;
 	
 					}
 					
-					else if(right){
+					else if(right && choice ==1){
 						bm->addCasilla(cas_right[i]);
 						cout << "Metido "<< cas_right[i] << "J  " << ship_type <<endl;
-						
+						/*
 						//Meto tambien como "con barco" la zona de seguridad
 						if(u >0)
 							v->push_back(n-1);
@@ -834,7 +616,7 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 						if(i == ship_type -1)
 							if(u < 9)
 								v->push_back(n+1);
-
+						*/
 
 						u = u + 1;
 						n = n +1;
@@ -842,10 +624,10 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 						
 					}
 					
-					else if(down){
+					else if(down && choice==0){
 						bm->addCasilla(cas_down[i]);
 						cout << "Metido "<< cas_down[i] << "J  " << ship_type <<endl;
-						
+						/*
 						//Meto tambien como "con barco" la zona de seguridad
 						if(u >0)
 							v->push_back(n-1);
@@ -856,18 +638,18 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 						if(i == ship_type -1)
 							if(t > 0)
 								v->push_back(n-10);
+						*/
 
-
-						t = t - 1;
-						n = n -10;
+						t = t + 1;
+						n = n +10;
 
 						
 					}
 					
-					else if(left){
+					else if(left && choice==1){
 						bm->addCasilla(cas_left[i]);	
 						cout << "Metido "<< cas_left[i] << "J  " << ship_type <<endl;
-						
+						/*
 						//Meto tambien como "con barco" la zona de seguridad
 						if(u <9)
 							v->push_back(n+1);
@@ -879,7 +661,7 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 							if(u >0)
 								v->push_back(n-1);
 
-
+						*/
 						u = u - 1;
 						n = n -1;
 
@@ -897,6 +679,10 @@ void Tablero::colocarbarcoSeguridad(int ship_type, std::vector<int> *v){
 				for(int j=0;j<ship_type;j++){
 					cout << cas_bar->at(j) << endl;
 				}
+				bm->setDamage(0);
+				cout << "Damage del barco: " << bm->getDamage() << endl;
+				cout << "Entidad del barco: " << bm->getSN()->getAttachedObject(0)->getName()<<endl;
+				cout << "SceneNode del barco: " << bm->getSN()->getName()<<endl;
 				put = true;
 			}
 			
@@ -923,87 +709,5 @@ int Tablero::barcoshundidos(){
 	return res;
 }
 
-// void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
 
-// 	srand(time(NULL));
-// 	int vdir[4] = {-1*(tipo-1),1*(tipo-1),10*(tipo-1),-10*(tipo-1)};
-// 	vector<int>::iterator it;
-// 	bool meterbarco=true;
-// 	bool salir = true;
-// 	while(salir){
-// 		int vposlugares[tipo];
-// 		int num;
-// 		num =rand()%(100);
-// 		int dir;	
-// 		dir =rand()%(4);
-// 		int d = (num/10)%10;
-// 		int u = num%10;
-// 		meterbarco=true;
-// 		if (vdir[dir]==-1*(tipo-1)){
-// 			int nuevonum = num;
-// 			for (int i = 0; i < tipo; ++i){
-// 				vposlugares[i] = nuevonum;
-// 				nuevonum = nuevonum -1;
-// 			}
-// 		}	
-// 		if (vdir[dir]==1*(tipo-1)){
-// 			int nuevonum = num;
-// 			for (int i = 0; i < tipo; ++i){
-// 				vposlugares[i] = nuevonum;
-// 				nuevonum = nuevonum +1;
-// 			}
-// 		}
-// 		if (vdir[dir]==-10*(tipo-1)){
-// 			int nuevonum = num;
-// 			for (int i = 0; i < tipo; ++i){
-// 				vposlugares[i] = nuevonum;
-// 				nuevonum = nuevonum -10;
-// 			}
-// 		}
-// 		if (vdir[dir]==10*(tipo-1)){
-// 			int nuevonum = num;
-// 			for (int i = 0; i < tipo; ++i){
-// 				vposlugares[i] = nuevonum;
-// 				nuevonum = nuevonum +10;
-// 			}
-// 		}
-// 		for (int i = 0; i < tipo; ++i){
-// 			for (it = v->begin(); it != v->end();++it){
-// 				if (*it==vposlugares[i]){
-// 					meterbarco=false;
-// 				}
-// 			}
-// 		}
-// 		if(meterbarco){
-// 			if(vdir[dir]==-10*(tipo-1)){		
-// 				if((d-(tipo-1)) < 0)meterbarco=false;
-// 			}
-// 			if(vdir[dir]==10*(tipo-1)){
-// 				if((d+(tipo-1)) > 9)meterbarco=false;			
-// 			}
-// 			if(vdir[dir]==-1*(tipo-1)){
-// 				if((u-(tipo-1)) < 0)meterbarco=false;		
-// 			}
-// 			if(vdir[dir]==1*(tipo-1)){
-// 				if((u+(tipo-1)) > 9)meterbarco=false; 
-// 			}
-// 		}	
-// 		if (meterbarco){
-// 			Barco *bm = new Barco(tipo);
-// 			_barcos->push_back(*bm);
-// 			for (int i = 0; i < tipo; ++i){
-// 				int nummeter = vposlugares[i];
-// 				int d = (nummeter/10)%10;
-// 				int u = nummeter%10;
-// 				_casillas[d][u].setBarco(bm);
-// 				cout << _casillas[d][u].getId()<< "J  " << tipo <<endl;
-// 				bm->addCasilla(nummeter);
-// 				v->push_back(nummeter);
-// 			}
-			
-// 			salir = false;
-// 		}
-// 		srand(time(NULL));	
-	
-// 	}
-// }
+
