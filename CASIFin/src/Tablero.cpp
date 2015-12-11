@@ -253,9 +253,9 @@ void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
   			cout << osA.str() << "...Creado" <<endl;
   			Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
   			nodeb->attachObject(entab);
-  			entab-> setMaterialName("Materialbarco");
+  			entab-> setMaterialName("MaterialRojo");
   			_casillas[d][u].getSN()-> addChild(nodeb);
-
+  			nodeb -> setVisible(false);
   			if(tipo==2)nodeb-> scale(0.4,0.4,0.35);
   			else if(tipo==3)nodeb-> scale(0.55,0.55,0.45);
   			else if(tipo==4)nodeb-> scale(0.75,0.75,0.50);
@@ -908,6 +908,7 @@ int Tablero::barcoshundidos(){
 	for (it = _barcos->begin(); it != _barcos->end();++it){
  		if (it->getDamage()==it->getTipo()){
 			res ++;
+			it->getSN()->setVisible(true);
 		}
 	}
 	return res;
