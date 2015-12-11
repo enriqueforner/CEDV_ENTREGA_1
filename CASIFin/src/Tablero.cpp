@@ -306,8 +306,17 @@ void Tablero::atacarcasilla(int id){
 					// Cambiar material de la casilla (rojo)
 					mEntity= static_cast<Ogre::Entity *>(_casillas[d][u].getSN()->getAttachedObject(0));
 					//if(mEntity->getSubEntity(0)->getMaterialName().compare("MaterialRojo")!=0){
-						mEntity->setMaterialName("MaterialRojo");
-						it->setDamage(it->getDamage()+1);	
+					mEntity->setMaterialName("MaterialRojo");
+					it->setDamage(it->getDamage()+1);	
+					if (it->getTipo()> it->getDamage()){
+						Ogre::Entity * mEntitybarco;
+						mEntitybarco= static_cast<Ogre::Entity *>(it->getSN()->getAttachedObject(0));
+						mEntitybarco->setMaterialName("MaterialNaranja");
+					} else if(it->getTipo() <= it->getDamage()){
+						Ogre::Entity * mEntitybarco;
+						mEntitybarco= static_cast<Ogre::Entity *>(it->getSN()->getAttachedObject(0));
+						mEntitybarco->setMaterialName("MaterialRojo");
+					}
 					//}
 					
 				//}
