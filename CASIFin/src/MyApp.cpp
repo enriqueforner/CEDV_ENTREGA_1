@@ -63,6 +63,7 @@ int MyApp::start() {
   Ogre::SceneNode* node1Bajo = _sceneManager->createSceneNode("NodoReyBajo");
   Ogre::SceneNode* node1Alto = _sceneManager->createSceneNode("NodoReyAlto");
   
+  
   //node1Bajo->attachObject(ent1);
   //node1Alto -> attachObject(ent2);
   _sceneManager->getRootSceneNode()->addChild(node1Bajo);
@@ -80,7 +81,7 @@ int MyApp::start() {
     }
   }
   
-  _framelistener = new MyFrameListener(window, cam, tabj, tabm, scena, _sceneManager,"PONIENDOBARCOS");
+  _framelistener = new MyFrameListener(window, cam, tabj, tabm, scena, _sceneManager,"INTRO");
   _root->addFrameListener(_framelistener);
   createGUI();
 
@@ -222,24 +223,26 @@ void MyApp::createGUI()
   //Sheet
   CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Ex1/Sheet");
 
-  // CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
+  CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
   // //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
 
-  // sheet->addChild(vent);
+  sheet->addChild(vent);
 
-  // CEGUI::Window* exitButton = vent->getChild("ExitButton");
-  // exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-  //         CEGUI::Event::Subscriber(&MyFrameListener::quit, 
-  //               _framelistener));
+  CEGUI::Window* exitButton = vent->getChild("ExitButton");
+  exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&MyFrameListener::quit, 
+                _framelistener));
 
-  // CEGUI::Window* playButton = vent->getChild("PlayButton");
-  // playButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-  //         CEGUI::Event::Subscriber(&MyFrameListener::play, 
-  //               _framelistener));
+  CEGUI::Window* playButton = vent->getChild("PlayButton");
+  playButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&MyFrameListener::play, 
+                _framelistener));
   
-
-
+  vent->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25f,0),CEGUI::UDim(0.10f,0)));
+  //const CEGUI::UVector2 vect(CEGUI::UDim(0.06, 0.0), CEGUI::UDim(0.03, 0.0));
+  
+  //vent->setSize(CEGUI::UDim(0.25f,0));
   //CEGUI::ImageManager::getSingleton().addFromImageFile("SpaceBackgroundImage", "ojos-de-gato.jpg");
   CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 

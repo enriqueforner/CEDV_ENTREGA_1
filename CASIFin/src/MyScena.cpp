@@ -106,6 +106,10 @@ void MyScena::creartablero(){
   node3 -> pitch(Ogre::Degree(45));
   _sceneManager->getRootSceneNode()->addChild(node3);
 
+
+  //_nodoalto -> setVisible(false,true);
+  _nodobajo -> setVisible(false,true);
+
   // Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
   // Ogre::SceneNode* nodeb = _sceneManager->createSceneNode("barquito");
   // entab->setMaterialName("Materialbarco");

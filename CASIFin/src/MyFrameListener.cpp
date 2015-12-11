@@ -338,7 +338,16 @@ bool MyFrameListener::quit(const CEGUI::EventArgs &e)
 
 bool MyFrameListener::play(const CEGUI::EventArgs &e)
 {
-  _scena -> creartablero();
+  CEGUI::Window *sheet=  CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
+  sheet -> setVisible(false);
+
+  //Ogre::SceneNode *nra =_sceneManager-> getSceneNode("NodoReyAlto");
+  //nra -> setVisible(true,true);
+  
+  Ogre::SceneNode *nrb =_sceneManager-> getSceneNode("NodoReyBajo");
+  nrb -> setVisible(true,true);
+  
+  // _scena -> creartablero();
   // bool repetir = true;
   // std::vector<int> *v = new std::vector<int>;
   // for (int i = 5; i > 1; --i){
@@ -349,6 +358,7 @@ bool MyFrameListener::play(const CEGUI::EventArgs &e)
   //   }
   // }
   _empezarjuego = true;
+  
   return true;
 }
 
