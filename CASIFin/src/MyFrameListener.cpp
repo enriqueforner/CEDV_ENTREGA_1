@@ -105,6 +105,13 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   
   Ogre::Entity* mEntity;
   if (botomizq && (_estado.compare("PONIENDOBARCOS")==0 || _estado.compare("ATACANDO")==0)) { // Variables y codigo especifico si es izquierdo
+    
+    if(_selectedNode!= NULL){
+        mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
+        mEntity->setMaterialName("Material.001");
+        _selectedNode = NULL;
+    }
+
     //printf("Boton izquierdo\n");  
     mRayScnQuery->setRay(mouseRay);  //add rayo
     //mRayScnQuery->setSortByDistance(true); //ordenar por distancia
