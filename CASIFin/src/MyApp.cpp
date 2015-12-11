@@ -58,17 +58,17 @@ int MyApp::start() {
   Tablero *tabj = new Tablero('J',_sceneManager);
   Tablero *tabm = new Tablero('M',_sceneManager);
   
-  Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
-  Ogre::Entity* ent2 = _sceneManager->createEntity("Cube.mesh");
+  //Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
+  //Ogre::Entity* ent2 = _sceneManager->createEntity("Cube.mesh");
   Ogre::SceneNode* node1Bajo = _sceneManager->createSceneNode("NodoReyBajo");
   Ogre::SceneNode* node1Alto = _sceneManager->createSceneNode("NodoReyAlto");
   
-  node1Bajo->attachObject(ent1);
-  node1Alto -> attachObject(ent2);
+  //node1Bajo->attachObject(ent1);
+  //node1Alto -> attachObject(ent2);
   _sceneManager->getRootSceneNode()->addChild(node1Bajo);
   _sceneManager->getRootSceneNode()->addChild(node1Alto);
 
-  MyScena *scena = new MyScena(node1Bajo,node1Alto,_sceneManager, tabj, tabm);
+  MyScena *scena = new MyScena(node1Alto,node1Bajo,_sceneManager, tabj, tabm);
   scena -> creartablero();
   bool repetir = true;
   std::vector<int> *v = new std::vector<int>;

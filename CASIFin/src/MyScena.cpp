@@ -24,7 +24,7 @@ void MyScena::creartablero(){
   _nodoalto -> setPosition(3.2,24,55);
   _nodoalto -> yaw(Ogre::Degree(2.4));
   _nodoalto -> pitch(Ogre::Degree(45));
- 
+  //_nodoalto-> setVisible(false,false);
   //node1Alto -> roll(Ogre::Degree(45));
   // add two lights
   Ogre::Light* light1 = _sceneManager->createLight();

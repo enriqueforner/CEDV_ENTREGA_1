@@ -106,12 +106,11 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   Ogre::Entity* mEntity;
   if (botomizq && (_estado.compare("PONIENDOBARCOS")==0 || _estado.compare("ATACANDO")==0)) { // Variables y codigo especifico si es izquierdo
     
-    if(_selectedNode!= NULL){
+    if(_selectedNode!= NULL && (_estado.compare("PONIENDOBARCOS")==0 ) && _selectedNode->getName().compare("ground") != 0 && _selectedNode->getName().substr(0,1) != "B"  ){
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
         mEntity->setMaterialName("Material.001");
-        _selectedNode = NULL;
+        _selectedNode = NULL;  
     }
-
     //printf("Boton izquierdo\n");  
     mRayScnQuery->setRay(mouseRay);  //add rayo
     //mRayScnQuery->setSortByDistance(true); //ordenar por distancia
@@ -129,9 +128,13 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         //_selectedNode->showBoundingBox(true);
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
         //cout << _selectedNode->getName()<< endl;
-        if(_selectedNode->getName() != "ground"){
-          if (_estado.compare("PONIENDOBARCOS")==0){
-             mEntity->setMaterialName("MaterialVerde");
+        if(_selectedNode->getName() != "ground" ){
+          if (_selectedNode->getName().substr(0,1) == "J"){
+            if(_estado.compare("PONIENDOBARCOS")==0 )
+               mEntity->setMaterialName("MaterialVerde");
+          }else {
+            if(_estado.compare("PONIENDOBARCOS")==0 || _selectedNode->getName().substr(0,1) == "B" )
+              _selectedNode = NULL;
           }
         }
         i++;

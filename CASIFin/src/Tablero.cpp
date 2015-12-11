@@ -91,7 +91,7 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   if (meterbarco){
   		metido = true;
   		ostringstream osA;
-  		osA << tipobar << _casillas[d][u].getSN()->getName();
+  		osA <<"BAR"<< tipobar << _casillas[d][u].getSN()->getName();
   		cout << osA.str() << "...Creado" <<endl;
   		Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
   		entab->setMaterialName("Materialbarco");
@@ -249,7 +249,7 @@ void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
   			ostringstream osA;
   			int d = (vposlugares[0]/10)%10;
 			int u = vposlugares[0]%10;
-  			osA << tipo << _casillas[d][u].getSN()->getName();
+  			osA <<"BAR"<< tipo << _casillas[d][u].getSN()->getName();
   			cout << osA.str() << "...Creado" <<endl;
   			Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
   			nodeb->attachObject(entab);
