@@ -245,6 +245,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
             if(_tabm->barcoshundidos()==5){
               _estado="WIN";
+              victoria();
               cout << "I win" <<endl;
             }
 
@@ -258,6 +259,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
             cout << "Atacando maquina" << endl;
             if(_tabj->barcoshundidos()==5){
               _estado="LOSE";
+              derrota();
               cout << "I LOSe" <<endl;
             }
           }
@@ -376,6 +378,36 @@ bool MyFrameListener::ranking(const CEGUI::EventArgs &e)
   return true;
 }
 
+void MyFrameListener::derrota(){
+    CEGUI::Window *sheet=  CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
+    CEGUI::Window *img = sheet->getChild("ventimagen");
+    CEGUI::Window *imgV = sheet->getChild("ventimagenVict");
+    CEGUI::Window *imgInicial = sheet->getChild("imageninicial");
+    CEGUI::Window *menuinicial = sheet->getChild("MenuInicial");
+    //CEGUI::Window *derrota = img->getChild("DerrotaL");
+    
+    sheet -> setVisible(true);
+    menuinicial -> setVisible(false);
+    img -> setVisible(true);
+    imgInicial-> setVisible(false);
+    imgV-> setVisible(false);
+    //derrota -> setVisible(true);
+
+}
+void MyFrameListener::victoria(){
+    CEGUI::Window *sheet=  CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
+    CEGUI::Window *img = sheet->getChild("ventimagen");
+    CEGUI::Window *imgV = sheet->getChild("ventimagenVict");
+    CEGUI::Window *imgInicial = sheet->getChild("imageninicial");
+    CEGUI::Window *menuinicial = sheet->getChild("MenuInicial");
+    //CEGUI::Window *derrota = img->getChild("DerrotaL");
+    
+    sheet -> setVisible(true);
+    menuinicial -> setVisible(false);
+    img -> setVisible(false);
+    imgInicial-> setVisible(false);
+    imgV-> setVisible(true);
+}
 //Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
 Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
   /*Ray rayMouse = _camera->getCameraToViewportRay

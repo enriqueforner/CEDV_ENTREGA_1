@@ -223,13 +223,43 @@ void MyApp::createGUI()
   
   //Sheet
   CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Ex1/Sheet");
+  CEGUI::Window* img = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage","ventimagen");
+  CEGUI::Window* imgV = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage","ventimagenVict");
+  CEGUI::Window* imgInicio = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage","imageninicial");
+  
+  CEGUI::ImageManager::getSingleton().addFromImageFile("DerrotaDer","derrota.png");
+  CEGUI::ImageManager::getSingleton().addFromImageFile("VictoriaVic","victoria.png");
+  CEGUI::ImageManager::getSingleton().addFromImageFile("ImagenIni","inicio.jpg");
+  
+  img -> setProperty("Image","DerrotaDer");
+  img -> setProperty("BackgroundEnabled","False");
+  img -> setProperty("FrameEnabled","False");
+
+  imgV -> setProperty("Image","VictoriaVic");
+  imgV -> setProperty("BackgroundEnabled","False");
+  imgV -> setProperty("FrameEnabled","False");
+  
+  imgInicio -> setProperty("Image","ImagenIni");
+  imgInicio -> setProperty("BackgroundEnabled","False");
+  imgInicio -> setProperty("FrameEnabled","False");
 
   CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
-
+  CEGUI::Window* derrota = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Derrota.layout");
+  CEGUI::Window* victoria = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Victoria.layout");
   // //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
-
-  sheet->addChild(vent);
-
+  //derrota -> setVisible(false);
+  //sheet->addChild(derrota); 
+  img-> setSize(CEGUI::USize(CEGUI::UDim(0.40f,0),CEGUI::UDim(0.40f,0)));  
+  img->setPosition(CEGUI::UVector2(CEGUI::UDim(0.30f,0),CEGUI::UDim(0.30f,0)));
+  imgV-> setSize(CEGUI::USize(CEGUI::UDim(0.40f,0),CEGUI::UDim(0.40f,0)));  
+  imgV->setPosition(CEGUI::UVector2(CEGUI::UDim(0.30f,0),CEGUI::UDim(0.30f,0)));
+  imgInicio-> setSize(CEGUI::USize(CEGUI::UDim(1,0),CEGUI::UDim(1,0)));  
+  imgInicio->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
+  derrota->setPosition(CEGUI::UVector2(CEGUI::UDim(0.20f,0),CEGUI::UDim(0.25f,0)));
+  victoria->setPosition(CEGUI::UVector2(CEGUI::UDim(0.20f,0),CEGUI::UDim(0.25f,0)));
+  vent->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25f,0),CEGUI::UDim(0.10f,0)));
+  
+  
   CEGUI::Window* exitButton = vent->getChild("ExitButton");
   exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&MyFrameListener::quit, 
@@ -239,8 +269,27 @@ void MyApp::createGUI()
   playButton->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&MyFrameListener::play, 
                 _framelistener));
+
+  CEGUI::Window* derrotaButton = derrota->getChild("ButtonD");
+  derrotaButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&MyFrameListener::quit, 
+                _framelistener));
+
+  CEGUI::Window* victoriaButton = victoria->getChild("ButtonD");
+  victoriaButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+          CEGUI::Event::Subscriber(&MyFrameListener::quit, 
+                _framelistener));
   
-  vent->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25f,0),CEGUI::UDim(0.10f,0)));
+  imgInicio -> addChild(vent);
+  imgV -> addChild(victoria);
+  imgV -> setVisible(false);
+  img  -> addChild(derrota);
+  img -> setVisible(false);
+  sheet->addChild(img); 
+  sheet -> addChild(imgV);
+  sheet -> addChild(imgInicio);
+  
+  sheet->addChild(vent); 
   //const CEGUI::UVector2 vect(CEGUI::UDim(0.06, 0.0), CEGUI::UDim(0.03, 0.0));
   
   //vent->setSize(CEGUI::UDim(0.25f,0));
