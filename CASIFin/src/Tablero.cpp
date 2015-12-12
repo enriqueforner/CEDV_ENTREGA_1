@@ -532,18 +532,21 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
   				osA <<"BAR"<< ship_type << _casillas[t][u].getSN()->getName();
   				cout << osA.str() << "...Creado" <<endl;
   				Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
-  				entab->setMaterialName("Materialbarco");
+  				entab->setMaterialName("MaterialRojo");
   				entab->setVisible(true);
   				nodeb->attachObject(entab);
+  				nodeb -> setVisible(false);
   				Barco *bm = new Barco(ship_type, nodeb);
-  				
+  				_casillas[t][u].getSN()-> addChild(nodeb);
   		
   				if(ship_type==2)nodeb-> scale(0.4,0.4,0.35);
 		  		if(ship_type==3)nodeb-> scale(0.55,0.55,0.45);
 		  		if(ship_type==4)nodeb-> scale(0.75,0.75,0.50);
 		  		if(ship_type==5)nodeb-> scale(0.95,0.95,0.55);
-		  		nodeb-> setPosition(0.5,2.5,0);
-				
+		  		nodeb-> setPosition(0.0,2.7,0);
+				if(down)nodeb -> yaw(Ogre::Degree(90));
+  				else if(up)nodeb -> yaw(Ogre::Degree(-90));
+  				else if(right)nodeb -> yaw(Ogre::Degree(180));
 				_barcos->push_back(*bm);
 
 				
