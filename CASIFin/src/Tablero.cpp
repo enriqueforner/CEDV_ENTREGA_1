@@ -5,18 +5,30 @@
 Tablero::Tablero(char tipo, Ogre::SceneManager* sm){
 	_tipo = tipo;
 	_casillas = new Casilla*[DIM];
+	_maquinapartida = new int*[DIM];
 	for(int i = 0; i < DIM; ++i) {
     	_casillas[i] = new Casilla[DIM];
+    	_maquinapartida[i] =  new int[DIM]; 
 	}
+	for (int h = 0; h < 10; ++h){
+		for (int n = 0; n < 10; ++n){
+			_maquinapartida[h][n] = 5;	
+		}
+	}
+	_vpartida = new std::vector<int>;
 	_barcos = new std::vector<Barco>;
 	_sceneManager = sm;
+
 }
 
 Tablero::~Tablero(){
 	for(int i = 0; i < DIM; ++i) {
     	delete [] _casillas[i];
+		delete [] _maquinapartida[i];
 	}
 	delete [] _casillas;
+	delete [] _maquinapartida;
+
 }
 
 Casilla** Tablero::getCasillas(){
@@ -547,6 +559,7 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 				if(down)nodeb -> yaw(Ogre::Degree(90));
   				else if(up)nodeb -> yaw(Ogre::Degree(-90));
   				else if(right)nodeb -> yaw(Ogre::Degree(180));
+  				else if(left) nodeb-> setPosition(-0.3,2.7,0); 
 				_barcos->push_back(*bm);
 
 				
@@ -713,4 +726,107 @@ int Tablero::barcoshundidos(){
 }
 
 
-
+int Tablero::ataqueinteligente(){
+	srand(time(NULL));
+	int aleatorio = 0;
+	bool devataque = true;
+	int d=0;
+	int u=0;
+	//int vdir[4] = {-1,1,10,-10};
+	int ataque = 0;
+	while(devataque){
+		if (_vpartida->size()> 0){
+			ataque = _vpartida->at(0); 
+			d = (ataque/10)%10;
+			u = ataque%10;
+			_vpartida-> erase(_vpartida->begin());
+			_maquinapartida[d][u] = 0;
+			if (_casillas[d][u].getTienebarco().compare("SB")==0){
+				// for (int i = 0; i < 4; ++i){
+				// 	if (ataque+(vdir[i])>0 && ataque+(vdir[i])<100 && ataques[ (ataque+vdir[i]/10)%10 ][ (ataque+vdir[i])%10]==5){
+				// 		v->push_back(ataque+vdir[i]);
+				// 		ataques[ (ataque+vdir[i]/10)%10 ][ (ataque+vdir[i])%10] = 0;
+				// 		//ataques[ (aleatorio+vdir[i]/10)%10 ][ (aleatorio+vdir[i])%10];
+				// 	}
+				// }
+							if((d -1)>=0){
+								if(_maquinapartida[d-1][u]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque -10); //La metes en el vector de posibles
+									_maquinapartida[d-1][u]=0;
+								} 			
+							}
+							if((d +1)<=9){
+								if(_maquinapartida[d+1][u]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque +10); //La metes en el vector de posibles
+									_maquinapartida[d+1][u]=0;
+								} 		
+							}
+							if((u -1)>=0){
+								if(_maquinapartida[d][u-1]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque-1); //La metes en el vector de posibles
+									_maquinapartida[d][u-1]=0;
+								} 
+							
+							}
+							if((u +1)<=9){
+								if(_maquinapartida[d][u+1]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque+1); //La metes en el vector de posibles
+									_maquinapartida[d][u+1]=0;
+								} 
+							
+							}
+			}
+			devataque = false;
+		}else{
+			bool generarataque = true;
+			while(generarataque){
+				srand(time(NULL));
+				ataque = rand()%(100);
+				d = (ataque/10)%10;
+				u = ataque%10;
+				if (_maquinapartida[d][u]==5){
+					if (_casillas[d][u].getTienebarco().compare("SB")==0){
+							_maquinapartida[d][u] = 0;
+						//for (int i = 0; i < 4; ++i){
+							// if (aleatorio+(vdir[i])>0 && aleatorio+(vdir[i])<100){
+							// 	v->push_back(aleatorio+vdir[i]);
+							// 	//ataques[ (aleatorio+vdir[i]/10)%10 ][ (aleatorio+vdir[i])%10];
+							// }
+							if((d -1)>=0){
+								if(_maquinapartida[d-1][u]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque -10); //La metes en el vector de posibles
+									_maquinapartida[d-1][u]=0;
+								} 			
+							}
+							if((d +1)<=9){
+								if(_maquinapartida[d+1][u]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque+10); //La metes en el vector de posibles
+									_maquinapartida[d+1][u]=0;
+								} 		
+							}
+							if((u -1)>=0){
+								if(_maquinapartida[d][u-1]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque-1); //La metes en el vector de posibles
+									_maquinapartida[d][u-1]=0;
+								} 
+							
+							}
+							if((u +1)<=9){
+								if(_maquinapartida[d][u+1]!=0){ //si no ha sido atacada
+									_vpartida->push_back(ataque+1); //La metes en el vector de posibles
+									_maquinapartida[d][u+1]=0;
+								} 
+							
+							}
+						//}
+					}else{
+						_maquinapartida[d][u] = 0;	
+					}	
+					generarataque = false;
+					devataque = false;
+				}
+			}
+		}
+	}
+	return ataque;	
+}

@@ -253,7 +253,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
           //break;
         }else{
           if(noAtacada){
-            _tabj-> atacarcasilla(55);
+            int ataque = _tabj->ataqueinteligente();
+            _tabj-> atacarcasilla(ataque);
             cout << "Atacando maquina" << endl;
             if(_tabj->barcoshundidos()==5){
               _estado="LOSE";

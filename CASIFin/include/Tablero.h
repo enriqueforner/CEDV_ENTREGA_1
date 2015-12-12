@@ -29,10 +29,13 @@ public:
 	void colocarbarcoQ(int ship_type, std::vector<int> *v);
 	bool colocarbarcosJUGADOR(int id, int tipobar,char rotacion);
 	int barcoshundidos();
-	
+	int ataqueinteligente();
 	
 private:
 	Casilla **_casillas;
+	int **_maquinapartida;
+	std::vector<int> *_vpartida;
+	
 	std::vector<Barco> *_barcos;
 	char _tipo;
 	Ogre::SceneManager* _sceneManager;
