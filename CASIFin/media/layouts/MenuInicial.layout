@@ -8,16 +8,8 @@
             <Property name="Area" value="{{0,54},{0,55},{0,207},{0,100}}" />
             <Property name="Text" value="PLAY" />
         </Window>
-        <Window type="Vanilla/Button" name="SettingsButton" >
-            <Property name="Area" value="{{0,206},{0,146},{0,359},{0,191}}" />
-            <Property name="Text" value="SETTINGS" />
-        </Window>
-        <Window type="Vanilla/Button" name="RankingButton" >
-            <Property name="Area" value="{{0,358},{0,236},{0,511},{0,281}}" />
-            <Property name="Text" value="RANKING" />
-        </Window>
         <Window type="Vanilla/Button" name="ExitButton" >
-            <Property name="Area" value="{{0,508},{0,325},{0,661},{0,370}}" />
+            <Property name="Area" value="{{0,358},{0,236},{0,511},{0,281}}" />
             <Property name="Text" value="EXIT" />
         </Window>
         <Window type="Vanilla/StaticText" name="StaticText" >

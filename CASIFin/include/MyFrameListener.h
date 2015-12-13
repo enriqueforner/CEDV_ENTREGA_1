@@ -66,8 +66,6 @@ public:
   bool frameStarted(const Ogre::FrameEvent& evt);  
   bool quit(const CEGUI::EventArgs &e);
   bool play(const CEGUI::EventArgs &e);
-  bool settings(const CEGUI::EventArgs &e);
-  bool ranking(const CEGUI::EventArgs &e);
   void derrota();
   void victoria();
   //Ogre::RaySceneQuery *_createRayQuery(Ogre::Ray ray);

@@ -314,18 +314,8 @@ bool MyFrameListener::play(const CEGUI::EventArgs &e)
   return true;
 }
 
-bool MyFrameListener::settings(const CEGUI::EventArgs &e)
-{
-  
-  return true;
-}
 
-bool MyFrameListener::ranking(const CEGUI::EventArgs &e)
-{
-  printf("He pulsado ranking\n");
-  
-  return true;
-}
+
 
 void MyFrameListener::derrota(){
     CEGUI::Window *sheet=  CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
