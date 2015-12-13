@@ -1,3 +1,4 @@
+
 /*********************************************************************
  * Módulo 2. Curso de Experto en Desarrollo de Videojuegos
  * Autor: Carlos González Morcillo     Carlos.Gonzalez@uclm.es
@@ -82,7 +83,10 @@ int MyApp::start() {
     }
   }
   
-  _framelistener = new MyFrameListener(window, cam, tabj, tabm, scena, _sceneManager,"INTRO");
+  std::vector<int> *_elegiblesInt = new std::vector<int>(100);
+  initElegibles(_elegiblesInt);
+
+  _framelistener = new MyFrameListener(window, cam, tabj, tabm, scena, _sceneManager,"INTRO",_elegiblesInt);
   _root->addFrameListener(_framelistener);
   createGUI();
 
@@ -302,6 +306,24 @@ void MyApp::createGAME(CEGUI::Window* playButton) {
   printf("Hola estoy en el createGAME\n");
   playButton-> setText("Come");
 
+}
+
+
+
+void MyApp::initElegibles(std::vector<int> *_elegiblesInt){
+  srand(time(NULL));
+  int arrayElegibles [100];
+  for(int i=0; i<100; i++){ 
+    arrayElegibles[i]=i;
+  } //array con numeros enteros entre 0 y 99;
+  int j = 0;
+  //ahora desordenamos el array
+  for(int i = 99; i > 0; i--) {
+    j = rand() % i;
+    swap(arrayElegibles[i], arrayElegibles[j]);
+    _elegiblesInt->push_back(arrayElegibles[i]);
+    cout<<arrayElegibles[i]<<endl;
+  }
 }
 
 // void MyApp::createOverlay() {

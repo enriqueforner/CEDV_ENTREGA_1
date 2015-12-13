@@ -1,3 +1,4 @@
+
 /*********************************************************************
  * Módulo 2. Curso de Experto en Desarrollo de Videojuegos
  * Autor: Carlos González Morcillo     Carlos.Gonzalez@uclm.es
@@ -17,7 +18,7 @@
 
 MyFrameListener::MyFrameListener(Ogre::RenderWindow* win, 
 				 Ogre::Camera* cam,  Tablero *tabj, Tablero *tabm, MyScena *scena, 
-				 Ogre::SceneManager *sceneManager,string estado) {
+				 Ogre::SceneManager *sceneManager,string estado, std::vector<int> *elegiblesInt) {
   OIS::ParamList param;
   size_t windowHandle;  std::ostringstream wHandleStr;
   _tabj = tabj;
@@ -37,7 +38,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win,
   _estado = estado;
   _currentShip = 5;
   _primer3 = true;
-  
+  _elegiblesInt = elegiblesInt;
 
   win->getCustomAttribute("WINDOW", &windowHandle);
   wHandleStr << windowHandle;
@@ -254,7 +255,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
           //break;
         }else{
           if(noAtacada){
-            int ataque = _tabj->ataqueinteligente();
+            int ataque = _tabj->ataqueinteligente(_elegiblesInt);
             _tabj-> atacarcasilla(ataque);
             cout << "Atacando maquina" << endl;
             if(_tabj->barcoshundidos()==5){

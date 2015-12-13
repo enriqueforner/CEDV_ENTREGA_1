@@ -726,7 +726,7 @@ int Tablero::barcoshundidos(){
 }
 
 
-int Tablero::ataqueinteligente(){
+int Tablero::ataqueinteligente(std::vector<int> *_elegiblesInt){
 	srand(time(NULL));
 	int aleatorio = 0;
 	bool devataque = true;
@@ -780,8 +780,10 @@ int Tablero::ataqueinteligente(){
 		}else{
 			bool generarataque = true;
 			while(generarataque){
-				srand(time(NULL));
-				ataque = rand()%(100);
+				//srand(time(NULL));
+				//ataque = rand()%(100);
+				ataque = _elegiblesInt->at(0); //cojo el primero
+				_elegiblesInt->erase(_elegiblesInt->begin());  //lo elimino de elegibles
 				d = (ataque/10)%10;
 				u = ataque%10;
 				if (_maquinapartida[d][u]==5){

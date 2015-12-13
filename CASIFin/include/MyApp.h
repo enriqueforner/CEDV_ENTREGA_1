@@ -11,6 +11,7 @@
 #include <sstream>
 #include <string> 
 #include <vector>
+#include <time.h>
 
 using namespace std;
 
@@ -32,6 +33,7 @@ public:
   void createGUI();
   void initUI();
   void createGAME(CEGUI::Window* sheet);
+  void initElegibles(std::vector<int> *_elegiblesInt);
  // void createOverlay();
 };
 

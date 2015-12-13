@@ -1,3 +1,4 @@
+
 #ifndef MYFRAMELISTENER_H
 #define MYFRAMELISTENER_H
 
@@ -46,6 +47,7 @@ private:
   int _currentShip;
 
   bool _primer3;
+  std::vector<int> *_elegiblesInt;
 
   bool _atacar;
   Ogre::SceneManager *_sceneManager;
@@ -59,7 +61,7 @@ private:
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, 
-		  Tablero *tabj, Tablero *tabm, MyScena *scena, Ogre::SceneManager* sceneManager,string estado);
+		  Tablero *tabj, Tablero *tabm, MyScena *scena, Ogre::SceneManager* sceneManager,string estado, std::vector<int> *elegiblesInt);
   ~MyFrameListener();
   bool frameStarted(const Ogre::FrameEvent& evt);  
   bool quit(const CEGUI::EventArgs &e);

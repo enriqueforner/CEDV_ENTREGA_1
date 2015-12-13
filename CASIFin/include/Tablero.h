@@ -29,7 +29,7 @@ public:
 	void colocarbarcoQ(int ship_type, std::vector<int> *v);
 	bool colocarbarcosJUGADOR(int id, int tipobar,char rotacion);
 	int barcoshundidos();
-	int ataqueinteligente();
+	int ataqueinteligente(std::vector<int> *_elegiblesInt);
 	
 private:
 	Casilla **_casillas;
