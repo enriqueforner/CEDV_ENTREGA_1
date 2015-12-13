@@ -48,11 +48,11 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   int d = (id/10)%10;
   int u = id%10;
   Ogre::Entity* entab= _sceneManager->createEntity("Barco.mesh");
-  if (tipobar==2 || tipobar ==3){
-  	Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
-  }else{
-  	Ogre::Entity* entab = _sceneManager->createEntity("BarcoP2B.mesh");
-  }
+  // if (tipobar==2 || tipobar ==3 ){
+  // 	 entab = _sceneManager->createEntity("Barco.mesh");
+  // }else{
+  // 	 entab = _sceneManager->createEntity("BarcoP2B.mesh");
+  // }
   int nuevonum=0;
   bool meterbarco = true;
   		if (rotacion=='W'){
@@ -113,7 +113,7 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   		if(tipobar==3)nodeb-> scale(0.55,0.55,0.45);
   		if(tipobar==4)nodeb-> scale(0.75,0.75,0.50);
   		if(tipobar==5)nodeb-> scale(0.95,0.95,0.55);
-  		nodeb-> setPosition(0.5,2.5,0);
+  		nodeb-> setPosition(0.5,2.5,0.0);
   		if(rotacion=='W')nodeb -> yaw(Ogre::Degree(-90));
   		if(rotacion=='S')nodeb -> yaw(Ogre::Degree(90));
   		if(rotacion=='D')nodeb -> yaw(Ogre::Degree(180));
@@ -182,118 +182,6 @@ bool Tablero::colocarbarcosJUGADOR(int id, int tipobar, char rotacion){
   	}
   return metido;
 }
-/*Este coloca los barcos de la maquina*/
-void Tablero::colocarbarcos(int tipo, std::vector<int> *v){
-
-	srand(time(NULL));
-	int vdir[4] = {-1*(tipo-1),1*(tipo-1),10*(tipo-1),-10*(tipo-1)};
-	vector<int>::iterator it;
-	bool meterbarco=true;
-	bool salir = true;
-	while(salir){
-		int vposlugares[tipo];
-		int num;
-		num =rand()%(100);
-		int dir;
-		dir =rand()%(4);
-		int d = (num/10)%10;
-		int u = num%10;
-		meterbarco=true;
-		if (vdir[dir]==-1*(tipo-1)){
-			int nuevonum = num;
-			for (int i = 0; i < tipo; ++i){
-				vposlugares[i] = nuevonum;
-				nuevonum = nuevonum -1;
-			}
-		}	
-		if (vdir[dir]==1*(tipo-1)){
-			int nuevonum = num;
-			for (int i = 0; i < tipo; ++i){
-				vposlugares[i] = nuevonum;
-				nuevonum = nuevonum +1;
-			}
-		}
-		if (vdir[dir]==-10*(tipo-1)){
-			int nuevonum = num;
-			for (int i = 0; i < tipo; ++i){
-				vposlugares[i] = nuevonum;
-				nuevonum = nuevonum -10;
-			}
-		}
-		if (vdir[dir]==10*(tipo-1)){
-			int nuevonum = num;
-			for (int i = 0; i < tipo; ++i){
-				vposlugares[i] = nuevonum;
-				nuevonum = nuevonum +10;
-			}
-		}
-		for (int i = 0; i < tipo; ++i){
-			for (it = v->begin(); it != v->end();++it){
-				if (*it==vposlugares[i]){
-					meterbarco=false;
-				}
-			}
-		}
-		if(meterbarco){
-			if(vdir[dir]==-10*(tipo-1)){		
-				if((d-(tipo-1)) < 0)meterbarco=false;
-			}
-			if(vdir[dir]==10*(tipo-1)){
-				if((d+(tipo-1)) > 9)meterbarco=false;			
-			}
-			if(vdir[dir]==-1*(tipo-1)){
-				if((u-(tipo-1)) < 0)meterbarco=false;		
-			}
-			if(vdir[dir]==1*(tipo-1)){
-				if((u+(tipo-1)) > 9)meterbarco=false; 
-			}
-		}	
-		if (meterbarco){
-			Ogre::Entity* entab= _sceneManager->createEntity("Barco.mesh");
-  			if (tipo==2 || tipo ==3){
-  				Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
-  			}else{
-  				Ogre::Entity* entab = _sceneManager->createEntity("BarcoP2B.mesh");
-  			}
-  			ostringstream osA;
-  			int d = (vposlugares[0]/10)%10;
-			int u = vposlugares[0]%10;
-  			osA <<"BAR"<< tipo << _casillas[d][u].getSN()->getName();
-  			cout << osA.str() << "...Creado" <<endl;
-  			Ogre::SceneNode* nodeb = _sceneManager->createSceneNode(osA.str());
-  			nodeb->attachObject(entab);
-  			entab-> setMaterialName("MaterialRojo");
-  			_casillas[d][u].getSN()-> addChild(nodeb);
-  			nodeb -> setVisible(false);
-  			if(tipo==2)nodeb-> scale(0.4,0.4,0.35);
-  			else if(tipo==3)nodeb-> scale(0.55,0.55,0.45);
-  			else if(tipo==4)nodeb-> scale(0.75,0.75,0.50);
-  			else if(tipo==5)nodeb-> scale(0.95,0.95,0.55);
-  			nodeb-> setPosition(0,2.7,0);
-  			if(vdir[dir]==10*(tipo-1))nodeb -> yaw(Ogre::Degree(90));
-  			else if(vdir[dir]==-10*(tipo-1))nodeb -> yaw(Ogre::Degree(-90));
-  			else if(vdir[dir]==1*(tipo-1))nodeb -> yaw(Ogre::Degree(180));
-  			
-  			Barco *bm = new Barco(tipo,nodeb);
-			_barcos->push_back(*bm);
-			for (int i = 0; i < tipo; ++i){
-				int nummeter = vposlugares[i];
-				int d = (nummeter/10)%10;
-				int u = nummeter%10;
-				_casillas[d][u].setBarco(bm);
-				cout << _casillas[d][u].getId()<< "J  " << tipo <<endl;
-				bm->addCasilla(nummeter);
-				v->push_back(nummeter);
-			}
-			
-			salir = false;
-		}
-		srand(time(NULL));	
-	
-	}
-}
-
-
 
 void Tablero::atacarcasilla(int id){
 	int d = (id/10)%10;
@@ -310,26 +198,19 @@ void Tablero::atacarcasilla(int id){
 		_casillasBarco = it->getIdCasillas();
 		for (it2 = _casillasBarco->begin(); it2 != _casillasBarco->end();++it2){
 			if(*it2 == id){
-				//if(_casillas[d][u].getEstado().compare("hundida")!=0){
-					_casillas[d][u].setEstado("hundida");
-					// Cambiar material de la casilla (rojo)
-					mEntity= static_cast<Ogre::Entity *>(_casillas[d][u].getSN()->getAttachedObject(0));
-					//if(mEntity->getSubEntity(0)->getMaterialName().compare("MaterialRojo")!=0){
-					mEntity->setMaterialName("MaterialRojo");
-					it->setDamage(it->getDamage()+1);	
-					if (it->getTipo()> it->getDamage()){
-						Ogre::Entity * mEntitybarco;
-						mEntitybarco= static_cast<Ogre::Entity *>(it->getSN()->getAttachedObject(0));
-						mEntitybarco->setMaterialName("MaterialNaranja");
-					} else if(it->getTipo() <= it->getDamage()){
-						Ogre::Entity * mEntitybarco;
-						mEntitybarco= static_cast<Ogre::Entity *>(it->getSN()->getAttachedObject(0));
-						mEntitybarco->setMaterialName("MaterialRojo");
-					}
-					//}
-					
-				//}
-				
+				_casillas[d][u].setEstado("hundida");			
+				mEntity= static_cast<Ogre::Entity *>(_casillas[d][u].getSN()->getAttachedObject(0));
+				mEntity->setMaterialName("MaterialRojo");
+				it->setDamage(it->getDamage()+1);	
+				if (it->getTipo()> it->getDamage()){
+					Ogre::Entity * mEntitybarco;
+					mEntitybarco= static_cast<Ogre::Entity *>(it->getSN()->getAttachedObject(0));
+					mEntitybarco->setMaterialName("MaterialNaranja");
+				} else if(it->getTipo() <= it->getDamage()){
+					Ogre::Entity * mEntitybarco;
+					mEntitybarco= static_cast<Ogre::Entity *>(it->getSN()->getAttachedObject(0));
+					mEntitybarco->setMaterialName("MaterialRojo");
+				}	
 			}
 		}	
 	}	
@@ -337,10 +218,8 @@ void Tablero::atacarcasilla(int id){
 
 
 void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){ 
-	//int ship_type = 5; //5,4,3,3,2
-	//std::vector<int> *v = new std::vector<int>; //casillas que ya tienen barco
+	
 	vector<int>::iterator it;
-	//bool primer3 = true; //es el primer barco de tipo 3 que se introduce
 	srand(time(NULL));
 
 	int num = 0;
@@ -364,16 +243,7 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 	int comp_right = 0;
 
 	int choice = 0;
-	//for(int i=ship_type; i>1; i--){
-
-		//up = false;
-	    //right = false;
-		//down = false;
-		//left = false;
-
-		/*if(i ==3 && primer){
-			primer = false;
-		}*/
+	
 	while(!put){
 		num =rand()%(100);
 		num_tens = (num/10)%10;
@@ -384,7 +254,6 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 		cout << "tens: " << num_tens << endl;
 		cout << "units: " << num_units << endl;
 
-		//if(_casillas[num_tens][num_units].getBarco() == NULL){
 		if(!(std::find(v->begin(), v->end(), num) != v->end())){
 			//Si la casilla no tiene barco, podemos empezar 
 
@@ -411,12 +280,6 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 			
 			cout << "CHOICE: "<<choice<<endl;
 
-			/*Metemos la casilla elegida en los vectores de casillas de las 4 direcciones
-			cas_down.push_back(_casillas[num_tens][num_units].getId());
-			cas_up.push_back(_casillas[num_tens][num_units].getId());
-			cas_left.push_back(_casillas[num_tens][num_units].getId());
-			cas_right.push_back(_casillas[num_tens][num_units].getId());*/
-
 			int iden = 0;
 			int n = 0;
 			if(comp_up >= 0 && choice==0){
@@ -426,10 +289,7 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 				cout << "primer if: Arriba " << endl;
 
 				for(int i=num_tens; i<=comp_up; i--){
-
-					//iden = _casillas[i][num_units].getId();
 					iden = n;
-					//if(_casillas[i][num_units].getBarco() == NULL)
 					if(!(std::find(v->begin(), v->end(), n) != v->end())){
 						cas_up.push_back(iden);
 						cout << " ID CASILLA: " << iden << endl;
@@ -453,9 +313,7 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 				cout << "segundo if: Abajo " << endl;
 
 				for(int i=num_tens; i<=comp_down; i++){
-					//iden = _casillas[i][num_units].getId();
 					iden = n;
-					//if(_casillas[i][num_units].getBarco() == NULL)
 					if(!(std::find(v->begin(), v->end(), n) != v->end())){
 						cas_down.push_back(iden);
 						cout << " ID CASILLA: " << iden << endl;
@@ -479,9 +337,8 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 				cout << "tercer if: Izquierda " << endl;
 
 				for(int i=num_units; i>=comp_left; i--){
-					//iden = _casillas[num_tens][i].getId();
+					
 					iden = n;
-					//if(_casillas[num_tens][i].getBarco() == NULL)
 					if(!(std::find(v->begin(), v->end(), n) != v->end())){
 						cas_left.push_back(iden);
 						cout << " ID CASILLA: " << iden << endl;
@@ -504,9 +361,7 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 				cout << "cuarto if: Derecha " << endl;
 
 				for(int i=num_units; i<=comp_right; i++){
-					//iden = _casillas[num_tens][i].getId();
 					iden = n;
-					//if(_casillas[num_tens][i].getBarco() == NULL)
 					if(!(std::find(v->begin(), v->end(), n) != v->end())){
 						cas_right.push_back(iden);
 						cout << " ID CASILLA: " << iden << endl;
@@ -532,12 +387,12 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 				
 				Ogre::Entity* entab= _sceneManager->createEntity("Barco.mesh");
  				
- 				if (ship_type==2 || ship_type ==3){
-  					 entab = _sceneManager->createEntity("Barco.mesh");
-  				}
-  				else{
-  					 entab = _sceneManager->createEntity("BarcoP2B.mesh");
-  				}
+ 				//if (ship_type==2 || ship_type ==3){
+  				//	 entab = _sceneManager->createEntity("Barco.mesh");
+  				// }
+  				// else{
+  				// 	 entab = _sceneManager->createEntity("BarcoP2B.mesh");
+  				// }
 
 
   				ostringstream osA;
@@ -555,7 +410,7 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 		  		if(ship_type==3)nodeb-> scale(0.55,0.55,0.45);
 		  		if(ship_type==4)nodeb-> scale(0.75,0.75,0.50);
 		  		if(ship_type==5)nodeb-> scale(0.95,0.95,0.55);
-		  		nodeb-> setPosition(0.0,2.7,0);
+		  		nodeb-> setPosition(-0.15,2.7,0);
 				if(down)nodeb -> yaw(Ogre::Degree(90));
   				else if(up)nodeb -> yaw(Ogre::Degree(-90));
   				else if(right)nodeb -> yaw(Ogre::Degree(180));
@@ -571,48 +426,16 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 
 				for (int i = 0; i < ship_type; ++i){
 					_casillas[t][u].setBarco(bm);
-					//cout << _casillas[t][u].getId()<< "J  " << ship_type <<endl;
 					cout << t << u << "J  " << ship_type <<endl;
-					/*cout << _casillas[t-1][u].getId()<< "J  " << ship_type <<endl;
-					cout << _casillas[t-2][u].getId()<< "J  " << ship_type <<endl;
-					cout << _casillas[t-3][u].getId()<< "J  " << ship_type <<endl;
-					cout << _casillas[t-4][u].getId()<< "J  " << ship_type <<endl;
-					*/
 					
 					v->push_back(n);
 
 					cout << " t: "<< t << " u: " << u << endl;
 
-					//cout << "Meter "<< n << "J  " << ship_type <<endl;
-
 					if(up && choice ==0){
 						bm->addCasilla(cas_up[i]);
 						cout << "Metido "<< cas_up[i] << "J  " << ship_type <<endl;
-						/*
-						//Meto tambien como "con barco" la zona de seguridad
-						if(u >0)
-							v->push_back(n-1);
-						if(u <9)
-							v->push_back(n+1);
-						if(t >0)
-							v->push_back(n-10);
 						
-						//Poner zona de seguridad arriba del barco tambien
-						if(i == ship_type -1)
-							if(t < 9)
-								v->push_back(n+10);
-							if(u >0)
-								v->push_back(n+9);
-							if(u <9)
-								v->push_back(n+11);
-
-						//Poner zona de seguridad en las diagonales abajo del barco tambien
-						if(i == 0)
-							if(u >0)
-							v->push_back(n-11);
-							if(u <9)
-								v->push_back(n-9);
-						*/
 						t = t -1;
 						n = n -10;
 	
@@ -621,18 +444,6 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 					else if(right && choice ==1){
 						bm->addCasilla(cas_right[i]);
 						cout << "Metido "<< cas_right[i] << "J  " << ship_type <<endl;
-						/*
-						//Meto tambien como "con barco" la zona de seguridad
-						if(u >0)
-							v->push_back(n-1);
-						if(t >0)
-							v->push_back(n-10);
-						if(t <9)
-							v->push_back(n+10);
-						if(i == ship_type -1)
-							if(u < 9)
-								v->push_back(n+1);
-						*/
 
 						u = u + 1;
 						n = n +1;
@@ -643,19 +454,6 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 					else if(down && choice==0){
 						bm->addCasilla(cas_down[i]);
 						cout << "Metido "<< cas_down[i] << "J  " << ship_type <<endl;
-						/*
-						//Meto tambien como "con barco" la zona de seguridad
-						if(u >0)
-							v->push_back(n-1);
-						if(u <9)
-							v->push_back(n+1);
-						if(t <9)
-							v->push_back(n+10);
-						if(i == ship_type -1)
-							if(t > 0)
-								v->push_back(n-10);
-						*/
-
 						t = t + 1;
 						n = n +10;
 
@@ -665,22 +463,9 @@ void Tablero::colocarbarcoQ(int ship_type, std::vector<int> *v){
 					else if(left && choice==1){
 						bm->addCasilla(cas_left[i]);	
 						cout << "Metido "<< cas_left[i] << "J  " << ship_type <<endl;
-						/*
-						//Meto tambien como "con barco" la zona de seguridad
-						if(u <9)
-							v->push_back(n+1);
-						if(t >0)
-							v->push_back(n-10);
-						if(t <9)
-							v->push_back(n+10);
-						if(i == ship_type -1)
-							if(u >0)
-								v->push_back(n-1);
-
-						*/
+				
 						u = u - 1;
 						n = n -1;
-
 						
 					}		
 
@@ -728,11 +513,9 @@ int Tablero::barcoshundidos(){
 
 int Tablero::ataqueinteligente(std::vector<int> *_elegiblesInt){
 	srand(time(NULL));
-	int aleatorio = 0;
 	bool devataque = true;
 	int d=0;
 	int u=0;
-	//int vdir[4] = {-1,1,10,-10};
 	int ataque = 0;
 	while(devataque){
 		if (_vpartida->size()> 0){
@@ -742,85 +525,68 @@ int Tablero::ataqueinteligente(std::vector<int> *_elegiblesInt){
 			_vpartida-> erase(_vpartida->begin());
 			_maquinapartida[d][u] = 0;
 			if (_casillas[d][u].getTienebarco().compare("SB")==0){
-				// for (int i = 0; i < 4; ++i){
-				// 	if (ataque+(vdir[i])>0 && ataque+(vdir[i])<100 && ataques[ (ataque+vdir[i]/10)%10 ][ (ataque+vdir[i])%10]==5){
-				// 		v->push_back(ataque+vdir[i]);
-				// 		ataques[ (ataque+vdir[i]/10)%10 ][ (ataque+vdir[i])%10] = 0;
-				// 		//ataques[ (aleatorio+vdir[i]/10)%10 ][ (aleatorio+vdir[i])%10];
-				// 	}
-				// }
-							if((d -1)>=0){
-								if(_maquinapartida[d-1][u]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque -10); //La metes en el vector de posibles
-									_maquinapartida[d-1][u]=0;
-								} 			
-							}
-							if((d +1)<=9){
-								if(_maquinapartida[d+1][u]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque +10); //La metes en el vector de posibles
-									_maquinapartida[d+1][u]=0;
-								} 		
-							}
-							if((u -1)>=0){
-								if(_maquinapartida[d][u-1]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque-1); //La metes en el vector de posibles
-									_maquinapartida[d][u-1]=0;
-								} 
-							
-							}
-							if((u +1)<=9){
-								if(_maquinapartida[d][u+1]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque+1); //La metes en el vector de posibles
-									_maquinapartida[d][u+1]=0;
-								} 
-							
-							}
+				
+				if((d -1)>=0){
+					if(_maquinapartida[d-1][u]!=0){ //si no ha sido atacada
+						_vpartida->push_back(ataque -10); //La metes en el vector de posibles
+						_maquinapartida[d-1][u]=0;
+					} 			
+				}
+				if((d +1)<=9){
+					if(_maquinapartida[d+1][u]!=0){ //si no ha sido atacada
+						_vpartida->push_back(ataque +10); //La metes en el vector de posibles
+						_maquinapartida[d+1][u]=0;
+					} 		
+				}
+				if((u -1)>=0){
+					if(_maquinapartida[d][u-1]!=0){ //si no ha sido atacada
+						_vpartida->push_back(ataque-1); //La metes en el vector de posibles
+						_maquinapartida[d][u-1]=0;
+					} 
+				}
+				if((u +1)<=9){
+					if(_maquinapartida[d][u+1]!=0){ //si no ha sido atacada
+						_vpartida->push_back(ataque+1); //La metes en el vector de posibles
+						_maquinapartida[d][u+1]=0;
+					} 			
+				}
 			}
 			devataque = false;
 		}else{
 			bool generarataque = true;
 			while(generarataque){
-				//srand(time(NULL));
-				//ataque = rand()%(100);
 				ataque = _elegiblesInt->at(0); //cojo el primero
 				_elegiblesInt->erase(_elegiblesInt->begin());  //lo elimino de elegibles
 				d = (ataque/10)%10;
 				u = ataque%10;
 				if (_maquinapartida[d][u]==5){
 					if (_casillas[d][u].getTienebarco().compare("SB")==0){
-							_maquinapartida[d][u] = 0;
-						//for (int i = 0; i < 4; ++i){
-							// if (aleatorio+(vdir[i])>0 && aleatorio+(vdir[i])<100){
-							// 	v->push_back(aleatorio+vdir[i]);
-							// 	//ataques[ (aleatorio+vdir[i]/10)%10 ][ (aleatorio+vdir[i])%10];
-							// }
-							if((d -1)>=0){
-								if(_maquinapartida[d-1][u]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque -10); //La metes en el vector de posibles
-									_maquinapartida[d-1][u]=0;
-								} 			
-							}
-							if((d +1)<=9){
-								if(_maquinapartida[d+1][u]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque+10); //La metes en el vector de posibles
-									_maquinapartida[d+1][u]=0;
-								} 		
-							}
-							if((u -1)>=0){
-								if(_maquinapartida[d][u-1]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque-1); //La metes en el vector de posibles
-									_maquinapartida[d][u-1]=0;
-								} 
-							
-							}
-							if((u +1)<=9){
-								if(_maquinapartida[d][u+1]!=0){ //si no ha sido atacada
-									_vpartida->push_back(ataque+1); //La metes en el vector de posibles
-									_maquinapartida[d][u+1]=0;
-								} 
-							
-							}
-						//}
+						_maquinapartida[d][u] = 0;
+						
+						if((d -1)>=0){
+							if(_maquinapartida[d-1][u]!=0){ //si no ha sido atacada
+								_vpartida->push_back(ataque -10); //La metes en el vector de posibles
+								_maquinapartida[d-1][u]=0;
+							} 			
+						}
+						if((d +1)<=9){
+							if(_maquinapartida[d+1][u]!=0){ //si no ha sido atacada
+								_vpartida->push_back(ataque+10); //La metes en el vector de posibles
+								_maquinapartida[d+1][u]=0;
+							} 		
+						}
+						if((u -1)>=0){
+							if(_maquinapartida[d][u-1]!=0){ //si no ha sido atacada
+								_vpartida->push_back(ataque-1); //La metes en el vector de posibles
+								_maquinapartida[d][u-1]=0;
+							} 	
+						}
+						if((u +1)<=9){
+							if(_maquinapartida[d][u+1]!=0){ //si no ha sido atacada
+								_vpartida->push_back(ataque+1); //La metes en el vector de posibles
+								_maquinapartida[d][u+1]=0;
+							} 
+						}	
 					}else{
 						_maquinapartida[d][u] = 0;	
 					}	

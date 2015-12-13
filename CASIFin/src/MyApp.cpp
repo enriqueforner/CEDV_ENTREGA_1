@@ -50,23 +50,14 @@ int MyApp::start() {
   
   
   loadResources();
-  //createScene();
   
-  //Ogre::SceneNode *node = _sceneManager->getSceneNode("NodoReyBajo");
-  //Ogre::SceneNode *node2 = _sceneManager->getSceneNode("NodoReyAlto");
-
   //Creacion de TABLERO
   Tablero *tabj = new Tablero('J',_sceneManager);
   Tablero *tabm = new Tablero('M',_sceneManager);
   
-  //Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
-  //Ogre::Entity* ent2 = _sceneManager->createEntity("Cube.mesh");
   Ogre::SceneNode* node1Bajo = _sceneManager->createSceneNode("NodoReyBajo");
   Ogre::SceneNode* node1Alto = _sceneManager->createSceneNode("NodoReyAlto");
   
-  
-  //node1Bajo->attachObject(ent1);
-  //node1Alto -> attachObject(ent2);
   _sceneManager->getRootSceneNode()->addChild(node1Bajo);
   _sceneManager->getRootSceneNode()->addChild(node1Alto);
 
@@ -115,95 +106,7 @@ void MyApp::loadResources() {
 }
 
 void MyApp::createScene() {
-  Tablero *tabj = new Tablero('J',_sceneManager);
-  Tablero *tabm = new Tablero('M',_sceneManager);
-  
-  Ogre::Entity* ent1 = _sceneManager->createEntity("Cube.mesh");
-  Ogre::Entity* ent2 = _sceneManager->createEntity("Cube.mesh");
-  Ogre::SceneNode* node1Bajo = _sceneManager->createSceneNode("NodoReyBajo");
-  Ogre::SceneNode* node1Alto = _sceneManager->createSceneNode("NodoReyAlto");
-  
-  node1Bajo->attachObject(ent1);
-  node1Alto -> attachObject(ent2);
-  _sceneManager->getRootSceneNode()->addChild(node1Bajo);
-  _sceneManager->getRootSceneNode()->addChild(node1Alto);
-  
-  MyScena *escena = new MyScena(node1Bajo,node1Alto,_sceneManager, tabj, tabm);
-  escena -> creartablero();
-  
-  // Casilla** casp = tabj-> getCasillas();
 
-  // cout << casp[6][2].getId() << endl;
-
-  // Tablero *tabpr = new Tablero('P',_sceneManager);
-  
-  // tabpr -> setCasillas(casp);
-  // cout << tabpr -> getCasillas()[6][2].getId() << endl;
-  // casp[1][2].setId(8999);  
-
-  // cout << tabpr -> getCasillas()[1][2].getId() << endl;
-  // bool repetir = true;
-  // std::vector<int> *v = new std::vector<int>;
-  // for (int i = 5; i > 1; --i){
-  //   tabm->colocarbarcos(i,v);
-  //   if (i == 3 && repetir){
-  //       i++;
-  //       repetir = false;
-  //   }
-  // }
-  
-  // std::vector<Barco> *vc = new std::vector<Barco>;
-  // vc = tabm -> getBarcos();
-  // std::vector<Barco>::iterator it;
-  // for (it = vc->begin(); it != vc->end();++it){
-  //      //cout << it->getId() << endl;
-  // }
-  // bool primer = true;
-  // for (int i = 0; i <= 100; ++i){
-  //   tabm->atacarcasilla(i);
-  //   if (i>99 && primer){
-  //       i=i-1;
-  //       primer = false;
-  //   }
-  //   else if(i>99 && !primer){
-  //     break;
-  //   }
-  //   int d = (i/10)%10;
-  //   int u = i%10;
-  //   if(primer){
-  //       if(u==0){
-  //         cout <<endl;
-  //       }
-  //       if(tabm->getCasillas()[d][u].getEstado() == "hundida"){
-  //         cout << d<<u<<"H ";
-  //       }
-  //       else if(tabm->getCasillas()[d][u].getEstado() == "agua"){
-  //         cout << d<<u<<"A ";
-  //       }  
-  //   }
-  //   else{
-  //     cout << endl;
-  //   }
-  //   //sleep(1);
-  // }
-  //Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
-  Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
-  Ogre::SceneNode* nodeb = _sceneManager->createSceneNode("barquitoPRUEBA");
-  entab->setMaterialName("Materialbarco");
-  nodeb->attachObject(entab);
-  tabj-> getCasillas()[0][9].getSN()->addChild(nodeb);
-
-  nodeb-> setPosition(0,2.5,0);
-  //nodeb-> scale(1,1,1);
-  //nodeb-> scale(0.4,0.4,0.4);  BARCO DE 2 CON BarcoP2B.mesh
-  //nodeb-> scale(0.55,0.55,0.55);   BARCO DE 3 CON Barco.mesh
-  //nodeb-> scale(0.75,0.75,0.75);  BARCO DE 4 CON Barco.mesh
-  //nodeb-> scale(0.95,0.95,0.77);  //BARCO DE 5 CON Barco.mesh
-
-  tabj -> colocarbarcosJUGADOR(44,2,'D');
-  tabj -> colocarbarcosJUGADOR(55,3,'S');
-  tabj -> colocarbarcosJUGADOR(56,4,'D');
-  tabj -> colocarbarcosJUGADOR(33,5,'D');
 }
 
 void MyApp::createGUI()
@@ -250,15 +153,16 @@ void MyApp::createGUI()
   CEGUI::Window* vent = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
   CEGUI::Window* derrota = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Derrota.layout");
   CEGUI::Window* victoria = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("Victoria.layout");
-  // //CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("MenuInicial.layout");
-  //derrota -> setVisible(false);
-  //sheet->addChild(derrota); 
+ 
   img-> setSize(CEGUI::USize(CEGUI::UDim(0.40f,0),CEGUI::UDim(0.40f,0)));  
   img->setPosition(CEGUI::UVector2(CEGUI::UDim(0.30f,0),CEGUI::UDim(0.30f,0)));
+  
   imgV-> setSize(CEGUI::USize(CEGUI::UDim(0.40f,0),CEGUI::UDim(0.40f,0)));  
   imgV->setPosition(CEGUI::UVector2(CEGUI::UDim(0.30f,0),CEGUI::UDim(0.30f,0)));
+  
   imgInicio-> setSize(CEGUI::USize(CEGUI::UDim(1,0),CEGUI::UDim(1,0)));  
   imgInicio->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
+  
   derrota->setPosition(CEGUI::UVector2(CEGUI::UDim(0.20f,0),CEGUI::UDim(0.25f,0)));
   victoria->setPosition(CEGUI::UVector2(CEGUI::UDim(0.20f,0),CEGUI::UDim(0.25f,0)));
   vent->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25f,0),CEGUI::UDim(0.10f,0)));
@@ -294,20 +198,14 @@ void MyApp::createGUI()
   sheet -> addChild(imgInicio);
   
   sheet->addChild(vent); 
-  //const CEGUI::UVector2 vect(CEGUI::UDim(0.06, 0.0), CEGUI::UDim(0.03, 0.0));
-  
-  //vent->setSize(CEGUI::UDim(0.25f,0));
-  //CEGUI::ImageManager::getSingleton().addFromImageFile("SpaceBackgroundImage", "ojos-de-gato.jpg");
+ 
   CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 
 }
 
 void MyApp::createGAME(CEGUI::Window* playButton) {
   printf("Hola estoy en el createGAME\n");
-  playButton-> setText("Come");
-
 }
-
 
 
 void MyApp::initElegibles(std::vector<int> *_elegiblesInt){
@@ -315,9 +213,9 @@ void MyApp::initElegibles(std::vector<int> *_elegiblesInt){
   int arrayElegibles [100];
   for(int i=0; i<100; i++){ 
     arrayElegibles[i]=i;
-  } //array con numeros enteros entre 0 y 99;
+  } 
   int j = 0;
-  //ahora desordenamos el array
+  
   for(int i = 99; i > 0; i--) {
     j = rand() % i;
     swap(arrayElegibles[i], arrayElegibles[j]);
@@ -326,8 +224,4 @@ void MyApp::initElegibles(std::vector<int> *_elegiblesInt){
   }
 }
 
-// void MyApp::createOverlay() {
-//   _overlayManager = OverlayManager::getSingletonPtr();
-//   Overlay *overlay = _overlayManager->getByName("Info");
-//   overlay->show();
-// }
+

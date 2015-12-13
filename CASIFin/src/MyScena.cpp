@@ -24,8 +24,7 @@ void MyScena::creartablero(){
   _nodoalto -> setPosition(3.2,24,55);
   _nodoalto -> yaw(Ogre::Degree(2.4));
   _nodoalto -> pitch(Ogre::Degree(45));
-  //_nodoalto-> setVisible(false,false);
-  //node1Alto -> roll(Ogre::Degree(45));
+  
   // add two lights
   Ogre::Light* light1 = _sceneManager->createLight();
   light1->setType(Ogre::Light::LT_POINT);
@@ -38,7 +37,7 @@ void MyScena::creartablero(){
   light2->setPosition(10, -100, -100);
   light2->setSpecularColour(Ogre::ColourValue::White);
   _nodobajo->attachObject(light2);
-  // Comprobar despues estas luces
+  
 
   //CREACION DE LOS TABLEROS (BAJO)
   int crearTableroBajo = 0;
@@ -106,18 +105,6 @@ void MyScena::creartablero(){
   node3 -> pitch(Ogre::Degree(45));
   _sceneManager->getRootSceneNode()->addChild(node3);
 
-
-  //_nodoalto -> setVisible(false,true);
   _nodobajo -> setVisible(false,true);
-
-  // Ogre::Entity* entab = _sceneManager->createEntity("Barco.mesh");
-  // Ogre::SceneNode* nodeb = _sceneManager->createSceneNode("barquito");
-  // entab->setMaterialName("Materialbarco");
-  // nodeb->attachObject(entab);
-  // nodeb-> scale(0.4,0.4,0.4);
-  // nodeb -> setPosition(-34,50,55);
-  // nodeb -> yaw(Ogre::Degree(2.4));
-  // nodeb -> pitch(Ogre::Degree(45));
-  // _sceneManager->getRootSceneNode()->addChild(nodeb);
 
 }

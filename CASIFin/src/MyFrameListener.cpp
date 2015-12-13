@@ -81,27 +81,12 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   botomD = _keyboard->isKeyDown(OIS::KC_D);
   botomA = _keyboard->isKeyDown(OIS::KC_A);
   
-  //coger posicion del raton en cegui
-  //CEGUI::Point mousePos = CEGUI::MouseCursor::getSingleton().getPosition();
-
-  //int posx = _mouse->getMouseState().X.abs;   // Posicion del puntero
-  //int posy = _mouse->getMouseState().Y.abs;   //  en pixeles.
-  
-  //printf("%d\n", posx);
-  //printf("%d\n", posy);
-
-  //uint32 mask;
-
-
   Ogre::RaySceneQuery* mRayScnQuery;
   
   mRayScnQuery = _sceneManager->createRayQuery(Ogre::Ray()); //Creo la rayquery
 
   CEGUI::Vector2f mousePos = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getPosition();
   
-  //printf("X: %f  Y: %f \n",mousePos.d_x,mousePos.d_y);
-  //printf(" Width: %d  Height: %d", _win->getWidth(), _win->getHeight());
-  //Ogre::Ray mouseRay = mCamera->getCameraToViewportRay(mousePos.d_x / float(me.state.width), mousePos.d_y / float(me.state.height));
   Ogre::Ray mouseRay = _camera->getCameraToViewportRay(mousePos.d_x/_win->getWidth(), mousePos.d_y/_win->getHeight());
   
   Ogre::Entity* mEntity;
@@ -111,24 +96,17 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
         mEntity->setMaterialName("Material.001");
         _selectedNode = NULL;  
-    }
-    //printf("Boton izquierdo\n");  
+    } 
     mRayScnQuery->setRay(mouseRay);  //add rayo
     //mRayScnQuery->setSortByDistance(true); //ordenar por distancia
  
     Ogre::RaySceneQueryResult& result = mRayScnQuery->execute();  //obtener resultado
     Ogre::RaySceneQueryResult::iterator itr = result.begin();    //creo el iterador
-    //Ogre::Entity* mEntity;
-    //printf("Iterador creado\n");
     int i = 1;
 
     if (itr != result.end()){ //Iterar resultado de la rayscenequery
-    	//ostringstream osa;       
-        //printf("Iterando objetos. Objeto %d\n", i); 
-        _selectedNode = itr->movable->getParentSceneNode();
-        //_selectedNode->showBoundingBox(true);
+       _selectedNode = itr->movable->getParentSceneNode();
         mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
-        //cout << _selectedNode->getName()<< endl;
         if(_selectedNode->getName() != "ground" ){
           if (_selectedNode->getName().substr(0,1) == "J"){
             if(_estado.compare("PONIENDOBARCOS")==0 )
@@ -140,16 +118,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         }
         i++;
     }
-      //r = setRayQuery(posx, posy, MASK1);
-      //RaySceneQueryResult &result = _raySceneQuery->execute();
-      //RaySceneQueryResult::iterator it;
-      //it = result.begin();
-      //if (it != result.end()) {  
-            //ostringstream osa;       
-            //_selectedNode = it->movable->getParentSceneNode();
-            //_selectedNode->showBoundingBox(true);
-      //}
-           
+          
   }
   if(_quit) return false;
   if(_empezarjuego){
@@ -214,13 +183,9 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   }
   if (_atacar && _estado.compare("ATACANDO") ==0 ){
         bool noAtacada = false;
-      //for (int i = 0; i <= 100; ++i){
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
-          //break;
-        }else{
-          //_tabm->atacarcasilla(i);
+         }else{
             if (_selectedNode!= NULL && _selectedNode->getName().substr(0,1) != "J"){
-               //cout <<  _selectedNode->getName().substr(0,1) << endl;
               mEntity = static_cast<Ogre::Entity*>(_selectedNode->getAttachedObject(0));
               noAtacada =  mEntity->getSubEntity(0)->getMaterialName().compare("MaterialRojo")!=0 && mEntity->getSubEntity(0)->getMaterialName().compare("MaterialAgua")!=0;
               cout << "Material: "<< mEntity->getSubEntity(0)->getMaterialName()<<endl;
@@ -252,7 +217,6 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
         }  
         if (_estado.compare("WIN")==0 || _estado.compare("LOSE")==0){
-          //break;
         }else{
           if(noAtacada){
             int ataque = _tabj->ataqueinteligente(_elegiblesInt);
@@ -265,12 +229,9 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
             }
           }
         }
-      //}
+    
       _atacar = false;
   }
-  // else if(_estado.compare("ATACANDO")==0){
-  //   cout << _estado <<endl;
-  // }
   return true;
 }
 
@@ -345,22 +306,9 @@ bool MyFrameListener::play(const CEGUI::EventArgs &e)
   CEGUI::Window *sheet=  CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
   sheet -> setVisible(false);
 
-  //Ogre::SceneNode *nra =_sceneManager-> getSceneNode("NodoReyAlto");
-  //nra -> setVisible(true,true);
-  
   Ogre::SceneNode *nrb =_sceneManager-> getSceneNode("NodoReyBajo");
   nrb -> setVisible(true,true);
   
-  // _scena -> creartablero();
-  // bool repetir = true;
-  // std::vector<int> *v = new std::vector<int>;
-  // for (int i = 5; i > 1; --i){
-  //   _tabm->colocarbarcos(i,v);
-  //   if (i == 3 && repetir){
-  //       i++;
-  //       repetir = false;
-  //   }
-  // }
   _empezarjuego = true;
   
   return true;
@@ -385,14 +333,12 @@ void MyFrameListener::derrota(){
     CEGUI::Window *imgV = sheet->getChild("ventimagenVict");
     CEGUI::Window *imgInicial = sheet->getChild("imageninicial");
     CEGUI::Window *menuinicial = sheet->getChild("MenuInicial");
-    //CEGUI::Window *derrota = img->getChild("DerrotaL");
     
     sheet -> setVisible(true);
     menuinicial -> setVisible(false);
     img -> setVisible(true);
     imgInicial-> setVisible(false);
     imgV-> setVisible(false);
-    //derrota -> setVisible(true);
 
 }
 void MyFrameListener::victoria(){
@@ -401,24 +347,20 @@ void MyFrameListener::victoria(){
     CEGUI::Window *imgV = sheet->getChild("ventimagenVict");
     CEGUI::Window *imgInicial = sheet->getChild("imageninicial");
     CEGUI::Window *menuinicial = sheet->getChild("MenuInicial");
-    //CEGUI::Window *derrota = img->getChild("DerrotaL");
-    
+  
     sheet -> setVisible(true);
     menuinicial -> setVisible(false);
     img -> setVisible(false);
     imgInicial-> setVisible(false);
     imgV-> setVisible(true);
 }
-//Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
 Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
-  /*Ray rayMouse = _camera->getCameraToViewportRay
-    (posx/float(_win->getWidth()), posy/float(_win->getHeight()));*/
+  
   printf("Antes de crear raymouse");
   Ray rayMouse = _camera->getCameraToViewportRay (posx, posy);  
   printf("Antes de asignar el rayo");
   _raySceneQuery->setRay(rayMouse);
   printf("Antes de asignar la mascara");
-  //_raySceneQuery->setQueryMask(mask);
   printf("Antes de ordenar por distancia");
   _raySceneQuery->setSortByDistance(true);
   printf("Antes de devolver el rayo");
