@@ -1,1 +1,0 @@
-Guia1JUEGO.rb
